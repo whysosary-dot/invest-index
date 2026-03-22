@@ -344,37 +344,37 @@ const INDICATORS = [
         color: "#58a6ff",
         data: [
             // ── 2024년 ──
-            { label: "2024-01", value: 1100.0 },
-            { label: "2024-02", value: 1140.0 },
-            { label: "2024-03", value: 1350.0 },
-            { label: "2024-04", value: 1209.0 },
-            { label: "2024-05", value: 1215.0 },
-            { label: "2024-06", value: 1235.0 },
-            { label: "2024-07", value: 1239.0 },
-            { label: "2024-08", value: 1193.0 },
-            { label: "2024-09", value: 1253.0 },
-            { label: "2024-10", value: 1224.2 },
-            { label: "2024-11", value: 1262.0 },
-            { label: "2024-12", value: 1430.9 },
+            { label: "2024-01", value: 1100.0, src: "https://www.jmtba.or.jp/english/category/machine-tool-statistics/", note: "JMTBA 공식" },
+            { label: "2024-02", value: 1140.0, src: "https://www.jmtba.or.jp/english/category/machine-tool-statistics/", note: "JMTBA 공식" },
+            { label: "2024-03", value: 1350.0, src: "https://www.jmtba.or.jp/english/category/machine-tool-statistics/", note: "JMTBA 공식" },
+            { label: "2024-04", value: 1209.0, src: "https://seisanzai-japan.com/article/p4812/", note: "Seisanzai" },
+            { label: "2024-05", value: 1215.0, note: "연간합계 보간 추정" },
+            { label: "2024-06", value: 1235.0, note: "연간합계 보간 추정" },
+            { label: "2024-07", value: 1239.0, src: "https://seisanzai-japan.com/article/p4951/", note: "Seisanzai" },
+            { label: "2024-08", value: 1193.0, note: "연간합계 보간 추정" },
+            { label: "2024-09", value: 1253.0, src: "https://seisanzai-japan.com/article/p5043/", note: "Seisanzai" },
+            { label: "2024-10", value: 1224.2, src: "https://www.jmtba.or.jp/english/category/machine-tool-statistics/", note: "JMTBA 공식" },
+            { label: "2024-11", value: 1262.0, note: "연간합계 보간 추정" },
+            { label: "2024-12", value: 1430.9, src: "https://seisanzai-japan.com/article/p5244/", note: "Seisanzai" },
             // ── 2025년 ──
-            { label: "2025-01", value: 1137.0 },
-            { label: "2025-02", value: 1181.0 },
-            { label: "2025-03", value: 1510.0 },
-            { label: "2025-04", value: 1302.0 },
-            { label: "2025-05", value: 1287.0 },
-            { label: "2025-06", value: 1331.0 },
-            { label: "2025-07", value: 1283.0 },
-            { label: "2025-08", value: 1201.0 },
-            { label: "2025-09", value: 1391.0 },
-            { label: "2025-10", value: 1434.0 },
-            { label: "2025-11", value: 1370.1 },
-            { label: "2025-12", value: 1586.4 },
+            { label: "2025-01", value: 1137.0, src: "https://seisanzai-japan.com/article/p5490/", note: "Seisanzai" },
+            { label: "2025-02", value: 1181.0, src: "https://seisanzai-japan.com/article/p5490/", note: "Seisanzai" },
+            { label: "2025-03", value: 1510.0, src: "https://seisanzai-japan.com/article/p5490/", note: "Seisanzai" },
+            { label: "2025-04", value: 1302.0, src: "https://seisanzai-japan.com/article/p5490/", note: "Seisanzai" },
+            { label: "2025-05", value: 1287.0, src: "https://seisanzai-japan.com/article/p5630/", note: "Seisanzai" },
+            { label: "2025-06", value: 1331.0, src: "https://seisanzai-japan.com/article/p5630/", note: "Seisanzai" },
+            { label: "2025-07", value: 1283.0, src: "https://seisanzai-japan.com/article/p5878/", note: "Seisanzai" },
+            { label: "2025-08", value: 1201.0, src: "https://www.jmtba.or.jp/english/wjmtbap/wp-content/uploads/2025/08/JMTBA-NOTES-2025-08.pdf", note: "JMTBA PDF" },
+            { label: "2025-09", value: 1391.0, src: "https://seisanzai-japan.com/article/p5878/", note: "Seisanzai" },
+            { label: "2025-10", value: 1434.0, src: "https://seisanzai-japan.com/article/p5946/", note: "Seisanzai" },
+            { label: "2025-11", value: 1370.1, src: "https://seisanzai-japan.com/article/p6016/", note: "Seisanzai" },
+            { label: "2025-12", value: 1586.4, src: "https://www.freightwaves.com/news/japanese-machine-tool-orders-surge-in-december-2025-signaling-robust-industrial-momentum", note: "FreightWaves" },
             // ── 2026년 ──
-            { label: "2026-01", value: 1455.9 },
-            { label: "2026-02", value: 1467.8 },
+            { label: "2026-01", value: 1455.9, src: "https://seisanzai-japan.com/article/p6100/", note: "Seisanzai" },
+            { label: "2026-02", value: 1467.8, src: "https://www.rttnews.com/3629354/japan-machine-tool-orders-surge-24-2.aspx", note: "RTTNews" },
             // ↑ 새 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "총 수주 (억엔)", "전월비", "전년동월비"],
+        tableHeaders: ["월", "총 수주 (억엔)", "전월비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
@@ -388,6 +388,7 @@ const INDICATORS = [
                 { v: d.value.toLocaleString(), align: "right" },
                 { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
                 { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
             ];
         }
     },
@@ -407,6 +408,7 @@ const INDICATORS = [
         data: [],          // 실시간 현재 동접 (API 자동)
         // 월별 피크 동접 히스토리 (steamcharts.com 기준)
         historyData: [
+            // 전체 출처: https://steamcharts.com/app/578080
             // ── 2024년 ──
             { label: "2024-01", value: 587152 },
             { label: "2024-02", value: 609366 },
@@ -438,7 +440,7 @@ const INDICATORS = [
             { label: "2026-02", value: 694462 },
             // ↑ 새 월 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "월 피크 동접", "전월비", "전년동월비"],
+        tableHeaders: ["월", "월 피크 동접", "전월비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
@@ -452,6 +454,7 @@ const INDICATORS = [
                 { v: d.value.toLocaleString(), align: "right" },
                 { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
                 { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: `<a href="https://steamcharts.com/app/578080" target="_blank" style="color:var(--accent-blue);text-decoration:none">SteamCharts</a>`, isHtml: true },
             ];
         }
     },
@@ -472,6 +475,7 @@ const INDICATORS = [
         color: "#e06040",
         data: [
             // ── Google Play 기준 월 추정 플레이어 (단위: K) ──
+            // 전체 출처: https://activeplayer.io/browndust2-adventure-rpg/
             { label: "2025-06", value: 31.1 },
             { label: "2025-07", value: 49.1 },
             { label: "2025-08", value: 51.4 },
@@ -484,7 +488,7 @@ const INDICATORS = [
             { label: "2026-03", value: 41.0 },
             // ↑ 새 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "추정 플레이어 (K)", "전월비"],
+        tableHeaders: ["월", "추정 플레이어 (K)", "전월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
@@ -492,6 +496,7 @@ const INDICATORS = [
                 d.label,
                 { v: d.value.toLocaleString() + "K", align: "right" },
                 { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: `<a href="https://activeplayer.io/browndust2-adventure-rpg/" target="_blank" style="color:var(--accent-blue);text-decoration:none">ActivePlayer</a>`, isHtml: true },
             ];
         }
     },
@@ -512,38 +517,38 @@ const INDICATORS = [
         color: "#a371f7",
         data: [
             // ── 2024년 (연평균 ~$335-375) ──
-            { label: "2024-01", value: 315 },
-            { label: "2024-02", value: 310 },
-            { label: "2024-03", value: 320 },
-            { label: "2024-04", value: 325 },
-            { label: "2024-05", value: 330 },
-            { label: "2024-06", value: 335 },
-            { label: "2024-07", value: 340 },
-            { label: "2024-08", value: 345 },
-            { label: "2024-09", value: 350 },
-            { label: "2024-10", value: 355 },
-            { label: "2024-11", value: 350 },
-            { label: "2024-12", value: 345 },
+            { label: "2024-01", value: 315, note: "연평균 보간 추정" },
+            { label: "2024-02", value: 310, note: "연평균 보간 추정" },
+            { label: "2024-03", value: 320, note: "연평균 보간 추정" },
+            { label: "2024-04", value: 325, note: "연평균 보간 추정" },
+            { label: "2024-05", value: 330, note: "연평균 보간 추정" },
+            { label: "2024-06", value: 335, note: "연평균 보간 추정" },
+            { label: "2024-07", value: 340, note: "연평균 보간 추정" },
+            { label: "2024-08", value: 345, note: "연평균 보간 추정" },
+            { label: "2024-09", value: 350, note: "연평균 보간 추정" },
+            { label: "2024-10", value: 355, note: "연평균 보간 추정" },
+            { label: "2024-11", value: 350, note: "연평균 보간 추정" },
+            { label: "2024-12", value: 345, note: "연평균 보간 추정" },
             // ── 2025년 (연초 $335 → 연말 $1,050-1,115) ──
-            { label: "2025-01", value: 340 },
-            { label: "2025-02", value: 340 },
-            { label: "2025-03", value: 355 },
-            { label: "2025-04", value: 370 },
-            { label: "2025-05", value: 400 },
-            { label: "2025-06", value: 435 },
-            { label: "2025-07", value: 475 },
-            { label: "2025-08", value: 496 },
-            { label: "2025-09", value: 520 },
-            { label: "2025-10", value: 620 },
-            { label: "2025-11", value: 780 },
-            { label: "2025-12", value: 1080 },
+            { label: "2025-01", value: 340, src: "https://www.fastmarkets.com/insights/chinese-tungsten-product-prices-surge-2025-export-controls-fresh-demand/", note: "Fastmarkets" },
+            { label: "2025-02", value: 340, src: "https://www.fnnews.com/news/202603171202251203", note: "파이낸셜뉴스" },
+            { label: "2025-03", value: 355, note: "보간 추정" },
+            { label: "2025-04", value: 370, note: "보간 추정" },
+            { label: "2025-05", value: 400, src: "https://m.g-enews.com/view.php?ud=202505160951561875fbbec65dfb_1", note: "글로벌이코노믹" },
+            { label: "2025-06", value: 435, note: "보간 추정" },
+            { label: "2025-07", value: 475, src: "https://www.questmetals.com/blog/supply-pushes-up-tungsten-prices", note: "QuestMetals" },
+            { label: "2025-08", value: 496, src: "https://www.fastmarkets.com/insights/chinese-tungsten-product-prices-surge-2025-export-controls-fresh-demand/", note: "Fastmarkets" },
+            { label: "2025-09", value: 520, note: "보간 추정" },
+            { label: "2025-10", value: 620, note: "보간 추정" },
+            { label: "2025-11", value: 780, note: "보간 추정" },
+            { label: "2025-12", value: 1080, src: "https://www.fastmarkets.com/insights/chinese-tungsten-product-prices-surge-2025-export-controls-fresh-demand/", note: "Fastmarkets" },
             // ── 2026년 (중국 수출통제 발효 후 폭등) ──
-            { label: "2026-01", value: 1350 },
-            { label: "2026-02", value: 1850 },
-            { label: "2026-03", value: 2250 },
+            { label: "2026-01", value: 1350, note: "보간 추정" },
+            { label: "2026-02", value: 1850, note: "보간 추정" },
+            { label: "2026-03", value: 2250, src: "https://www.ctia.com.cn/en/news/48682.html", note: "CTIA" },
             // ↑ 새 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "APT 가격 ($/MTU)", "전월비", "전년동월비"],
+        tableHeaders: ["월", "APT 가격 ($/MTU)", "전월비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
@@ -557,6 +562,7 @@ const INDICATORS = [
                 { v: "$" + d.value.toLocaleString(), align: "right" },
                 { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
                 { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
             ];
         }
     },
@@ -767,6 +773,7 @@ function openDetail(id) {
         const row = ind.tableRow(d, origIdx, data);
         return `<tr>${row.map((cell, ci) => {
             if (typeof cell === "object") {
+                if (cell.isHtml) return `<td style="font-size:12px">${cell.v}</td>`;
                 return `<td class="num" style="color:${cell.color || 'inherit'}">${cell.v}</td>`;
             }
             return `<td>${cell}</td>`;

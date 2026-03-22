@@ -568,6 +568,41 @@ const INDICATORS = [
     },
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 5. 붉은사막 스팀 동시접속자
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출시일: 2026-03-19 (펄어비스)
+    // Steam AppID: 3321460
+    // 출시 피크: ~239K, 실시간 API 연동
+    {
+        id: "crimson_desert",
+        name: "붉은사막 스팀 동접자",
+        unit: "명",
+        type: "live",
+        category: "게임·IT",
+        source: "Steam Web API (AppID: 3321460) · 히스토리: SteamCharts",
+        color: "#e05050",
+        steamAppId: 3321460,
+        data: [],          // 실시간 현재 동접 (API 자동)
+        // 출시 직후라 월별 히스토리 아직 없음, 출시 첫 데이터 기록
+        // 전체 출처: https://steamcharts.com/app/3321460
+        historyData: [
+            { label: "2026-03", value: 238869 },
+            // ↑ 다음 달부터 월 피크 동접 추가
+        ],
+        tableHeaders: ["월", "월 피크 동접", "전월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: d.value.toLocaleString(), align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: `<a href="https://steamcharts.com/app/3321460" target="_blank" style="color:var(--accent-blue);text-decoration:none">SteamCharts</a>`, isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 새 지표를 여기에 추가하세요!
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

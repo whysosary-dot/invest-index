@@ -370,8 +370,9 @@ const INDICATORS = [
             { label: "2025-11", value: 1370.1 },
             { label: "2025-12", value: 1586.4 },
             // ── 2026년 ──
-            { label: "2026-01", value: 1455.0 },
-            // ↑ 새 데이터를 여기에 추가 (2월 데이터 3월 중 발표 예정)
+            { label: "2026-01", value: 1455.9 },
+            { label: "2026-02", value: 1467.8 },
+            // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "총 수주 (억엔)", "전월비", "전년동월비"],
         tableRow(d, i, arr) {
@@ -451,6 +452,46 @@ const INDICATORS = [
                 { v: d.value.toLocaleString(), align: "right" },
                 { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
                 { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 3. 브라운더스트2 모바일 플레이어
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: activeplayer.io (Google Play + App Store 추정)
+    // 스팀 출시 취소 (2025.12), 모바일/PC런처만 운영
+    // 누적매출 $70M+ (2025.07 기준), 주요시장: 한국22.9% 일본21.9% 대만17.2% 미국16.3%
+    {
+        id: "browndust2",
+        name: "브라운더스트2 모바일 플레이어",
+        unit: "K",
+        type: "manual",
+        category: "게임·IT",
+        source: "ActivePlayer.io (Google Play + App Store 추정치)",
+        color: "#e06040",
+        data: [
+            // ── Google Play 기준 월 추정 플레이어 (단위: K) ──
+            { label: "2025-06", value: 31.1 },
+            { label: "2025-07", value: 49.1 },
+            { label: "2025-08", value: 51.4 },
+            { label: "2025-09", value: 28.6 },
+            { label: "2025-10", value: 36.2 },
+            { label: "2025-11", value: 28.1 },
+            { label: "2025-12", value: 122.6 },
+            { label: "2026-01", value: 121.5 },
+            { label: "2026-02", value: 56.7 },
+            { label: "2026-03", value: 41.0 },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "추정 플레이어 (K)", "전월비"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: d.value.toLocaleString() + "K", align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
             ];
         }
     },

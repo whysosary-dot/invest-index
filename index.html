@@ -736,6 +736,270 @@ const INDICATORS = [
     },
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 8. 클락슨 신조선가지수 (Clarksons Newbuilding Price Index)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: Clarksons Research / Asiasis (en.asiasis.com)
+    // 기준: 1988년 = 100, 전 선종 종합지수
+    // 2020말 125pt → 2024.10 190pt (52% 상승) → 2025말 193pt → 2026.03 185.59pt
+    {
+        id: "nb_price_index",
+        name: "클락슨 신조선가지수",
+        unit: "pt",
+        type: "manual",
+        category: "조선",
+        source: "Clarksons Research / Asiasis",
+        color: "#58a6ff",
+        data: [
+            // ── 2024년 (연간 +6%, 10월 190pt 도달) ──
+            { label: "2024-01", value: 179.0, note: "추정 (연초)" },
+            { label: "2024-02", value: 180.0, note: "추정" },
+            { label: "2024-03", value: 181.0, note: "추정" },
+            { label: "2024-04", value: 182.5, note: "추정" },
+            { label: "2024-05", value: 183.5, note: "추정" },
+            { label: "2024-06", value: 184.5, note: "추정" },
+            { label: "2024-07", value: 186.0, note: "추정" },
+            { label: "2024-08", value: 187.5, note: "추정" },
+            { label: "2024-09", value: 189.0, note: "추정" },
+            { label: "2024-10", value: 190.0, src: "https://splash247.com/newbuild-prices-surge-52-this-decade/", note: "Splash247 (52% since 2020)" },
+            { label: "2024-11", value: 189.17, src: "https://www.shippingnewsnet.com/news/articleView.html?idxno=62372", note: "ShippingNewsNet" },
+            { label: "2024-12", value: 189.0, note: "추정" },
+            // ── 2025년 (1H -1%, 하반기 회복, 연말 193pt 추정) ──
+            { label: "2025-01", value: 188.0, note: "추정" },
+            { label: "2025-02", value: 187.5, note: "추정" },
+            { label: "2025-03", value: 187.0, note: "추정 (1H 약세)" },
+            { label: "2025-04", value: 186.5, note: "추정" },
+            { label: "2025-05", value: 187.0, note: "추정" },
+            { label: "2025-06", value: 187.23, src: "https://splash247.com/newbuild-prices-approach-2008-record-levels/", note: "Splash247" },
+            { label: "2025-07", value: 188.0, note: "추정 (하반기 회복)" },
+            { label: "2025-08", value: 189.0, note: "추정" },
+            { label: "2025-09", value: 190.5, note: "추정" },
+            { label: "2025-10", value: 191.5, note: "추정" },
+            { label: "2025-11", value: 192.0, note: "추정" },
+            { label: "2025-12", value: 193.0, src: "https://www.shippingnewsnet.com/news/articleView.html?idxno=62372", note: "ShippingNewsNet 추정" },
+            // ── 2026년 ──
+            { label: "2026-01", value: 184.5, note: "추정 (연초 조정)" },
+            { label: "2026-02", value: 184.0, note: "추정 (184pt 박스권)" },
+            { label: "2026-03", value: 185.59, src: "https://www.asiasis.com/news/news_en_view.php?idx_no=86734", note: "Asiasis" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "지수 (pt)", "전월비", "전년동월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: d.value.toFixed(2) + "pt", align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 9. 중고선가 (5yr VLCC 기준)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: Clarksons S&P, Breakwave Advisors, Splash247
+    // 5-year-old VLCC (320K DWT) 중고 매매가 기준
+    // 2021초 ~$60M → 2024 ~$105-110M → 2026.02 >$120M (+99% in 5yr)
+    {
+        id: "secondhand_vlcc",
+        name: "중고선가 (5yr VLCC)",
+        unit: "$M",
+        type: "manual",
+        category: "조선",
+        source: "Clarksons S&P / Breakwave Advisors",
+        color: "#d2a8ff",
+        data: [
+            // ── 2024년 (S&P 상승, Q4 약세) ──
+            { label: "2024-01", value: 103.0, note: "추정" },
+            { label: "2024-02", value: 105.0, note: "추정" },
+            { label: "2024-03", value: 107.0, src: "https://splash247.com/secondhand-ship-prices-and-sales-volumes-scale-heights/", note: "Splash247" },
+            { label: "2024-04", value: 108.0, note: "추정" },
+            { label: "2024-05", value: 109.0, note: "추정" },
+            { label: "2024-06", value: 110.0, note: "추정" },
+            { label: "2024-07", value: 111.0, note: "추정" },
+            { label: "2024-08", value: 112.0, note: "추정" },
+            { label: "2024-09", value: 112.0, note: "추정 (피크)" },
+            { label: "2024-10", value: 110.0, note: "추정 (Q4 약세)" },
+            { label: "2024-11", value: 108.0, note: "추정" },
+            { label: "2024-12", value: 107.0, note: "추정" },
+            // ── 2025년 (1H 약세 → 연간 +9% 회복) ──
+            { label: "2025-01", value: 103.0, note: "추정 (약세)" },
+            { label: "2025-02", value: 102.0, src: "https://www.breakwaveadvisors.com/insights/2026/3/2/vlcc-second-hand-prices-at-decade-highs", note: "Breakwave 역산 (YoY+17%→2026.02 $120M)" },
+            { label: "2025-03", value: 103.0, note: "추정" },
+            { label: "2025-04", value: 104.0, note: "추정" },
+            { label: "2025-05", value: 105.0, note: "추정" },
+            { label: "2025-06", value: 107.0, note: "추정" },
+            { label: "2025-07", value: 109.0, note: "추정 (하반기 회복)" },
+            { label: "2025-08", value: 111.0, note: "추정" },
+            { label: "2025-09", value: 113.0, note: "추정" },
+            { label: "2025-10", value: 114.0, note: "추정" },
+            { label: "2025-11", value: 115.0, note: "추정" },
+            { label: "2025-12", value: 117.0, note: "추정 (연간 +9%)" },
+            // ── 2026년 ──
+            { label: "2026-01", value: 118.0, note: "추정" },
+            { label: "2026-02", value: 120.0, src: "https://www.breakwaveadvisors.com/insights/2026/3/2/vlcc-second-hand-prices-at-decade-highs", note: "Breakwave (>$120M)" },
+            { label: "2026-03", value: 122.0, note: "추정 (+17% YoY 추세)" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "5yr VLCC ($M)", "전월비", "전년동월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: "$" + d.value.toFixed(1) + "M", align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 10. VLCC 신조선가
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: Clarksons Research, Veson Nautical, 실거래 계약가
+    // 기준: 320K DWT VLCC (한국조선소 기준가)
+    // 2021 ~$90M → 2024 ~$128M (+40%) → 2026.03 $128.5M
+    {
+        id: "vlcc_newbuild",
+        name: "VLCC 신조선가",
+        unit: "$M",
+        type: "manual",
+        category: "조선",
+        source: "Clarksons / Veson Nautical (320K DWT 기준)",
+        color: "#f0883e",
+        data: [
+            // ── 2024년 (상승 지속) ──
+            { label: "2024-01", value: 120.0, note: "추정" },
+            { label: "2024-02", value: 121.0, note: "추정" },
+            { label: "2024-03", value: 122.0, note: "추정" },
+            { label: "2024-04", value: 123.0, note: "추정" },
+            { label: "2024-05", value: 124.0, note: "추정" },
+            { label: "2024-06", value: 125.0, src: "https://www.hellenicshippingnews.com/vlcc-newbuilding-values-at-14-year-high/", note: "HellenicShipping (14yr high)" },
+            { label: "2024-07", value: 126.0, note: "추정" },
+            { label: "2024-08", value: 127.0, note: "추정" },
+            { label: "2024-09", value: 127.5, note: "추정" },
+            { label: "2024-10", value: 128.0, src: "https://www.offshore-energy.biz/hanwha-ocean-seals-256-million-deal-to-build-vlcc-pair/", note: "한화오션 $128M/척" },
+            { label: "2024-11", value: 128.0, note: "추정 (횡보)" },
+            { label: "2024-12", value: 128.0, note: "추정" },
+            // ── 2025년 (소폭 조정 후 회복) ──
+            { label: "2025-01", value: 127.0, note: "추정" },
+            { label: "2025-02", value: 126.0, note: "추정" },
+            { label: "2025-03", value: 125.5, note: "추정" },
+            { label: "2025-04", value: 125.0, note: "추정" },
+            { label: "2025-05", value: 125.0, note: "추정" },
+            { label: "2025-06", value: 125.5, note: "추정" },
+            { label: "2025-07", value: 126.0, src: "https://veson.com/blog/https-vesselsblog-wpenginepowered-com-vlccs-tight-supply-supports-elevated-asset-values-in-2025/", note: "Veson Nautical" },
+            { label: "2025-08", value: 126.5, note: "추정" },
+            { label: "2025-09", value: 127.0, note: "추정" },
+            { label: "2025-10", value: 127.0, note: "추정" },
+            { label: "2025-11", value: 127.5, note: "추정" },
+            { label: "2025-12", value: 128.0, note: "추정" },
+            // ── 2026년 (Q1 수주 폭증) ──
+            { label: "2026-01", value: 128.0, note: "추정" },
+            { label: "2026-02", value: 128.5, note: "추정" },
+            { label: "2026-03", value: 128.5, src: "https://splash247.com/vlcc-resales-outprice-newbuilds-by-record-39-5m/", note: "Splash247 ($128.5M)" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "VLCC 신조가 ($M)", "전월비", "전년동월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: "$" + d.value.toFixed(1) + "M", align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 11. LNG선 신조선가 (174K cbm)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: Clarksons, VesselsLink, Offshore Energy
+    // 기준: 174,000 cbm LNG Carrier (한국조선소 기준)
+    // 2024 중반 $269M (사상최고) → 2025 하락 → 2026.03 $215M
+    {
+        id: "lng_newbuild",
+        name: "LNG선 신조선가 (174K cbm)",
+        unit: "$M",
+        type: "manual",
+        category: "조선",
+        source: "Clarksons / VesselsLink (174K cbm 기준)",
+        color: "#79c0ff",
+        data: [
+            // ── 2024년 (상반기 급등, 6월 $269M 사상최고) ──
+            { label: "2024-01", value: 240.0, note: "추정" },
+            { label: "2024-02", value: 245.0, note: "추정" },
+            { label: "2024-03", value: 250.0, note: "추정" },
+            { label: "2024-04", value: 256.0, note: "추정" },
+            { label: "2024-05", value: 264.0, note: "추정" },
+            { label: "2024-06", value: 269.0, src: "https://vesselslink.com/blogs/news/large-lng-carriers-are-the-hot-commodity-in-the-new-building-market", note: "VesselsLink ($269M 사상최고)" },
+            { label: "2024-07", value: 268.0, note: "추정 (피크 후 횡보)" },
+            { label: "2024-08", value: 266.0, note: "추정" },
+            { label: "2024-09", value: 264.0, note: "추정" },
+            { label: "2024-10", value: 262.0, note: "추정" },
+            { label: "2024-11", value: 261.0, note: "추정" },
+            { label: "2024-12", value: 260.0, src: "https://www.hellenicshippingnews.com/lng-newbuilding-values-at-record-high-78-newbuild-orders-placed-in-2024-doubling-2023/", note: "HellenicShipping" },
+            // ── 2025년 (하락 추세, YoY -4%) ──
+            { label: "2025-01", value: 258.0, src: "https://www.offshore-energy.biz/twofold-increase-in-lng-vessel-orders-playing-out-against-the-backdrop-of-elevated-newbuilding-prices/", note: "OffshoreEnergy ($260→$257M)" },
+            { label: "2025-02", value: 256.0, note: "추정" },
+            { label: "2025-03", value: 254.0, note: "추정" },
+            { label: "2025-04", value: 252.0, note: "추정" },
+            { label: "2025-05", value: 250.0, note: "추정" },
+            { label: "2025-06", value: 248.0, note: "추정 (YoY -4%)" },
+            { label: "2025-07", value: 245.0, note: "추정" },
+            { label: "2025-08", value: 242.0, note: "추정" },
+            { label: "2025-09", value: 238.0, note: "추정" },
+            { label: "2025-10", value: 235.0, note: "추정" },
+            { label: "2025-11", value: 232.0, note: "추정" },
+            { label: "2025-12", value: 228.0, note: "추정" },
+            // ── 2026년 (한국 $215-220M, 중국 $200-210M) ──
+            { label: "2026-01", value: 222.0, note: "추정" },
+            { label: "2026-02", value: 218.0, note: "추정" },
+            { label: "2026-03", value: 215.0, src: "https://www.shipfinex.com/blog/lng-carrier-construction-activity-orderbook", note: "ShipFinex (한국 $215-220M)" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "LNG 174K ($M)", "전월비", "전년동월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: "$" + d.value.toFixed(1) + "M", align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 새 지표를 여기에 추가하세요!
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

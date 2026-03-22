@@ -438,6 +438,7 @@ const INDICATORS = [
             // ── 2026년 ──
             { label: "2026-01", value: 712143 },
             { label: "2026-02", value: 694462 },
+            { label: "2026-03", value: 1290870 },
             // ↑ 새 월 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "월 피크 동접", "전월비", "전년동월비", "출처"],
@@ -650,6 +651,72 @@ const INDICATORS = [
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "DDR4 8Gb ($/chip)", "전월비", "전년동월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: "$" + d.value.toFixed(2), align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 7. NAND Flash 512Gb TLC 스팟가
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: TrendForce 주간 스팟가 리포트 (512Gb TLC 기준)
+    // 2025 하반기 공급 부족 → 역대급 폭등 (Kingston 발표: 2025 초 대비 246% 급등)
+    // 월말 기준 대표가 사용
+    {
+        id: "nand_flash",
+        name: "NAND Flash 512Gb TLC 스팟가",
+        unit: "$/chip",
+        type: "manual",
+        category: "반도체",
+        source: "TrendForce (512Gb TLC NAND Flash)",
+        color: "#f778ba",
+        data: [
+            // ── 2024년 (안정기 → 소폭 등락) ──
+            { label: "2024-01", value: 3.10, note: "추정 (안정기)" },
+            { label: "2024-02", value: 3.35, note: "추정" },
+            { label: "2024-03", value: 3.84, src: "https://www.trendforce.com/news/2024/03/27/insights-memory-spot-price-update-nand-flash-spot-prices-stable/", note: "TrendForce" },
+            { label: "2024-04", value: 3.75, note: "추정" },
+            { label: "2024-05", value: 3.60, note: "추정" },
+            { label: "2024-06", value: 3.45, note: "추정" },
+            { label: "2024-07", value: 3.30, note: "추정" },
+            { label: "2024-08", value: 3.25, note: "추정" },
+            { label: "2024-09", value: 3.19, src: "https://www.trendforce.com/news/2024/09/25/insights-memory-spot-price-update-nand-flash-wafer-spot-prices-decline/", note: "TrendForce" },
+            { label: "2024-10", value: 3.10, note: "추정 (약세)" },
+            { label: "2024-11", value: 3.00, note: "추정" },
+            { label: "2024-12", value: 2.90, note: "추정" },
+            // ── 2025년 (하반기 폭등) ──
+            { label: "2025-01", value: 2.80, note: "추정" },
+            { label: "2025-02", value: 2.75, note: "추정" },
+            { label: "2025-03", value: 2.72, note: "추정 (저점 근접)" },
+            { label: "2025-04", value: 2.70, note: "추정" },
+            { label: "2025-05", value: 2.68, note: "추정" },
+            { label: "2025-06", value: 2.70, note: "추정" },
+            { label: "2025-07", value: 2.72, src: "https://www.trendforce.com/news/2025/07/16/insights-memory-spot-price-update-nand-flash-spot-flat/", note: "TrendForce" },
+            { label: "2025-08", value: 3.10, note: "추정 (반등 시작)" },
+            { label: "2025-09", value: 4.20, note: "추정 (공급 부족 본격화)" },
+            { label: "2025-10", value: 5.50, note: "추정" },
+            { label: "2025-11", value: 6.46, src: "https://www.trendforce.com/news/2025/11/12/insights-memory-spot-price-update-nand-flash-supply-squeeze/", note: "TrendForce" },
+            { label: "2025-12", value: 13.06, src: "https://www.trendforce.com/news/2025/12/31/insights-memory-spot-price-update-nand-flash-512gb-tlc-hits-13/", note: "TrendForce 12/31" },
+            // ── 2026년 (고공행진) ──
+            { label: "2026-01", value: 15.05, src: "https://www.trendforce.com/news/2026/01/14/insights-memory-spot-price-update-nand-flash-512gb-tlc-breaks-15/", note: "TrendForce 1/14" },
+            { label: "2026-02", value: 17.72, src: "https://www.trendforce.com/news/2026/02/04/insights-memory-spot-price-update-nand-flash-continues-climb/", note: "TrendForce 2/4" },
+            { label: "2026-03", value: 23.13, src: "https://www.trendforce.com/news/2026/03/09/insights-memory-spot-price-update-nand-flash-512gb-tlc-average-23-134/", note: "TrendForce 3/9" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "512Gb TLC ($/chip)", "전월비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {

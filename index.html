@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0f1117;
+            --bg-card: #161b22;
+            --bg-card-hover: #1c2129;
+            --border: #2d333b;
+            --border-active: #58a6ff;
+            --text-primary: #f0f6fc;
+            --text-secondary: #c9d1d9;
+            --text-muted: #8b949e;
+            --text-dimmed: #6e7681;
+            --text-faint: #484f58;
+            --accent-blue: #58a6ff;
+            --accent-red: #f85149;
+            --accent-green: #3fb950;
+            --accent-yellow: #f0c000;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            min-height: 100vh;
+        }
+
+        /* ══════════════════════════════════════
+           HEADER
+           ══════════════════════════════════════ */
+        header {
+            background: linear-gradient(135deg, #1a1e2e 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        header h1 { font-size: 20px; font-weight: 600; color: var(--accent-blue); }
+        header .meta { font-size: 12px; color: var(--text-muted); }
+
+        /* ══════════════════════════════════════
+           LAYOUT: Summary bar + Detail panel
+           ══════════════════════════════════════ */
+        .app {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 24px 32px 60px;
+        }
+
+        /* ── Category Filter ── */
+        .category-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-btn:hover { border-color: var(--accent-blue); color: var(--text-secondary); }
+        .cat-btn.active { background: #58a6ff22; border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600; }
+
+        /* ── Summary Cards ── */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: transparent;
+            transition: background 0.2s;
+        }
+
+        .summary-card:hover { border-color: var(--border-active); transform: translateY(-1px); }
+        .summary-card.selected { border-color: var(--border-active); }
+        .summary-card.selected::before { background: var(--accent-blue); }
+
+        .summary-card .sc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .sc-name {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .badge {
+            font-size: 9px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.manual { background: #3d2f00; color: var(--accent-yellow); }
+        .badge.live   { background: #0d3320; color: var(--accent-green); }
+
+        .summary-card .sc-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .summary-card .sc-value .unit {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .summary-card .sc-change {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .sc-change.up   { color: var(--accent-red); }
+        .sc-change.down { color: var(--accent-blue); }
+        .sc-change.flat { color: var(--text-muted); }
+
+        .summary-card .sc-date {
+            font-size: 11px;
+            color: var(--text-dimmed);
+            margin-top: 4px;
+        }
+
+        /* Mini sparkline canvas inside card */
+        .sparkline-wrap {
+            position: absolute;
+            right: 16px;
+            bottom: 14px;
+            width: 80px;
+            height: 32px;
+            opacity: 0.5;
+        }
+
+        /* ── Detail Panel ── */
+        .detail-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .detail-panel.visible { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .detail-header h2 { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+        .detail-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+        .detail-close {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .detail-close:hover { border-color: var(--accent-red); color: var(--accent-red); }
+
+        .chart-container { position: relative; height: 380px; margin-bottom: 24px; }
+
+        /* ── Table inside detail ── */
+        .detail-table-wrap {
+            max-height: 320px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .detail-table-wrap::-webkit-scrollbar { width: 6px; }
+        .detail-table-wrap::-webkit-scrollbar-track { background: transparent; }
+        .detail-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 10px 14px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 12px; position: sticky; top: 0; background: var(--bg-card); }
+        td { padding: 9px 14px; border-bottom: 1px solid #1c212944; color: var(--text-secondary); }
+        tr:hover td { background: var(--bg-card-hover); }
+        td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        th.num { text-align: right; }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-faint);
+            padding: 24px 0 0;
+        }
+
+        /* ── LIVE indicator pulse ── */
+        .live-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            header { padding: 14px 16px; }
+            .app { padding: 16px; }
+            .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .summary-card .sc-value { font-size: 20px; }
+            .chart-container { height: 260px; }
+        }
+
+        @media (max-width: 480px) {
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Investment Dashboard</h1>
+    <div class="meta">
+        <span id="liveStatus"></span>
+        마지막 수동 업데이트: <span id="lastManualUpdate"></span>
+    </div>
+</header>
+
+<div class="app">
+    <!-- Category Filter -->
+    <div class="category-bar" id="categoryBar"></div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <!-- Detail Panel (shows when a card is clicked) -->
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-header">
+            <div>
+                <h2 id="detailTitle"></h2>
+                <div class="subtitle" id="detailSubtitle"></div>
+            </div>
+            <button class="detail-close" onclick="closeDetail()">닫기 ✕</button>
+        </div>
+        <div class="chart-container">
+            <canvas id="detailChart"></canvas>
+        </div>
+        <div class="detail-table-wrap">
+            <table id="detailTable">
+                <thead id="detailThead"></thead>
+                <tbody id="detailTbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        MANUAL 지표: 데이터 추가 후 GitHub Desktop 커밋 &amp; 푸시 &nbsp;·&nbsp;
+        <span class="live-dot"></span>LIVE 지표: 페이지 로드 시 자동 갱신
+    </div>
+</div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║                                                                ║
+// ║   📌 DATA SECTION — 이 부분만 수정하면 됩니다                      ║
+// ║                                                                ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+const DATA_UPDATED = "2026-03-22";
+
+// ─── 지표 등록 시스템 ───
+// 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
+// type: "manual" (수동) 또는 "live" (API 실시간)
+// category: 카테고리 이름 (필터에 자동 추가됨)
+
+const INDICATORS = [
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 1. 일본공작기계 수출 수주
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    {
+        id: "jmtba",
+        name: "일본공작기계 수출 수주",
+        unit: "억엔",
+        type: "manual",
+        category: "경제지표",
+        source: "JMTBA (일본공작기계공업회)",
+        color: "#58a6ff",
+        // 새 달 데이터가 나오면 배열 끝에 추가
+        data: [
+            { label: "2024-01", value: 823.5 },
+            { label: "2024-02", value: 795.2 },
+            { label: "2024-03", value: 882.1 },
+            { label: "2024-04", value: 841.3 },
+            { label: "2024-05", value: 867.9 },
+            { label: "2024-06", value: 910.4 },
+            { label: "2024-07", value: 879.6 },
+            { label: "2024-08", value: 756.8 },
+            { label: "2024-09", value: 898.2 },
+            { label: "2024-10", value: 921.7 },
+            { label: "2024-11", value: 885.3 },
+            { label: "2024-12", value: 840.6 },
+            { label: "2025-01", value: 862.4 },
+            { label: "2025-02", value: 831.0 },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "수출 수주 (억엔)", "전월비", "전년동월비"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: d.value.toLocaleString(), align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 2. PUBG 스팀 동시접속자
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    {
+        id: "pubg",
+        name: "PUBG 스팀 동접자",
+        unit: "명",
+        type: "live",
+        category: "게임·IT",
+        source: "Steam Web API (AppID: 578080)",
+        color: "#f0c000",
+        steamAppId: 578080,
+        data: [],          // 실시간으로 채워짐
+        // 수동 히스토리 (월 평균 피크 동접, 수동 기록용)
+        historyData: [
+            { label: "2024-07", value: 408621 },
+            { label: "2024-08", value: 395842 },
+            { label: "2024-09", value: 411203 },
+            { label: "2024-10", value: 425780 },
+            { label: "2024-11", value: 418356 },
+            { label: "2024-12", value: 442193 },
+            { label: "2025-01", value: 461520 },
+            { label: "2025-02", value: 438972 },
+            // ↑ 월평균 피크 동접을 여기에 추가
+        ],
+        tableHeaders: ["월", "월평균 피크 동접", "전월비"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            return [
+                d.label,
+                { v: d.value.toLocaleString(), align: "right" },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 새 지표를 여기에 추가하세요!
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+];
+
+
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║                                                                ║
+// ║   🔧 ENGINE — 아래는 수정하지 않아도 됩니다                         ║
+// ║                                                                ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+let activeCategory = "전체";
+let selectedId = null;
+let detailChartInstance = null;
+
+// ── Helpers ──
+function fmtPct(v) { return (v > 0 ? "+" : "") + v + "%"; }
+function pctColor(v) { return v > 0 ? "var(--accent-red)" : v < 0 ? "var(--accent-blue)" : "var(--text-muted)"; }
+function getEffectiveData(ind) { return ind.data.length > 0 ? ind.data : (ind.historyData || []); }
+
+// ── Steam API Fetch ──
+async function fetchSteamPlayers(ind) {
+    try {
+        const res = await fetch(`https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=${ind.steamAppId}`);
+        const json = await res.json();
+        const count = json?.response?.player_count;
+        if (count != null) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+            ind._liveValue = count;
+            ind._liveTime = timeStr;
+        }
+    } catch (e) {
+        console.warn("Steam API fetch failed for", ind.id, e);
+    }
+}
+
+// ── Init Live Data ──
+async function initLiveData() {
+    const liveIndicators = INDICATORS.filter(i => i.type === "live" && i.steamAppId);
+    await Promise.all(liveIndicators.map(fetchSteamPlayers));
+
+    // Auto-refresh every 5 minutes
+    setInterval(async () => {
+        await Promise.all(liveIndicators.map(fetchSteamPlayers));
+        renderSummaryCards();
+        if (selectedId && INDICATORS.find(i => i.id === selectedId)?.type === "live") {
+            openDetail(selectedId);
+        }
+    }, 5 * 60 * 1000);
+}
+
+// ── Category Bar ──
+function renderCategoryBar() {
+    const cats = ["전체", ...new Set(INDICATORS.map(i => i.category))];
+    const bar = document.getElementById("categoryBar");
+    bar.innerHTML = cats.map(c =>
+        `<button class="cat-btn ${c === activeCategory ? 'active' : ''}" onclick="setCategory('${c}')">${c}</button>`
+    ).join("");
+}
+
+function setCategory(cat) {
+    activeCategory = cat;
+    renderCategoryBar();
+    renderSummaryCards();
+}
+
+// ── Summary Cards ──
+function renderSummaryCards() {
+    const grid = document.getElementById("summaryGrid");
+    const filtered = activeCategory === "전체" ? INDICATORS : INDICATORS.filter(i => i.category === activeCategory);
+
+    grid.innerHTML = filtered.map(ind => {
+        const data = getEffectiveData(ind);
+        const hasLive = ind._liveValue != null;
+        const latest = hasLive ? ind._liveValue : (data.length > 0 ? data[data.length - 1].value : null);
+        const prev = data.length > 1 ? data[data.length - 2].value : null;
+        let lastEntry = data.length > 0 ? data[data.length - 1] : null;
+
+        let changeHtml = '';
+        if (hasLive && data.length > 0) {
+            // Compare live vs last history entry
+            const histLatest = data[data.length - 1].value;
+            const diff = ((latest - histLatest) / histLatest * 100).toFixed(1);
+            const cls = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
+            changeHtml = `<div class="sc-change ${cls}">vs 최근 기록 ${fmtPct(diff)}</div>`;
+        } else if (prev !== null && latest !== null) {
+            const diff = ((latest - prev) / prev * 100).toFixed(1);
+            const cls = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
+            changeHtml = `<div class="sc-change ${cls}">전월비 ${fmtPct(diff)}</div>`;
+        }
+
+        const dateStr = hasLive ? `실시간 ${ind._liveTime || ''}` : (lastEntry ? lastEntry.label : '');
+        const isSelected = selectedId === ind.id;
+
+        return `
+            <div class="summary-card ${isSelected ? 'selected' : ''}" onclick="openDetail('${ind.id}')">
+                <div class="sc-header">
+                    <span class="sc-name">${ind.name}</span>
+                    <span class="badge ${ind.type}">${ind.type === 'live' ? '<span class=live-dot></span>LIVE' : 'MANUAL'}</span>
+                </div>
+                <div class="sc-value">
+                    ${latest !== null ? latest.toLocaleString() : '—'}
+                    <span class="unit">${ind.unit}</span>
+                </div>
+                ${changeHtml}
+                <div class="sc-date">${dateStr}</div>
+            </div>
+        `;
+    }).join("");
+}
+
+// ── Detail Panel ──
+function openDetail(id) {
+    const ind = INDICATORS.find(i => i.id === id);
+    if (!ind) return;
+
+    selectedId = id;
+    renderSummaryCards(); // update selected state
+
+    const panel = document.getElementById("detailPanel");
+    panel.classList.add("visible");
+
+    document.getElementById("detailTitle").textContent = `${ind.name}`;
+    document.getElementById("detailSubtitle").textContent = `단위: ${ind.unit} · 출처: ${ind.source}`;
+
+    // Chart
+    const data = getEffectiveData(ind);
+    if (detailChartInstance) detailChartInstance.destroy();
+
+    const ctx = document.getElementById("detailChart").getContext("2d");
+    const gradient = ctx.createLinearGradient(0, 0, 0, 380);
+    gradient.addColorStop(0, ind.color + "40");
+    gradient.addColorStop(1, ind.color + "00");
+
+    detailChartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: data.map(d => d.label),
+            datasets: [{
+                label: `${ind.name} (${ind.unit})`,
+                data: data.map(d => d.value),
+                borderColor: ind.color,
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.35,
+                pointRadius: 4,
+                pointBackgroundColor: ind.color,
+                pointBorderColor: "var(--bg-primary)",
+                pointBorderWidth: 2,
+                pointHoverRadius: 7,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { intersect: false, mode: "index" },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: "#1c2129",
+                    borderColor: "#2d333b",
+                    borderWidth: 1,
+                    titleColor: "#8b949e",
+                    bodyColor: "#f0f6fc",
+                    bodyFont: { size: 14, weight: "600" },
+                    padding: 12,
+                    displayColors: false,
+                    callbacks: {
+                        label: ctx => `${ctx.parsed.y.toLocaleString()} ${ind.unit}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: "#1c212944" },
+                    ticks: { color: "#6e7681", font: { size: 11 } }
+                },
+                y: {
+                    grid: { color: "#1c212966" },
+                    ticks: {
+                        color: "#6e7681",
+                        font: { size: 11 },
+                        callback: v => v.toLocaleString()
+                    }
+                }
+            }
+        }
+    });
+
+    // Table
+    const thead = document.getElementById("detailThead");
+    const tbody = document.getElementById("detailTbody");
+
+    thead.innerHTML = `<tr>${ind.tableHeaders.map((h, i) =>
+        `<th ${i > 0 ? 'class="num"' : ''}>${h}</th>`
+    ).join("")}</tr>`;
+
+    const reversed = [...data].reverse();
+    tbody.innerHTML = reversed.map((d, ri) => {
+        const origIdx = data.length - 1 - ri;
+        const row = ind.tableRow(d, origIdx, data);
+        return `<tr>${row.map((cell, ci) => {
+            if (typeof cell === "object") {
+                return `<td class="num" style="color:${cell.color || 'inherit'}">${cell.v}</td>`;
+            }
+            return `<td>${cell}</td>`;
+        }).join("")}</tr>`;
+    }).join("");
+
+    // Scroll to panel
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function closeDetail() {
+    selectedId = null;
+    document.getElementById("detailPanel").classList.remove("visible");
+    renderSummaryCards();
+}
+
+// ── Init ──
+document.getElementById("lastManualUpdate").textContent = DATA_UPDATED;
+
+async function init() {
+    document.getElementById("liveStatus").innerHTML = '<span class="live-dot"></span>';
+    await initLiveData();
+    renderCategoryBar();
+    renderSummaryCards();
+}
+
+init();
+</script>
+</body>
+</html>

@@ -329,35 +329,51 @@ const DATA_UPDATED = "2026-03-22";
 const INDICATORS = [
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 1. 일본공작기계 수출 수주
+    // 1. 일본공작기계 총 수주 (외수 비중 ~70-78%)
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: JMTBA 월별 발표, seisanzai-japan.com
+    // 2024 연간: 총 1조4,851억엔 (외수 1조436억엔, 70.2%)
+    // 2025 연간: 총 1조6,043억엔 (외수 1조1,635억엔, 72.5%)
     {
         id: "jmtba",
-        name: "일본공작기계 수출 수주",
+        name: "일본공작기계 총 수주",
         unit: "억엔",
         type: "manual",
         category: "경제지표",
         source: "JMTBA (일본공작기계공업회)",
         color: "#58a6ff",
-        // 새 달 데이터가 나오면 배열 끝에 추가
         data: [
-            { label: "2024-01", value: 823.5 },
-            { label: "2024-02", value: 795.2 },
-            { label: "2024-03", value: 882.1 },
-            { label: "2024-04", value: 841.3 },
-            { label: "2024-05", value: 867.9 },
-            { label: "2024-06", value: 910.4 },
-            { label: "2024-07", value: 879.6 },
-            { label: "2024-08", value: 756.8 },
-            { label: "2024-09", value: 898.2 },
-            { label: "2024-10", value: 921.7 },
-            { label: "2024-11", value: 885.3 },
-            { label: "2024-12", value: 840.6 },
-            { label: "2025-01", value: 862.4 },
-            { label: "2025-02", value: 831.0 },
-            // ↑ 새 데이터를 여기에 추가
+            // ── 2024년 ──
+            { label: "2024-01", value: 1100.0 },
+            { label: "2024-02", value: 1140.0 },
+            { label: "2024-03", value: 1350.0 },
+            { label: "2024-04", value: 1209.0 },
+            { label: "2024-05", value: 1215.0 },
+            { label: "2024-06", value: 1235.0 },
+            { label: "2024-07", value: 1239.0 },
+            { label: "2024-08", value: 1193.0 },
+            { label: "2024-09", value: 1253.0 },
+            { label: "2024-10", value: 1224.2 },
+            { label: "2024-11", value: 1262.0 },
+            { label: "2024-12", value: 1430.9 },
+            // ── 2025년 ──
+            { label: "2025-01", value: 1137.0 },
+            { label: "2025-02", value: 1181.0 },
+            { label: "2025-03", value: 1510.0 },
+            { label: "2025-04", value: 1302.0 },
+            { label: "2025-05", value: 1287.0 },
+            { label: "2025-06", value: 1331.0 },
+            { label: "2025-07", value: 1283.0 },
+            { label: "2025-08", value: 1201.0 },
+            { label: "2025-09", value: 1391.0 },
+            { label: "2025-10", value: 1434.0 },
+            { label: "2025-11", value: 1370.1 },
+            { label: "2025-12", value: 1586.4 },
+            // ── 2026년 ──
+            { label: "2026-01", value: 1455.0 },
+            // ↑ 새 데이터를 여기에 추가 (2월 데이터 3월 중 발표 예정)
         ],
-        tableHeaders: ["월", "수출 수주 (억엔)", "전월비", "전년동월비"],
+        tableHeaders: ["월", "총 수주 (억엔)", "전월비", "전년동월비"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
@@ -384,30 +400,57 @@ const INDICATORS = [
         unit: "명",
         type: "live",
         category: "게임·IT",
-        source: "Steam Web API (AppID: 578080)",
+        source: "Steam Web API (AppID: 578080) · 히스토리: SteamCharts",
         color: "#f0c000",
         steamAppId: 578080,
-        data: [],          // 실시간으로 채워짐
-        // 수동 히스토리 (월 평균 피크 동접, 수동 기록용)
+        data: [],          // 실시간 현재 동접 (API 자동)
+        // 월별 피크 동접 히스토리 (steamcharts.com 기준)
         historyData: [
-            { label: "2024-07", value: 408621 },
-            { label: "2024-08", value: 395842 },
-            { label: "2024-09", value: 411203 },
-            { label: "2024-10", value: 425780 },
-            { label: "2024-11", value: 418356 },
-            { label: "2024-12", value: 442193 },
-            { label: "2025-01", value: 461520 },
-            { label: "2025-02", value: 438972 },
-            // ↑ 월평균 피크 동접을 여기에 추가
+            // ── 2024년 ──
+            { label: "2024-01", value: 587152 },
+            { label: "2024-02", value: 609366 },
+            { label: "2024-03", value: 764034 },
+            { label: "2024-04", value: 699697 },
+            { label: "2024-05", value: 693105 },
+            { label: "2024-06", value: 699256 },
+            { label: "2024-07", value: 700235 },
+            { label: "2024-08", value: 719506 },
+            { label: "2024-09", value: 807515 },
+            { label: "2024-10", value: 762909 },
+            { label: "2024-11", value: 796001 },
+            { label: "2024-12", value: 799077 },
+            // ── 2025년 ──
+            { label: "2025-01", value: 786821 },
+            { label: "2025-02", value: 818843 },
+            { label: "2025-03", value: 1329605 },
+            { label: "2025-04", value: 861598 },
+            { label: "2025-05", value: 804674 },
+            { label: "2025-06", value: 778327 },
+            { label: "2025-07", value: 944484 },
+            { label: "2025-08", value: 724503 },
+            { label: "2025-09", value: 707773 },
+            { label: "2025-10", value: 750442 },
+            { label: "2025-11", value: 691068 },
+            { label: "2025-12", value: 751295 },
+            // ── 2026년 ──
+            { label: "2026-01", value: 712143 },
+            { label: "2026-02", value: 694462 },
+            // ↑ 새 월 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "월평균 피크 동접", "전월비"],
+        tableHeaders: ["월", "월 피크 동접", "전월비", "전년동월비"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
             const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
             return [
                 d.label,
                 { v: d.value.toLocaleString(), align: "right" },
                 { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
             ];
         }
     },

@@ -218,7 +218,7 @@
 
         /* ── Table inside detail ── */
         .detail-table-wrap {
-            max-height: 320px;
+            max-height: 480px;
             overflow-y: auto;
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -241,6 +241,64 @@
             font-size: 11px;
             color: var(--text-faint);
             padding: 24px 0 0;
+        }
+
+        /* ── Insights Panel ── */
+        .insights-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+        }
+
+        .insights-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .insights-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .insights-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 12px;
+        }
+
+        .insight-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .insight-card.warn { border-left-color: var(--accent-yellow); }
+        .insight-card.hot { border-left-color: var(--accent-red); }
+        .insight-card.cool { border-left-color: var(--accent-green); }
+
+        .insight-card .insight-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .insight-card .insight-body {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
         }
 
         /* ── LIVE indicator pulse ── */
@@ -285,6 +343,15 @@
 
     <!-- Summary Cards -->
     <div class="summary-grid" id="summaryGrid"></div>
+
+    <!-- Insights Panel -->
+    <div class="insights-panel" id="insightsPanel">
+        <div class="insights-header">
+            <h2>AI Insights</h2>
+            <span class="insights-date" id="insightsDate"></span>
+        </div>
+        <div class="insights-grid" id="insightsGrid"></div>
+    </div>
 
     <!-- Detail Panel (shows when a card is clicked) -->
     <div class="detail-panel" id="detailPanel">
@@ -544,17 +611,25 @@ const INDICATORS = [
             { label: "2025-11", value: 780, note: "보간 추정" },
             { label: "2025-12", value: 1080, src: "https://www.fastmarkets.com/insights/chinese-tungsten-product-prices-surge-2025-export-controls-fresh-demand/", note: "Fastmarkets" },
             // ── 2026년 (중국 수출통제 발효 후 폭등) ──
-            { label: "2026-01", value: 1350, note: "보간 추정" },
-            { label: "2026-02", value: 1850, note: "보간 추정" },
-            { label: "2026-03", value: 2250, src: "https://www.ctia.com.cn/en/news/48682.html", note: "CTIA" },
+            { label: "2026-01-06", value: 920, src: "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/", note: "Fastmarkets ($900-940)" },
+            { label: "2026-01-13", value: 960, note: "추정" },
+            { label: "2026-01-20", value: 1050, note: "추정" },
+            { label: "2026-01-27", value: 1200, note: "추정" },
+            { label: "2026-02-03", value: 1400, note: "추정" },
+            { label: "2026-02-10", value: 1650, src: "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/", note: "Fastmarkets ($1,650-1,900)" },
+            { label: "2026-02-17", value: 1775, note: "추정 (midpoint)" },
+            { label: "2026-02-24", value: 1850, note: "추정" },
+            { label: "2026-03-03", value: 1944, src: "https://www.ctia.com.cn/en/news/48634.html", note: "CTIA ($1,890-1,998)" },
+            { label: "2026-03-10", value: 2050, note: "추정" },
+            { label: "2026-03-17", value: 2250, src: "https://www.ctia.com.cn/en/news/48682.html", note: "CTIA ($2,100-2,400)" },
             // ↑ 새 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "APT 가격 ($/MTU)", "전월비", "전년동월비", "출처"],
+        tableHeaders: ["기간", "APT 가격 ($/MTU)", "전기비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
                 const [y, m] = d.label.split("-");
-                return r.label === `${parseInt(y) - 1}-${m}`;
+                return r.label.startsWith(`${parseInt(y) - 1}-${m}`);
             });
             const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
             const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
@@ -645,17 +720,23 @@ const INDICATORS = [
             { label: "2025-11", value: 12.76, src: "https://www.trendforce.com/news/2025/11/19/insights-memory-spot-price-update-ddr5-prices-up-307-since-september-as-module-costs-poised-to-surge/", note: "TrendForce" },
             { label: "2025-12", value: 23.75, src: "https://www.trendforce.com/news/2025/12/31/insights-memory-spot-price-update-ddr4-spot-prices-climb-as-samsung-holds-eol-line", note: "TrendForce" },
             // ── 2026년 (고공행진) ──
-            { label: "2026-01", value: 30.90, src: "https://www.trendforce.com/news/2026/01/28/insights-memory-spot-price-update-ddr4ddr5-hit-highs-buyers-hesitant-ddr3-sees-uptick/", note: "TrendForce" },
-            { label: "2026-02", value: 30.88, src: "https://www.trendforce.com/news/2026/02/04/insights-memory-spot-price-update-dram-stalls-ahead-of-late-feb-contract-price-settlements/", note: "TrendForce" },
-            { label: "2026-03", value: 33.88, src: "https://www.trendforce.com/news/2026/03/18/insights-memory-spot-price-update-dram-spots-pause-amid-samsungs-march-ddr4-freeze/", note: "TrendForce" },
+            { label: "2026-01-14", value: 30.90, src: "https://www.trendforce.com/news/2026/01/14/insights-memory-spot-price-update-dram-surges-as-sellers-hold-back-inventory-mainstream-ddr4-up-nearly-10/", note: "TrendForce" },
+            { label: "2026-01-28", value: 30.90, src: "https://www.trendforce.com/news/2026/01/28/insights-memory-spot-price-update-ddr4ddr5-hit-highs-buyers-hesitant-ddr3-sees-uptick/", note: "TrendForce" },
+            { label: "2026-02-04", value: 30.88, src: "https://www.trendforce.com/news/2026/02/04/insights-memory-spot-price-update-dram-stalls-ahead-of-late-feb-contract-price-settlements/", note: "TrendForce" },
+            { label: "2026-02-10", value: 31.10, src: "https://www.eenewseurope.com/en/memory-spot-prices-cool-lunar-new-year-2026/", note: "eeNews" },
+            { label: "2026-02-17", value: 31.50, note: "추정" },
+            { label: "2026-02-24", value: 32.00, note: "추정" },
+            { label: "2026-03-03", value: 33.02, src: "https://www.trendforce.com/news/2026/03/04/insights-memory-spot-price-update-dram-spots-top-contracts-sentiment-cautious-ahead-of-q2-negotiations/", note: "TrendForce" },
+            { label: "2026-03-10", value: 33.40, note: "추정 (3/18 리포트 전주 기준)" },
+            { label: "2026-03-17", value: 33.88, src: "https://www.trendforce.com/news/2026/03/18/insights-memory-spot-price-update-dram-spots-pause-amid-samsungs-march-ddr4-freeze/", note: "TrendForce" },
             // ↑ 새 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "DDR4 8Gb ($/chip)", "전월비", "전년동월비", "출처"],
+        tableHeaders: ["기간", "DDR4 8Gb ($/chip)", "전기비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
                 const [y, m] = d.label.split("-");
-                return r.label === `${parseInt(y) - 1}-${m}`;
+                return r.label.startsWith(`${parseInt(y) - 1}-${m}`);
             });
             const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
             const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
@@ -711,17 +792,23 @@ const INDICATORS = [
             { label: "2025-11", value: 6.46, src: "https://www.trendforce.com/news/2025/11/12/insights-memory-spot-price-update-nand-flash-supply-squeeze/", note: "TrendForce" },
             { label: "2025-12", value: 13.06, src: "https://www.trendforce.com/news/2025/12/31/insights-memory-spot-price-update-nand-flash-512gb-tlc-hits-13/", note: "TrendForce 12/31" },
             // ── 2026년 (고공행진) ──
-            { label: "2026-01", value: 15.05, src: "https://www.trendforce.com/news/2026/01/14/insights-memory-spot-price-update-nand-flash-512gb-tlc-breaks-15/", note: "TrendForce 1/14" },
-            { label: "2026-02", value: 17.72, src: "https://www.trendforce.com/news/2026/02/04/insights-memory-spot-price-update-nand-flash-continues-climb/", note: "TrendForce 2/4" },
-            { label: "2026-03", value: 23.00, src: "https://www.trendforce.com/news/2026/03/18/insights-memory-spot-price-update-dram-spots-pause-amid-samsungs-march-ddr4-freeze/", note: "TrendForce 3/18" },
+            { label: "2026-01-14", value: 15.05, src: "https://www.trendforce.com/news/2026/01/14/insights-memory-spot-price-update-nand-flash-512gb-tlc-breaks-15/", note: "TrendForce" },
+            { label: "2026-01-28", value: 16.50, note: "추정" },
+            { label: "2026-02-04", value: 17.72, src: "https://www.trendforce.com/news/2026/02/04/insights-memory-spot-price-update-nand-flash-continues-climb/", note: "TrendForce" },
+            { label: "2026-02-10", value: 17.95, src: "https://www.eenewseurope.com/en/memory-spot-prices-cool-lunar-new-year-2026/", note: "eeNews (+1.26%)" },
+            { label: "2026-02-17", value: 18.20, note: "추정" },
+            { label: "2026-02-24", value: 18.80, note: "추정" },
+            { label: "2026-03-03", value: 20.59, src: "https://www.trendforce.com/news/2026/03/04/insights-memory-spot-price-update-dram-spots-top-contracts-sentiment-cautious-ahead-of-q2-negotiations/", note: "TrendForce (+14.70%)" },
+            { label: "2026-03-10", value: 23.13, src: "https://www.trendforce.com/news/2026/03/09/insights-memory-spot-price-update-nand-flash-512gb-tlc-average-23-134/", note: "TrendForce" },
+            { label: "2026-03-17", value: 23.00, src: "https://www.trendforce.com/news/2026/03/18/insights-memory-spot-price-update-dram-spots-pause-amid-samsungs-march-ddr4-freeze/", note: "TrendForce (-0.58%)" },
             // ↑ 새 데이터를 여기에 추가
         ],
-        tableHeaders: ["월", "512Gb TLC ($/chip)", "전월비", "전년동월비", "출처"],
+        tableHeaders: ["기간", "512Gb TLC ($/chip)", "전기비", "전년동월비", "출처"],
         tableRow(d, i, arr) {
             const prev = i > 0 ? arr[i - 1] : null;
             const yoyRef = arr.find(r => {
                 const [y, m] = d.label.split("-");
-                return r.label === `${parseInt(y) - 1}-${m}`;
+                return r.label.startsWith(`${parseInt(y) - 1}-${m}`);
             });
             const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
             const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
@@ -1222,6 +1309,107 @@ function closeDetail() {
     renderSummaryCards();
 }
 
+// ── Insights Generator ──
+function generateInsights() {
+    const insights = [];
+
+    INDICATORS.forEach(ind => {
+        const data = getEffectiveData(ind);
+        if (data.length < 2) return;
+
+        const latest = data[data.length - 1];
+        const prev = data[data.length - 2];
+        const pctChange = ((latest.value - prev.value) / prev.value * 100);
+
+        // Find data from ~1 year ago (approximate)
+        let yearAgo = null;
+        const latestParts = latest.label.split("-");
+        const latestYear = parseInt(latestParts[0]);
+        if (latestParts[1]) {
+            const targetLabel = `${latestYear - 1}-${latestParts[1]}`;
+            yearAgo = data.find(d => d.label.startsWith(targetLabel.substring(0, 7)));
+        }
+        const yoyChange = yearAgo ? ((latest.value - yearAgo.value) / yearAgo.value * 100) : null;
+
+        // Detect significant moves
+        if (Math.abs(pctChange) > 5) {
+            const dir = pctChange > 0 ? "급등" : "급락";
+            const cls = pctChange > 0 ? "hot" : "cool";
+            insights.push({
+                cls,
+                title: `${ind.name} ${dir} (${pctChange > 0 ? '+' : ''}${pctChange.toFixed(1)}%)`,
+                body: `최근 ${latest.label}: ${typeof latest.value === 'number' && latest.value > 1000 ? latest.value.toLocaleString() : latest.value}${ind.unit}. 직전 대비 ${dir} 추세.${yoyChange !== null ? ` YoY ${yoyChange > 0 ? '+' : ''}${yoyChange.toFixed(1)}%` : ''}`
+            });
+        }
+
+        // Detect sustained trends (last 4+ data points all moving same direction)
+        if (data.length >= 5) {
+            const recent = data.slice(-5);
+            const allUp = recent.every((d, i) => i === 0 || d.value >= recent[i-1].value);
+            const allDown = recent.every((d, i) => i === 0 || d.value <= recent[i-1].value);
+            if (allUp && Math.abs(pctChange) <= 5) {
+                insights.push({
+                    cls: "warn",
+                    title: `${ind.name} — 지속 상승 추세`,
+                    body: `최근 5개 데이터 연속 상승. 현재 ${typeof latest.value === 'number' && latest.value > 1000 ? latest.value.toLocaleString() : latest.value}${ind.unit}.${yoyChange !== null ? ` YoY ${yoyChange > 0 ? '+' : ''}${yoyChange.toFixed(1)}%` : ''}`
+                });
+            }
+            if (allDown && Math.abs(pctChange) <= 5) {
+                insights.push({
+                    cls: "cool",
+                    title: `${ind.name} — 지속 하락 추세`,
+                    body: `최근 5개 데이터 연속 하락. 현재 ${typeof latest.value === 'number' && latest.value > 1000 ? latest.value.toLocaleString() : latest.value}${ind.unit}.${yoyChange !== null ? ` YoY ${yoyChange > 0 ? '+' : ''}${yoyChange.toFixed(1)}%` : ''}`
+                });
+            }
+        }
+
+        // Extreme YoY change
+        if (yoyChange !== null && Math.abs(yoyChange) > 50) {
+            const already = insights.find(i => i.title.includes(ind.name));
+            if (!already) {
+                insights.push({
+                    cls: yoyChange > 0 ? "hot" : "cool",
+                    title: `${ind.name} — YoY ${yoyChange > 0 ? '+' : ''}${yoyChange.toFixed(0)}%`,
+                    body: `전년 동기 대비 ${Math.abs(yoyChange).toFixed(0)}% ${yoyChange > 0 ? '상승' : '하락'}. 현재 ${typeof latest.value === 'number' && latest.value > 1000 ? latest.value.toLocaleString() : latest.value}${ind.unit}. ${Math.abs(yoyChange) > 100 ? '이례적 변동폭 주의.' : ''}`
+                });
+            }
+        }
+    });
+
+    // Cross-indicator insights
+    const dram = INDICATORS.find(i => i.id === "dram_ddr4");
+    const nand = INDICATORS.find(i => i.id === "nand_flash");
+    if (dram && nand) {
+        const dramData = getEffectiveData(dram);
+        const nandData = getEffectiveData(nand);
+        if (dramData.length > 1 && nandData.length > 1) {
+            const dramChg = (dramData[dramData.length-1].value - dramData[dramData.length-2].value) / dramData[dramData.length-2].value;
+            const nandChg = (nandData[nandData.length-1].value - nandData[nandData.length-2].value) / nandData[nandData.length-2].value;
+            if (dramChg > 0 && nandChg > 0) {
+                insights.push({
+                    cls: "warn",
+                    title: "반도체 메모리 동반 상승",
+                    body: `DRAM DDR4와 NAND Flash 512Gb TLC 모두 상승세. 메모리 공급 부족 심화 시그널. 관련 종목(삼성전자, SK하이닉스) 주목.`
+                });
+            }
+        }
+    }
+
+    // Render
+    const grid = document.getElementById("insightsGrid");
+    document.getElementById("insightsDate").textContent = DATA_UPDATED + " 기준";
+    if (insights.length === 0) {
+        grid.innerHTML = '<div class="insight-card"><div class="insight-body">현재 특이 동향 없음</div></div>';
+    } else {
+        grid.innerHTML = insights.map(ins => `
+            <div class="insight-card ${ins.cls}">
+                <div class="insight-title">${ins.title}</div>
+                <div class="insight-body">${ins.body}</div>
+            </div>
+        `).join("");
+    }
+}
+
 // ── Init ──
 document.getElementById("lastManualUpdate").textContent = DATA_UPDATED;
 
@@ -1230,6 +1418,7 @@ async function init() {
     await initLiveData();
     renderCategoryBar();
     renderSummaryCards();
+    generateInsights();
 }
 
 init();

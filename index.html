@@ -1117,6 +1117,75 @@ const INDICATORS = [
     },
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 12. 에틸렌 스프레드 (에틸렌 - 나프타, CFR NEA)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: S&P Global Platts, ICIS, 한경/헤럴드/파이낸셜뉴스 종합
+    // 에틸렌 CFR NEA - 나프타 CFR Japan 스프레드
+    // 손익분기점: 통합 $250/MT, 비통합 $300-350/MT
+    // 2022.03 $300+ → 2024 평균 ~$170 → 2025 $158-207 (적자 3년째)
+    {
+        id: "ethylene_spread",
+        name: "에틸렌 스프레드 (CFR NEA)",
+        unit: "$/MT",
+        type: "manual",
+        category: "원자재",
+        source: "S&P Global Platts / ICIS / 한국 석화업계 보도 종합",
+        color: "#f47067",
+        data: [
+            // ── 2024년 (연평균 ~$170, 2월 $262 스파이크 후 하락) ──
+            { label: "2024-01", value: 209, src: "https://www.fnnews.com/news/202403051504330914", note: "파이낸셜뉴스" },
+            { label: "2024-02", value: 262, src: "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/020624-asian-ethylene-naphtha-spread-reaches-9-month-high-on-improving-naphtha-supply", note: "S&P Global (9개월래 최고)" },
+            { label: "2024-03", value: 260, src: "https://www.fnnews.com/news/202403051504330914", note: "파이낸셜뉴스" },
+            { label: "2024-04", value: 187, src: "https://biz.heraldcorp.com/article/10465337", note: "헤럴드경제" },
+            { label: "2024-05", value: 150, note: "추정 (하락 추세)" },
+            { label: "2024-06", value: 135, note: "추정" },
+            { label: "2024-07", value: 125, note: "추정 (저점)" },
+            { label: "2024-08", value: 120, note: "추정" },
+            { label: "2024-09", value: 115, note: "추정 (연중 최저)" },
+            { label: "2024-10", value: 130, note: "추정 (반등)" },
+            { label: "2024-11", value: 160, note: "추정" },
+            { label: "2024-12", value: 217, src: "https://www.hankyung.com/article/2024121233971", note: "한국경제 (19개월래 최고)" },
+            // ── 2025년 (연 적자, $158-207 박스권) ──
+            { label: "2025-01", value: 158, src: "https://biz.heraldcorp.com/article/10533054", note: "헤럴드경제" },
+            { label: "2025-02", value: 188, src: "https://biz.heraldcorp.com/article/10533054", note: "헤럴드경제" },
+            { label: "2025-03", value: 190, src: "https://biz.heraldcorp.com/article/10533054", note: "헤럴드경제" },
+            { label: "2025-04", value: 192, src: "https://biz.heraldcorp.com/article/10533054", note: "헤럴드경제 (피크 $254)" },
+            { label: "2025-05", value: 174, src: "https://biz.heraldcorp.com/article/10533054", note: "헤럴드경제" },
+            { label: "2025-06", value: 174, src: "https://biz.heraldcorp.com/article/10533054", note: "헤럴드경제" },
+            { label: "2025-07", value: 201, src: "https://www.hankyung.com/article/2025082756621", note: "한국경제" },
+            { label: "2025-08", value: 203, src: "https://www.hankyung.com/article/2025082756621", note: "한국경제 (8/1-22 평균)" },
+            { label: "2025-09", value: 203, note: "보도 종합" },
+            { label: "2025-10", value: 185, note: "추정 (하락세)" },
+            { label: "2025-11", value: 164, src: "https://news.nate.com/view/20251119n03410", note: "네이트뉴스" },
+            { label: "2025-12", value: 155, note: "추정 (에틸렌 $748 저점)" },
+            // ── 2026년 (유안타 전망 연평균 $290) ──
+            { label: "2026-01", value: 165, note: "추정 (온건 회복)" },
+            { label: "2026-02", value: 175, note: "추정" },
+            { label: "2026-03", value: 185, note: "추정 (회복 진행중)" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        tableHeaders: ["월", "스프레드 ($/MT)", "전월비", "전년동월비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const yoyRef = arr.find(r => {
+                const [y, m] = d.label.split("-");
+                return r.label === `${parseInt(y) - 1}-${m}`;
+            });
+            const mom = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(1) : null;
+            const yoy = yoyRef ? ((d.value - yoyRef.value) / yoyRef.value * 100).toFixed(1) : null;
+            // 손익분기점 기준 색상: $250+ 녹색, $200-249 노랑, $200 미만 빨강
+            const valColor = d.value >= 250 ? "var(--accent-green)" : d.value >= 200 ? "var(--accent-yellow)" : "var(--accent-red)";
+            return [
+                d.label,
+                { v: "$" + d.value, align: "right", color: valColor },
+                { v: mom !== null ? fmtPct(mom) : "–", align: "right", color: pctColor(mom) },
+                { v: yoy !== null ? fmtPct(yoy) : "–", align: "right", color: pctColor(yoy) },
+                { v: d.src ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>` : (d.note || '–'), isHtml: true },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 새 지표를 여기에 추가하세요!
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

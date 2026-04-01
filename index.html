@@ -386,7 +386,7 @@
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-03-30";
+const DATA_UPDATED = "2026-04-01";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -1125,7 +1125,7 @@ const INDICATORS = [
     // 출처: S&P Global Platts, ICIS, 한경/헤럴드/파이낸셜뉴스 종합
     // 에틸렌 CFR NEA - 나프타 CFR Japan 스프레드
     // 손익분기점: 통합 $250/MT, 비통합 $300-350/MT
-    // 2022.03 $300+ → 2024 평균 ~$170 → 2025 $158-207 (적자 3년째)
+    // 2022.03 $300+ → 2024 평균 ~$170 → 2025 $158-207 (적자 3년째) → 2026.03 Hormuz 봉쇄로 나프타 $1,000 급등, 에틸렌$1,351 (S&P 기준), 스프레드 월중 $321-589 급변동
     {
         id: "ethylene_spread",
         name: "에틸렌 스프레드 (CFR NEA)",
@@ -1161,10 +1161,10 @@ const INDICATORS = [
             { label: "2025-10", value: 185, note: "추정 (하락세)" },
             { label: "2025-11", value: 164, src: "https://news.nate.com/view/20251119n03410", note: "네이트뉴스" },
             { label: "2025-12", value: 155, note: "추정 (에틸렌 $748 저점)" },
-            // ── 2026년 (유안타 전망 연평균 $290) ──
+            // ── 2026년 (Hormuz 봉쇄 2/28~ → 나프타 급등, 유안타 전망 연평균 $290) ──
             { label: "2026-01", value: 165, note: "추정 (온건 회복)" },
             { label: "2026-02", value: 175, note: "추정" },
-            { label: "2026-03", value: 185, note: "추정 (회복 진행중)" },
+            { label: "2026-03", value: 380, src: "https://markets.financialcontent.com/stocks/article/marketminute-2026-3-30-naphtha-surges-to-1000-the-petrochemical-crisis-of-2026-explained", note: "Hormuz 봉쇄 (에틸렌$1,351 vs 나프타$1,030 후반, 월평균 추정)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "스프레드 ($/MT)", "전월비", "전년동월비", "출처"],

@@ -9,20 +9,20 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #0f1117;
-            --bg-card: #161b22;
-            --bg-card-hover: #1c2129;
-            --border: #2d333b;
-            --border-active: #58a6ff;
-            --text-primary: #f0f6fc;
-            --text-secondary: #c9d1d9;
-            --text-muted: #8b949e;
-            --text-dimmed: #6e7681;
-            --text-faint: #484f58;
-            --accent-blue: #58a6ff;
-            --accent-red: #f85149;
-            --accent-green: #3fb950;
-            --accent-yellow: #f0c000;
+            --bg-primary: #f5f7fa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f0f4f8;
+            --border: #d8dee4;
+            --border-active: #0969da;
+            --text-primary: #1f2328;
+            --text-secondary: #333940;
+            --text-muted: #57606a;
+            --text-dimmed: #8c959f;
+            --text-faint: #afb8c1;
+            --accent-blue: #0969da;
+            --accent-red: #cf222e;
+            --accent-green: #1a7f37;
+            --accent-yellow: #9a6700;
         }
 
         body {
@@ -36,7 +36,7 @@
            HEADER
            ══════════════════════════════════════ */
         header {
-            background: linear-gradient(135deg, #1a1e2e 0%, var(--bg-primary) 100%);
+            background: linear-gradient(135deg, #e8edf5 0%, var(--bg-primary) 100%);
             border-bottom: 1px solid var(--border);
             padding: 18px 32px;
             display: flex;
@@ -80,7 +80,7 @@
         }
 
         .cat-btn:hover { border-color: var(--accent-blue); color: var(--text-secondary); }
-        .cat-btn.active { background: #58a6ff22; border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600; }
+        .cat-btn.active { background: #0969da18; border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600; }
 
         /* ── Summary Cards ── */
         .summary-grid {
@@ -99,6 +99,7 @@
             transition: all 0.2s;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
 
         .summary-card::before {
@@ -110,7 +111,7 @@
             transition: background 0.2s;
         }
 
-        .summary-card:hover { border-color: var(--border-active); transform: translateY(-1px); }
+        .summary-card:hover { border-color: var(--border-active); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .summary-card.selected { border-color: var(--border-active); }
         .summary-card.selected::before { background: var(--accent-blue); }
 
@@ -135,8 +136,8 @@
             letter-spacing: 0.5px;
         }
 
-        .badge.manual { background: #3d2f00; color: var(--accent-yellow); }
-        .badge.live   { background: #0d3320; color: var(--accent-green); }
+        .badge.manual { background: #fff3cd; color: var(--accent-yellow); }
+        .badge.live   { background: #d1f0da; color: var(--accent-green); }
 
         .summary-card .sc-value {
             font-size: 26px;
@@ -185,6 +186,7 @@
             padding: 28px;
             display: none;
             animation: fadeIn 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
         }
 
         .detail-panel.visible { display: block; }
@@ -230,7 +232,7 @@
 
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         th { text-align: left; padding: 10px 14px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 12px; position: sticky; top: 0; background: var(--bg-card); }
-        td { padding: 9px 14px; border-bottom: 1px solid #1c212944; color: var(--text-secondary); }
+        td { padding: 9px 14px; border-bottom: 1px solid #d8dee4aa; color: var(--text-secondary); }
         tr:hover td { background: var(--bg-card-hover); }
         td.num { text-align: right; font-variant-numeric: tabular-nums; }
         th.num { text-align: right; }
@@ -1365,13 +1367,13 @@ function openDetail(id) {
             },
             scales: {
                 x: {
-                    grid: { color: "#1c212944" },
-                    ticks: { color: "#6e7681", font: { size: 11 } }
+                    grid: { color: "#d8dee488" },
+                    ticks: { color: "#57606a", font: { size: 11 } }
                 },
                 y: {
-                    grid: { color: "#1c212966" },
+                    grid: { color: "#d8dee4bb" },
                     ticks: {
-                        color: "#6e7681",
+                        color: "#57606a",
                         font: { size: 11 },
                         callback: v => v.toLocaleString()
                     }

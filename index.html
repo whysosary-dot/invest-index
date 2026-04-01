@@ -1216,6 +1216,82 @@ function fmtPct(v) { return (v > 0 ? "+" : "") + v + "%"; }
 function pctColor(v) { return v > 0 ? "var(--accent-red)" : v < 0 ? "var(--accent-blue)" : "var(--text-muted)"; }
 function getEffectiveData(ind) { return ind.data.length > 0 ? ind.data : (ind.historyData || []); }
 
+// ── Daily Interpolation Engine ──
+// 원본 데이터(주간/월간)를 일별 데이터로 선형 보간
+function parseDate(label) {
+    // "2026-03-27", "2026-03", "2026-01" 등 다양한 포맷 지원
+    const parts = label.split("-").map(Number);
+    if (parts.length === 3) return new Date(parts[0], parts[1] - 1, parts[2]);
+    if (parts.length === 2) return new Date(parts[0], parts[1] - 1, 15); // 월 중앙일
+    return new Date(parts[0], 0, 1);
+}
+
+function formatDate(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+function interpolateDaily(data) {
+    if (!data || data.length < 2) return data || [];
+    const sorted = [...data].sort((a, b) => parseDate(a.label) - parseDate(b.label));
+    const result = [];
+
+    for (let i = 0; i < sorted.length - 1; i++) {
+        const startDate = parseDate(sorted[i].label);
+        const endDate = parseDate(sorted[i + 1].label);
+        const startVal = sorted[i].value;
+        const endVal = sorted[i + 1].value;
+        const diffDays = Math.round((endDate - startDate) / (24 * 60 * 60 * 1000));
+
+        if (diffDays <= 0) continue;
+
+        for (let d = 0; d < diffDays; d++) {
+            const currentDate = new Date(startDate);
+            currentDate.setDate(currentDate.getDate() + d);
+            const ratio = d / diffDays;
+            const interpValue = startVal + (endVal - startVal) * ratio;
+            const isOriginal = d === 0;
+            result.push({
+                label: formatDate(currentDate),
+                value: Math.round(interpValue * 1000) / 1000,
+                _original: isOriginal,
+                _srcNote: isOriginal ? (sorted[i].note || '') : '보간',
+                _srcUrl: isOriginal ? (sorted[i].src || '') : '',
+                src: isOriginal ? sorted[i].src : undefined,
+                note: isOriginal ? sorted[i].note : '보간',
+            });
+        }
+    }
+    // 마지막 원본 데이터 포인트 추가
+    const last = sorted[sorted.length - 1];
+    result.push({
+        label: formatDate(parseDate(last.label)),
+        value: last.value,
+        _original: true,
+        _srcNote: last.note || '',
+        _srcUrl: last.src || '',
+        src: last.src,
+        note: last.note,
+    });
+    return result;
+}
+
+// 일별 데이터 캐시
+const _dailyCache = {};
+function getDailyData(ind) {
+    const raw = getEffectiveData(ind);
+    if (!raw || raw.length < 2) return raw;
+    if (!_dailyCache[ind.id]) {
+        _dailyCache[ind.id] = interpolateDaily(raw);
+    }
+    return _dailyCache[ind.id];
+}
+
+// 캐시 무효화 (데이터 변경 시)
+function invalidateCache(id) { delete _dailyCache[id]; }
+
 // ── Steam API Fetch ──
 async function fetchSteamPlayers(ind) {
     try {
@@ -1270,14 +1346,14 @@ function renderSummaryCards() {
 
     grid.innerHTML = filtered.map(ind => {
         const data = getEffectiveData(ind);
+        const daily = getDailyData(ind);
         const hasLive = ind._liveValue != null;
-        const latest = hasLive ? ind._liveValue : (data.length > 0 ? data[data.length - 1].value : null);
-        const prev = data.length > 1 ? data[data.length - 2].value : null;
-        let lastEntry = data.length > 0 ? data[data.length - 1] : null;
+        const latest = hasLive ? ind._liveValue : (daily.length > 0 ? daily[daily.length - 1].value : (data.length > 0 ? data[data.length - 1].value : null));
+        const prev = daily.length > 1 ? daily[daily.length - 2].value : (data.length > 1 ? data[data.length - 2].value : null);
+        let lastEntry = daily.length > 0 ? daily[daily.length - 1] : (data.length > 0 ? data[data.length - 1] : null);
 
         let changeHtml = '';
         if (hasLive && data.length > 0) {
-            // Compare live vs last history entry
             const histLatest = data[data.length - 1].value;
             const diff = ((latest - histLatest) / histLatest * 100).toFixed(1);
             const cls = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
@@ -1285,7 +1361,7 @@ function renderSummaryCards() {
         } else if (prev !== null && latest !== null) {
             const diff = ((latest - prev) / prev * 100).toFixed(1);
             const cls = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
-            changeHtml = `<div class="sc-change ${cls}">전월비 ${fmtPct(diff)}</div>`;
+            changeHtml = `<div class="sc-change ${cls}">전일비 ${fmtPct(diff)}</div>`;
         }
 
         const dateStr = hasLive ? `실시간 ${ind._liveTime || ''}` : (lastEntry ? lastEntry.label : '');
@@ -1322,8 +1398,10 @@ function openDetail(id) {
     document.getElementById("detailTitle").textContent = `${ind.name}`;
     document.getElementById("detailSubtitle").textContent = `단위: ${ind.unit} · 출처: ${ind.source}`;
 
-    // Chart
-    const data = getEffectiveData(ind);
+    // Chart — 일별 보간 데이터 사용
+    const rawData = getEffectiveData(ind);
+    const dailyData = getDailyData(ind);
+    const chartData = dailyData.length > 0 ? dailyData : rawData;
     if (detailChartInstance) detailChartInstance.destroy();
 
     const ctx = document.getElementById("detailChart").getContext("2d");
@@ -1331,19 +1409,28 @@ function openDetail(id) {
     gradient.addColorStop(0, ind.color + "40");
     gradient.addColorStop(1, ind.color + "00");
 
+    // 원본 데이터 포인트 강조 (큰 점), 보간 포인트는 작은 점
+    const pointRadii = chartData.map(d => d._original ? 5 : 0);
+    const pointBgColors = chartData.map(d => d._original ? ind.color : 'transparent');
+
+    // X축 라벨: 일별이므로 매 7일/월초만 표시 (너무 많으면 읽기 어려움)
+    const totalPoints = chartData.length;
+    const tickInterval = totalPoints > 365 ? 30 : totalPoints > 90 ? 7 : totalPoints > 30 ? 3 : 1;
+
     detailChartInstance = new Chart(ctx, {
         type: "line",
         data: {
-            labels: data.map(d => d.label),
+            labels: chartData.map(d => d.label),
             datasets: [{
                 label: `${ind.name} (${ind.unit})`,
-                data: data.map(d => d.value),
+                data: chartData.map(d => d.value),
                 borderColor: ind.color,
                 backgroundColor: gradient,
                 fill: true,
-                tension: 0.35,
-                pointRadius: 4,
-                pointBackgroundColor: ind.color,
+                tension: 0.2,
+                borderWidth: 2,
+                pointRadius: pointRadii,
+                pointBackgroundColor: pointBgColors,
                 pointBorderColor: "var(--bg-primary)",
                 pointBorderWidth: 2,
                 pointHoverRadius: 7,
@@ -1365,6 +1452,12 @@ function openDetail(id) {
                     padding: 12,
                     displayColors: false,
                     callbacks: {
+                        title: (items) => {
+                            const idx = items[0]?.dataIndex;
+                            if (idx == null) return '';
+                            const pt = chartData[idx];
+                            return pt.label + (pt._original ? ' ●' : ' (보간)');
+                        },
                         label: ctx => `${ctx.parsed.y.toLocaleString()} ${ind.unit}`
                     }
                 }
@@ -1372,7 +1465,13 @@ function openDetail(id) {
             scales: {
                 x: {
                     grid: { color: "#d8dee488" },
-                    ticks: { color: "#57606a", font: { size: 11 } }
+                    ticks: {
+                        color: "#57606a",
+                        font: { size: 10 },
+                        maxRotation: 45,
+                        autoSkip: true,
+                        maxTicksLimit: 40,
+                    }
                 },
                 y: {
                     grid: { color: "#d8dee4bb" },
@@ -1386,26 +1485,47 @@ function openDetail(id) {
         }
     });
 
-    // Table
+    // Table — 일별 보간 데이터 + 원본 구분 표시
     const thead = document.getElementById("detailThead");
     const tbody = document.getElementById("detailTbody");
 
-    thead.innerHTML = `<tr>${ind.tableHeaders.map((h, i) =>
+    // 일별 데이터 전용 테이블 헤더
+    const dailyHeaders = ["날짜", `${ind.name} (${ind.unit})`, "전일비", "출처"];
+    thead.innerHTML = `<tr>${dailyHeaders.map((h, i) =>
         `<th ${i > 0 ? 'class="num"' : ''}>${h}</th>`
     ).join("")}</tr>`;
 
-    const reversed = [...data].reverse();
-    tbody.innerHTML = reversed.map((d, ri) => {
-        const origIdx = data.length - 1 - ri;
-        const row = ind.tableRow(d, origIdx, data);
-        return `<tr>${row.map((cell, ci) => {
-            if (typeof cell === "object") {
-                if (cell.isHtml) return `<td style="font-size:12px">${cell.v}</td>`;
-                return `<td class="num" style="color:${cell.color || 'inherit'}">${cell.v}</td>`;
-            }
-            return `<td>${cell}</td>`;
-        }).join("")}</tr>`;
-    }).join("");
+    const dailyForTable = dailyData.length > 0 ? dailyData : rawData;
+    const reversed = [...dailyForTable].reverse();
+    // 최근 90일만 기본 표시 (성능)
+    const maxRows = 90;
+    const displayRows = reversed.slice(0, maxRows);
+
+    tbody.innerHTML = displayRows.map((d, ri) => {
+        const origIdx = dailyForTable.length - 1 - ri;
+        const prev = origIdx > 0 ? dailyForTable[origIdx - 1] : null;
+        const dod = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(2) : null;
+
+        const isOrig = d._original;
+        const rowClass = isOrig ? 'style="background:#f0f7ff;font-weight:500"' : '';
+        const marker = isOrig ? '●' : '';
+        const valStr = typeof d.value === 'number'
+            ? (d.value >= 100 ? d.value.toLocaleString(undefined, {maximumFractionDigits:1}) : d.value.toFixed(2))
+            : d.value;
+        const dodColor = dod > 0 ? "var(--accent-red)" : dod < 0 ? "var(--accent-blue)" : "var(--text-muted)";
+        const dodStr = dod !== null ? fmtPct(dod) : '–';
+        const srcStr = d.src
+            ? `<a href="${d.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none">${d.note || '링크'}</a>`
+            : (d._original ? (d.note || '원본') : '<span style="color:var(--text-dimmed)">보간</span>');
+
+        return `<tr ${rowClass}>
+            <td>${d.label} ${marker}</td>
+            <td class="num">${valStr}</td>
+            <td class="num" style="color:${dodColor}">${dodStr}</td>
+            <td style="font-size:12px">${srcStr}</td>
+        </tr>`;
+    }).join("")
+    + (reversed.length > maxRows ? `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:12px;font-size:12px">최근 ${maxRows}일 표시 중 (전체 ${reversed.length}일)</td></tr>` : '');
 
     // Scroll to panel
     panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -1422,7 +1542,7 @@ function generateInsights() {
     const insights = [];
 
     INDICATORS.forEach(ind => {
-        const data = getEffectiveData(ind);
+        const data = getEffectiveData(ind); // 원본 데이터 기준으로 인사이트 생성
         if (data.length < 2) return;
 
         const latest = data[data.length - 1];

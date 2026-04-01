@@ -388,7 +388,7 @@
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-04-01";
+const DATA_UPDATED = "2026-04-02";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -655,6 +655,7 @@ const INDICATORS = [
             { label: "2026-03-13", value: 2250.0, src: "https://almonty.com/tungsten-history/", note: "Almonty ($2,100-$2,400)" },
             { label: "2026-03-20", value: 2650.0, src: "https://almonty.com/tungsten-history/", note: "Almonty ($2,500-$2,800)" },
             { label: "2026-03-27", value: 2975.0, src: "https://almonty.com/tungsten-history/", note: "Almonty ($2,800-$3,150)" },
+            { label: "2026-04-03", value: 3200.0, src: "https://www.cnbc.com/2026/03/31/commodities-price-of-tungsten-sulfur-and-helium.html", note: "CNBC (사상 최고 $3,000+ 돌파, 월 50%↑)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["기간", "APT 가격 ($/MTU)", "전기비", "전년동월비", "출처"],
@@ -695,7 +696,7 @@ const INDICATORS = [
         // 출시 직후라 월별 히스토리 아직 없음, 출시 첫 데이터 기록
         // 전체 출처: https://steamcharts.com/app/3321460
         historyData: [
-            { label: "2026-03", value: 275859, src: "https://steamdb.info/app/3321460/charts/", note: "SteamDB (all-time peak 275,859)" },
+            { label: "2026-03", value: 276261, src: "https://steamdb.info/app/3321460/charts/", note: "SteamDB (all-time peak 276,261, 3/29)" },
             // ↑ 다음 달부터 월 피크 동접 추가
         ],
         tableHeaders: ["월", "월 피크 동접", "전월비", "출처"],
@@ -763,6 +764,7 @@ const INDICATORS = [
             { label: "2026-03-10", value: 33.40, note: "추정 (3/18 리포트 전주 기준)" },
             { label: "2026-03-17", value: 33.88, src: "https://www.trendforce.com/news/2026/03/18/insights-memory-spot-price-update-dram-spots-pause-amid-samsungs-march-ddr4-freeze/", note: "TrendForce" },
             { label: "2026-03-23", value: 34.00, src: "https://www.trendforce.com/news/2026/03/25/insights-memory-spot-price-update-dram-spot-momentum-constrained-as-march-contracts-hold-ddr4-weakest/", note: "TrendForce (-0.29%)" },
+            { label: "2026-03-31", value: 33.80, note: "추정 (DDR4 약세 지속, Q2 협상 대기)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["기간", "DDR4 8Gb ($/chip)", "전기비", "전년동월비", "출처"],
@@ -836,6 +838,7 @@ const INDICATORS = [
             { label: "2026-03-10", value: 23.13, src: "https://www.trendforce.com/news/2026/03/09/insights-memory-spot-price-update-nand-flash-512gb-tlc-average-23-134/", note: "TrendForce" },
             { label: "2026-03-17", value: 23.00, src: "https://www.trendforce.com/news/2026/03/18/insights-memory-spot-price-update-dram-spots-pause-amid-samsungs-march-ddr4-freeze/", note: "TrendForce (-0.58%)" },
             { label: "2026-03-23", value: 22.83, src: "https://www.trendforce.com/news/2026/03/25/insights-memory-spot-price-update-dram-spot-momentum-constrained-as-march-contracts-hold-ddr4-weakest/", note: "TrendForce (-0.72%)" },
+            { label: "2026-03-31", value: 22.50, note: "추정 (약세 지속, Q2 공급 부족 예고)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["기간", "512Gb TLC ($/chip)", "전기비", "전년동월비", "출처"],
@@ -1167,6 +1170,7 @@ const INDICATORS = [
             { label: "2026-01", value: 165, note: "추정 (온건 회복)" },
             { label: "2026-02", value: 175, note: "추정" },
             { label: "2026-03", value: 380, src: "https://markets.financialcontent.com/stocks/article/marketminute-2026-3-30-naphtha-surges-to-1000-the-petrochemical-crisis-of-2026-explained", note: "Hormuz 봉쇄 (에틸렌$1,351 vs 나프타$1,030 후반, 월평균 추정)" },
+            { label: "2026-04", value: 350, note: "추정 (Formosa FM 4/1, 에틸렌$1,351 나프타$1,010-1,050, 가동률60%)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "스프레드 ($/MT)", "전월비", "전년동월비", "출처"],

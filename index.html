@@ -655,7 +655,7 @@ const INDICATORS = [
             { label: "2026-03-13", value: 2250.0, src: "https://almonty.com/tungsten-history/", note: "Almonty ($2,100-$2,400)" },
             { label: "2026-03-20", value: 2650.0, src: "https://almonty.com/tungsten-history/", note: "Almonty ($2,500-$2,800)" },
             { label: "2026-03-27", value: 2975.0, src: "https://almonty.com/tungsten-history/", note: "Almonty ($2,800-$3,150)" },
-            { label: "2026-04-03", value: 3200.0, src: "https://www.cnbc.com/2026/03/31/commodities-price-of-tungsten-sulfur-and-helium.html", note: "CNBC (사상 최고 $3,000+ 돌파, 월 50%↑)" },
+            { label: "2026-03-31", value: 3150.0, src: "https://www.cnbc.com/2026/03/31/commodities-price-of-tungsten-sulfur-and-helium.html", note: "CNBC (사상 최고 $3,000+ 돌파, 월 50%↑)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["기간", "APT 가격 ($/MTU)", "전기비", "전년동월비", "출처"],
@@ -1170,7 +1170,7 @@ const INDICATORS = [
             { label: "2026-01", value: 165, note: "추정 (온건 회복)" },
             { label: "2026-02", value: 175, note: "추정" },
             { label: "2026-03", value: 380, src: "https://markets.financialcontent.com/stocks/article/marketminute-2026-3-30-naphtha-surges-to-1000-the-petrochemical-crisis-of-2026-explained", note: "Hormuz 봉쇄 (에틸렌$1,351 vs 나프타$1,030 후반, 월평균 추정)" },
-            { label: "2026-04", value: 350, note: "추정 (Formosa FM 4/1, 에틸렌$1,351 나프타$1,010-1,050, 가동률60%)" },
+            { label: "2026-04-01", value: 350, note: "추정 (Formosa FM 4/1, 에틸렌$1,351 나프타$1,010-1,050, 가동률60%)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "스프레드 ($/MT)", "전월비", "전년동월비", "출처"],
@@ -1218,11 +1218,19 @@ function getEffectiveData(ind) { return ind.data.length > 0 ? ind.data : (ind.hi
 
 // ── Daily Interpolation Engine ──
 // 원본 데이터(주간/월간)를 일별 데이터로 선형 보간
+// 규칙: 월간 라벨("2026-03") → 해당 월 1일, 오늘 이후 날짜는 생성하지 않음
+const TODAY = new Date();
+TODAY.setHours(0,0,0,0);
+
 function parseDate(label) {
-    // "2026-03-27", "2026-03", "2026-01" 등 다양한 포맷 지원
     const parts = label.split("-").map(Number);
     if (parts.length === 3) return new Date(parts[0], parts[1] - 1, parts[2]);
-    if (parts.length === 2) return new Date(parts[0], parts[1] - 1, 15); // 월 중앙일
+    if (parts.length === 2) {
+        // 월간 라벨 → 해당 월 말일 (단, 미래면 오늘로 캡)
+        const lastDay = new Date(parts[0], parts[1], 0).getDate(); // 해당 월 마지막 날
+        const d = new Date(parts[0], parts[1] - 1, lastDay);
+        return d > TODAY ? new Date(TODAY) : d;
+    }
     return new Date(parts[0], 0, 1);
 }
 
@@ -1250,6 +1258,8 @@ function interpolateDaily(data) {
         for (let d = 0; d < diffDays; d++) {
             const currentDate = new Date(startDate);
             currentDate.setDate(currentDate.getDate() + d);
+            // 오늘 이후 날짜는 생성하지 않음
+            if (currentDate > TODAY) break;
             const ratio = d / diffDays;
             const interpValue = startVal + (endVal - startVal) * ratio;
             const isOriginal = d === 0;
@@ -1264,17 +1274,20 @@ function interpolateDaily(data) {
             });
         }
     }
-    // 마지막 원본 데이터 포인트 추가
+    // 마지막 원본 데이터 포인트 추가 (오늘 이전이면)
     const last = sorted[sorted.length - 1];
-    result.push({
-        label: formatDate(parseDate(last.label)),
-        value: last.value,
-        _original: true,
-        _srcNote: last.note || '',
-        _srcUrl: last.src || '',
-        src: last.src,
-        note: last.note,
-    });
+    const lastDate = parseDate(last.label);
+    if (lastDate <= TODAY) {
+        result.push({
+            label: formatDate(lastDate),
+            value: last.value,
+            _original: true,
+            _srcNote: last.note || '',
+            _srcUrl: last.src || '',
+            src: last.src,
+            note: last.note,
+        });
+    }
     return result;
 }
 

@@ -327,6 +327,201 @@
         @media (max-width: 480px) {
             .summary-grid { grid-template-columns: 1fr; }
         }
+
+        /* ══════════════════════════════════════
+           TARGET PRICE SECTION
+           ══════════════════════════════════════ */
+        .tp-section {
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 2px solid var(--border);
+        }
+
+        .tp-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tp-section-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        .tp-section-header .tp-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .tp-cat-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tp-stock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 16px;
+        }
+
+        .tp-stock-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transition: all 0.2s;
+        }
+
+        .tp-stock-card:hover {
+            border-color: var(--border-active);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .tp-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid #d8dee4aa;
+        }
+
+        .tp-card-header .tp-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tp-card-header .tp-ticker {
+            font-size: 11px;
+            color: var(--text-dimmed);
+            margin-top: 2px;
+        }
+
+        .tp-card-header .tp-current {
+            text-align: right;
+        }
+
+        .tp-card-header .tp-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tp-card-header .tp-price-date {
+            font-size: 10px;
+            color: var(--text-faint);
+        }
+
+        .tp-consensus {
+            display: flex;
+            gap: 12px;
+            padding: 10px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid #d8dee4aa;
+            font-size: 12px;
+        }
+
+        .tp-consensus-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .tp-consensus-label {
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+
+        .tp-consensus-value {
+            font-weight: 700;
+            font-size: 14px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tp-table-wrap {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .tp-table-wrap::-webkit-scrollbar { width: 5px; }
+        .tp-table-wrap::-webkit-scrollbar-track { background: transparent; }
+        .tp-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+        .tp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .tp-table th {
+            text-align: left;
+            padding: 8px 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 11px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+        }
+
+        .tp-table td {
+            padding: 7px 14px;
+            border-bottom: 1px solid #d8dee4aa;
+            color: var(--text-secondary);
+        }
+
+        .tp-table tr:hover td { background: var(--bg-card-hover); }
+        .tp-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        .tp-table th.num { text-align: right; }
+
+        .tp-upside { color: var(--accent-red); font-weight: 600; }
+        .tp-downside { color: var(--accent-blue); font-weight: 600; }
+
+        .tp-opinion {
+            display: inline-block;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .tp-opinion.buy { background: #d1f0da; color: var(--accent-green); }
+        .tp-opinion.hold { background: #fff3cd; color: var(--accent-yellow); }
+        .tp-opinion.sell { background: #ffd7d5; color: var(--accent-red); }
+
+        .tp-badge {
+            font-size: 9px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: #e8edf5;
+            color: var(--accent-blue);
+        }
+
+        .tp-new-badge {
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 700;
+            background: var(--accent-red);
+            color: white;
+            margin-left: 4px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .tp-stock-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -375,6 +570,18 @@
         </div>
     </div>
 
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TARGET PRICE SECTION                         -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tp-section" id="tpSection">
+        <div class="tp-section-header">
+            <h2>증권사 목표주가</h2>
+            <div class="tp-meta">업데이트: <span id="tpUpdateDate"></span></div>
+        </div>
+        <div class="tp-cat-bar" id="tpCatBar"></div>
+        <div class="tp-stock-grid" id="tpStockGrid"></div>
+    </div>
+
     <div class="footer">
         MANUAL 지표: 데이터 추가 후 GitHub Desktop 커밋 &amp; 푸시 &nbsp;·&nbsp;
         <span class="live-dot"></span>LIVE 지표: 페이지 로드 시 자동 갱신
@@ -388,7 +595,7 @@
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-04-03";
+const DATA_UPDATED = "2026-04-04";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -1651,6 +1858,288 @@ function generateInsights() {
     }
 }
 
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║                                                                ║
+// ║   📌 TARGET PRICE DATA — 증권사 목표주가 데이터                   ║
+// ║                                                                ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+const TARGET_PRICES = [
+    // ━━━━━━━━━━━━━ 조선 ━━━━━━━━━━━━━
+    {
+        id: "hd_korea_ship",
+        name: "HD한국조선해양",
+        ticker: "009540",
+        category: "조선",
+        currentPrice: 375000,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "KB증권", date: "2026-04-03", target: 550000, opinion: "매수", src: "https://www.newspim.com/news/view/20260403000090", note: "교환사채 발행 2.4조 투자재원 확보" },
+            { firm: "하나증권", date: "2026-03", target: 570000, opinion: "매수", note: "수주 사이클 정점 전망" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "hanwha_ocean",
+        name: "한화오션",
+        ticker: "042660",
+        category: "조선",
+        currentPrice: 128000,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "컨센서스 평균", date: "2026-03", target: 161714, opinion: "매수", note: "19개 증권사 평균" },
+            { firm: "삼성증권", date: "2026-03", target: 170000, opinion: "매수", note: "필리조선소 MASGA 모멘텀" },
+            { firm: "한국투자증권", date: "2026-01", target: 155000, opinion: "매수", note: "美 현지 생산거점 프리미엄" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "hd_hhi",
+        name: "HD현대중공업",
+        ticker: "329180",
+        category: "조선",
+        currentPrice: 479500,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "삼성증권", date: "2026-04", target: 890000, opinion: "매수", note: "합병 시너지+해양방산 성장" },
+            { firm: "iM증권", date: "2026-04", target: 860000, opinion: "매수", src: "https://edaily.co.kr/News/Read?mediaCodeNo=257&newsId=03060246645411856", note: "중장기 스토리 유효" },
+            { firm: "한국투자증권", date: "2026-04", target: 710000, opinion: "매수", note: "기본 시나리오" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "samsung_heavy",
+        name: "삼성중공업",
+        ticker: "010140",
+        category: "조선",
+        currentPrice: 27900,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "SK증권", date: "2026-03", target: 38000, opinion: "매수", note: "FLNG 수주 기대" },
+            { firm: "KB증권", date: "2026-03", target: 35000, opinion: "매수", src: "https://v.daum.net/v/0Ndk3Jx2jN", note: "큰 폭의 수주 증가 기대" },
+            { firm: "한화투자증권", date: "2026-03", target: 42000, opinion: "매수", note: "FLNG 잔고 287억$" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+
+    // ━━━━━━━━━━━━━ 반도체 ━━━━━━━━━━━━━
+    {
+        id: "samsung_elec",
+        name: "삼성전자",
+        ticker: "005930",
+        category: "반도체",
+        currentPrice: 186200,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "키움증권", date: "2026-03-03", target: 260000, opinion: "매수", src: "https://bbn.kiwoom.com/rfCR11958", note: "영업이익 200조 전망" },
+            { firm: "대신증권", date: "2026-02-23", target: 280000, opinion: "매수", note: "ROE 39.5% 역대 최고" },
+            { firm: "유진증권", date: "2026-01-09", target: 180000, opinion: "매수", src: "https://www.eugenefn.com/common/files/amail/20260109_005930_sophie.yim_110.pdf", note: "보수적 접근" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "sk_hynix",
+        name: "SK하이닉스",
+        ticker: "000660",
+        category: "반도체",
+        currentPrice: 876000,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "노무라증권", date: "2026-03", target: 1930000, opinion: "매수", note: "HBM 초과 수요 지속" },
+            { firm: "KB증권", date: "2026-03", target: 1700000, opinion: "매수", note: "DDR4 EOL 수혜" },
+            { firm: "하나증권", date: "2026-03", target: 1600000, opinion: "매수", note: "영업이익 232조 전망" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+
+    // ━━━━━━━━━━━━━ 게임·IT ━━━━━━━━━━━━━
+    {
+        id: "krafton",
+        name: "크래프톤",
+        ticker: "259960",
+        category: "게임·IT",
+        currentPrice: 243500,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "미래에셋증권", date: "2026-03-26", target: 390000, opinion: "매수", note: "배틀그라운드 로드맵 2026" },
+            { firm: "NH투자증권", date: "2026-03", target: 350000, opinion: "매수", note: "PUBG 안정적 트래픽" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "pearl_abyss",
+        name: "펄어비스",
+        ticker: "263750",
+        category: "게임·IT",
+        currentPrice: 63200,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "증권가 상향", date: "2026-04", target: 90000, opinion: "매수", src: "https://www.betanews.net/article/view/beta202603310004", note: "목표가 65K→90K 상향" },
+            { firm: "메리츠증권", date: "2026-04", target: 62000, opinion: "매수", src: "https://www.etoday.co.kr/news/view/2569422", note: "붉은사막 첫 4일 3000억 매출" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "neowiz",
+        name: "네오위즈",
+        ticker: "095660",
+        category: "게임·IT",
+        currentPrice: 23500,
+        priceDate: "2026-04-03",
+        currency: "₩",
+        targets: [
+            { firm: "컨센서스", date: "2026-03", target: 30000, opinion: "매수", note: "P의거짓+브라운더스트2 실적, 2026 신작 7종" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+
+    // ━━━━━━━━━━━━━ 원자재 ━━━━━━━━━━━━━
+    {
+        id: "almonty",
+        name: "Almonty Industries",
+        ticker: "ALM (NASDAQ)",
+        category: "원자재",
+        currentPrice: 15.00,
+        priceDate: "2026-04-02",
+        currency: "$",
+        targets: [
+            { firm: "DA Davidson", date: "2026-03", target: 25.00, opinion: "매수", src: "https://www.investing.com/news/analyst-ratings/da-davidson-raises-almonty-industries-price-target-on-supply-crisis-93CH-4547175", note: "텅스텐 공급위기→$18→$25 상향" },
+            { firm: "B. Riley", date: "2026-03", target: 23.00, opinion: "매수", note: "$17→$23 상향" },
+            { firm: "Oppenheimer", date: "2026-03", target: 19.00, opinion: "매수", note: "$16→$19 상향" },
+            { firm: "Alliance Global", date: "2026-03", target: 19.25, opinion: "매수", note: "$14→$19.25 상향" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+
+    // ━━━━━━━━━━━━━ 새 종목을 여기에 추가 ━━━━━━━━━━━━━
+];
+
+// ── Target Price Rendering ──
+let tpActiveCategory = "전체";
+
+function renderTpCategoryBar() {
+    const cats = ["전체", ...new Set(TARGET_PRICES.map(s => s.category))];
+    const bar = document.getElementById("tpCatBar");
+    bar.innerHTML = cats.map(c =>
+        `<button class="cat-btn ${c === tpActiveCategory ? 'active' : ''}" onclick="setTpCategory('${c}')">${c}</button>`
+    ).join("");
+}
+
+function setTpCategory(cat) {
+    tpActiveCategory = cat;
+    renderTpCategoryBar();
+    renderTpStockGrid();
+}
+
+function renderTpStockGrid() {
+    const grid = document.getElementById("tpStockGrid");
+    const filtered = tpActiveCategory === "전체" ? TARGET_PRICES : TARGET_PRICES.filter(s => s.category === tpActiveCategory);
+
+    grid.innerHTML = filtered.map(stock => {
+        const targets = stock.targets;
+        if (targets.length === 0) return '';
+
+        // Compute consensus
+        const avgTarget = targets.reduce((s, t) => s + t.target, 0) / targets.length;
+        const maxTarget = Math.max(...targets.map(t => t.target));
+        const minTarget = Math.min(...targets.map(t => t.target));
+        const upside = ((avgTarget - stock.currentPrice) / stock.currentPrice * 100).toFixed(1);
+        const upsideClass = upside >= 0 ? "tp-upside" : "tp-downside";
+
+        // Check if any target is within last 7 days
+        const now = new Date();
+        const hasNew = targets.some(t => {
+            const d = new Date(t.date);
+            return (now - d) < 7 * 24 * 60 * 60 * 1000;
+        });
+
+        const fmtPrice = (v) => {
+            if (stock.currency === "$") return "$" + v.toLocaleString(undefined, {minimumFractionDigits: v < 100 ? 2 : 0, maximumFractionDigits: v < 100 ? 2 : 0});
+            return stock.currency + v.toLocaleString();
+        };
+
+        const opinionClass = (op) => {
+            if (op.includes("매수") || op.toLowerCase().includes("buy")) return "buy";
+            if (op.includes("매도") || op.toLowerCase().includes("sell")) return "sell";
+            return "hold";
+        };
+
+        const rows = targets.map(t => {
+            const tUpside = ((t.target - stock.currentPrice) / stock.currentPrice * 100).toFixed(1);
+            const tClass = tUpside >= 0 ? "tp-upside" : "tp-downside";
+            return `<tr>
+                <td>${t.firm}</td>
+                <td>${t.date}</td>
+                <td class="num">${fmtPrice(t.target)}</td>
+                <td class="num ${tClass}">${tUpside > 0 ? '+' : ''}${tUpside}%</td>
+                <td><span class="tp-opinion ${opinionClass(t.opinion)}">${t.opinion}</span></td>
+                <td>${t.src ? `<a href="${t.src}" target="_blank" style="color:var(--accent-blue);text-decoration:none;font-size:11px">${t.note || '링크'}</a>` : `<span style="font-size:11px;color:var(--text-muted)">${t.note || ''}</span>`}</td>
+            </tr>`;
+        }).join("");
+
+        return `
+        <div class="tp-stock-card">
+            <div class="tp-card-header">
+                <div>
+                    <div class="tp-name">${stock.name}${hasNew ? '<span class="tp-new-badge">NEW</span>' : ''}</div>
+                    <div class="tp-ticker">${stock.ticker}</div>
+                </div>
+                <div class="tp-current">
+                    <div class="tp-price">${fmtPrice(stock.currentPrice)}</div>
+                    <div class="tp-price-date">${stock.priceDate}</div>
+                </div>
+            </div>
+            <div class="tp-consensus">
+                <div class="tp-consensus-item">
+                    <span class="tp-consensus-label">컨센서스 평균</span>
+                    <span class="tp-consensus-value">${fmtPrice(Math.round(avgTarget))}</span>
+                </div>
+                <div class="tp-consensus-item">
+                    <span class="tp-consensus-label">괴리율</span>
+                    <span class="tp-consensus-value ${upsideClass}">${upside > 0 ? '+' : ''}${upside}%</span>
+                </div>
+                <div class="tp-consensus-item">
+                    <span class="tp-consensus-label">최저</span>
+                    <span class="tp-consensus-value">${fmtPrice(minTarget)}</span>
+                </div>
+                <div class="tp-consensus-item">
+                    <span class="tp-consensus-label">최고</span>
+                    <span class="tp-consensus-value">${fmtPrice(maxTarget)}</span>
+                </div>
+            </div>
+            <div class="tp-table-wrap">
+                <table class="tp-table">
+                    <thead>
+                        <tr>
+                            <th>증권사</th>
+                            <th>날짜</th>
+                            <th class="num">목표가</th>
+                            <th class="num">괴리율</th>
+                            <th>의견</th>
+                            <th>비고</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        </div>`;
+    }).join("");
+}
+
+function initTargetPrices() {
+    document.getElementById("tpUpdateDate").textContent = DATA_UPDATED;
+    renderTpCategoryBar();
+    renderTpStockGrid();
+}
+
 // ── Init ──
 document.getElementById("lastManualUpdate").textContent = DATA_UPDATED;
 
@@ -1660,6 +2149,7 @@ async function init() {
     renderCategoryBar();
     renderSummaryCards();
     generateInsights();
+    initTargetPrices();
 }
 
 init();

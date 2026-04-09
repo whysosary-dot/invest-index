@@ -842,6 +842,46 @@ const INDICATORS = [
 
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 4. 클락슨 신조선가 지수
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: 한국투자증권 강경태 텔레그램 채널 ("건설/조선/리츠 | 강경태")
+    // 업데이트: 매주 일요일 (주간 데이터)
+    // 단위: pt (클락슨 신조선가 인덱스)
+    {
+        id: "clarksons_newbuild",
+        name: "클락슨 신조선가 지수",
+        unit: "pt",
+        type: "manual",
+        category: "조선·해운",
+        source: "한투증권 강경태 텔레그램",
+        color: "#2ea043",
+        data: [
+            // ── 2026년 주간 데이터 (강경태 채널) ──
+            { label: "2026-02-06", value: 183.73, note: "강경태 텔레그램" },
+            { label: "2026-02-13", value: 183.06, note: "강경태 텔레그램" },
+            { label: "2026-02-20", value: 182.72, note: "강경태 텔레그램" },
+            { label: "2026-02-27", value: 182.15, note: "강경태 텔레그램" },
+            { label: "2026-03-06", value: 182.00, note: "강경태 텔레그램" },
+            { label: "2026-03-13", value: 181.97, note: "강경태 텔레그램" },
+            { label: "2026-03-20", value: 182.10, note: "강경태 텔레그램" },
+            { label: "2026-03-27", value: 182.08, note: "강경태 텔레그램" },
+            { label: "2026-04-03", value: 182.26, note: "강경태 텔레그램" },
+            // ↑ 새 데이터를 여기에 추가 (매주 일요일)
+        ],
+        tableHeaders: ["주간", "신조선가 (pt)", "전주비", "출처"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const wow = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(2) : null;
+            return [
+                d.label,
+                { v: d.value.toFixed(2), align: "right" },
+                { v: wow !== null ? fmtPct(wow) : "–", align: "right", color: pctColor(wow) },
+                { v: d.note || '–' },
+            ];
+        }
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 새 지표를 여기에 추가하세요!
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

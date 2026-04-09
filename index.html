@@ -1568,12 +1568,104 @@ const TARGET_PRICES = [
         name: "크래프톤",
         ticker: "259960",
         category: "게임·IT",
-        currentPrice: 243500,
-        priceDate: "2026-04-03",
+        currentPrice: 234000,
+        priceDate: "2026-04-09",
         currency: "₩",
         targets: [
-            { firm: "미래에셋증권", date: "2026-03-26", target: 390000, opinion: "매수", note: "배틀그라운드 로드맵 2026" },
-            { firm: "NH투자증권", date: "2026-03", target: 350000, opinion: "매수", note: "PUBG 안정적 트래픽" },
+            { firm: "유진투자증권", date: "2026-02-10", target: 360000, opinion: "매수", note: "정의훈" },
+            { firm: "NH투자증권", date: "2026-04-06", target: 350000, opinion: "매수", src: "https://www.newspim.com/news/view/20260406000085", note: "PUBG는 2026년에도 달린다" },
+            { firm: "KB증권", date: "2026-03-12", target: 350000, opinion: "매수", note: "목표가 유지" },
+            { firm: "SK증권", date: "2026-01-07", target: 330000, opinion: "매수", note: "남효지" },
+            { firm: "메리츠증권", date: "2026-01-12", target: 300000, opinion: "매수", note: "이효진" },
+            { firm: "삼성증권", date: "2026-03", target: 310000, opinion: "매수", note: "기존 38만→31만 하향" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+
+    // ━━━━━━━━━━━━━ 반도체 ━━━━━━━━━━━━━
+    {
+        id: "skhynix",
+        name: "SK하이닉스",
+        ticker: "000660",
+        category: "반도체",
+        currentPrice: 1033000,
+        priceDate: "2026-04-09",
+        currency: "₩",
+        targets: [
+            { firm: "SK증권", date: "2026-02-21", target: 1600000, opinion: "매수", note: "한동희 — 시급한 재평가" },
+            { firm: "iM증권", date: "2026-04-01", target: 1500000, opinion: "매수", note: "송명섭 — 현물가격·빅테크 Capex 주목" },
+            { firm: "iM증권", date: "2026-03-03", target: 1410000, opinion: "매수", note: "P/B 3.5배 적용" },
+            { firm: "미래에셋증권", date: "2026-04-01", target: 1540000, opinion: "매수", src: "https://news.nate.com/view/20260401n18853", note: "포화가 두렵지만 포기는 이르다" },
+            { firm: "iM증권", date: "2026-02-02", target: 1160000, opinion: "매수", note: "황지원 — 역대급 분기 가격 상승 예상" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "samsung_elec",
+        name: "삼성전자",
+        ticker: "005930",
+        category: "반도체",
+        currentPrice: 210500,
+        priceDate: "2026-04-09",
+        currency: "₩",
+        targets: [
+            { firm: "KB증권", date: "2026-04-07", target: 360000, opinion: "매수", src: "https://kbthink.com/securities-view.html?docId=20260406165943867K", note: "12M P/E 8x — DRAM +250% YoY 전망" },
+            { firm: "iM증권", date: "2026-04-08", target: 300000, opinion: "매수", note: "송명섭" },
+            { firm: "유진투자증권", date: "2026-01-30", target: 210000, opinion: "매수", src: "https://www.eugenefn.com/common/files/amail//20260130_005930_sophie.yim_114.pdf", note: "Target P/B 2.5배" },
+            { firm: "SK증권", date: "2026-02-24", target: 200000, opinion: "매수", note: "한동희" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+
+    // ━━━━━━━━━━━━━ 조선·해운 ━━━━━━━━━━━━━
+    {
+        id: "hd_hhic",
+        name: "HD현대중공업",
+        ticker: "329180",
+        category: "조선·해운",
+        currentPrice: 484500,
+        priceDate: "2026-04-08",
+        currency: "₩",
+        targets: [
+            { firm: "유진투자증권", date: "2026-02-10", target: 870000, opinion: "매수", note: "양승윤" },
+            { firm: "iM증권", date: "2026-04-01", target: 860000, opinion: "매수", note: "변용진" },
+            { firm: "상상인증권", date: "2026-01-19", target: 850000, opinion: "매수", note: "이서연" },
+            { firm: "대신증권", date: "2026-01-22", target: 780000, opinion: "매수", note: "이지니" },
+            { firm: "LS증권", date: "2026-01-23", target: 760000, opinion: "매수", note: "이재혁" },
+            { firm: "메리츠증권", date: "2026-04-06", target: 720000, opinion: "매수", note: "배기연" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "hd_korea_shipbuilding",
+        name: "HD한국조선해양",
+        ticker: "009540",
+        category: "조선·해운",
+        currentPrice: 389500,
+        priceDate: "2026-04-08",
+        currency: "₩",
+        targets: [
+            { firm: "메리츠증권", date: "2026-04-06", target: 600000, opinion: "매수", note: "배기연" },
+            { firm: "KB증권", date: "2026-04-03", target: 550000, opinion: "매수", src: "https://www.mt.co.kr/stock/2026/04/03/2026040308065625052", note: "기존 60만→55만 하향" },
+            { firm: "LS증권", date: "2026-02-10", target: 510000, opinion: "매수", note: "이재혁 — On-Track" },
+            // ↑ 새 리포트를 여기에 추가
+        ]
+    },
+    {
+        id: "hanwha_ocean",
+        name: "한화오션",
+        ticker: "042660",
+        category: "조선·해운",
+        currentPrice: 127700,
+        priceDate: "2026-04-08",
+        currency: "₩",
+        targets: [
+            { firm: "SK증권", date: "2026-01-15", target: 180000, opinion: "매수", note: "한승한" },
+            { firm: "대우증권", date: "2026-01-13", target: 175000, opinion: "매수", note: "" },
+            { firm: "상상인증권", date: "2026-02-10", target: 170000, opinion: "매수", note: "이서연" },
+            { firm: "LS증권", date: "2026-02-05", target: 170000, opinion: "매수", note: "이재혁" },
+            { firm: "대신증권", date: "2026-01-27", target: 170000, opinion: "매수", note: "이지니" },
+            { firm: "유안타증권", date: "2026-01-16", target: 165000, opinion: "매수", note: "" },
             // ↑ 새 리포트를 여기에 추가
         ]
     },

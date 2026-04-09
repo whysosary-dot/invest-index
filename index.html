@@ -1030,28 +1030,6 @@ const INDICATORS = [
                     { label: "2026-03-30", high: 19.30, low: 17.80, avg: 18.60, change: "-1.85%" },
                 ]
             },
-            // ── Wafer Spot ──
-            {
-                name: "512Gb TLC Wafer",
-                group: "Wafer Spot",
-                data: [
-                    { label: "2026-03-30", high: 24.00, low: 17.00, avg: 22.155, change: "-2.97%" },
-                ]
-            },
-            {
-                name: "256Gb TLC Wafer",
-                group: "Wafer Spot",
-                data: [
-                    { label: "2026-03-30", high: 11.80, low: 8.00, avg: 10.92, change: "-2.85%" },
-                ]
-            },
-            {
-                name: "128Gb TLC Wafer",
-                group: "Wafer Spot",
-                data: [
-                    { label: "2026-03-30", high: 9.50, low: 5.00, avg: 6.833, change: "-1.92%" },
-                ]
-            },
         ],
     },
 
@@ -1572,12 +1550,12 @@ const TARGET_PRICES = [
         priceDate: "2026-04-09",
         currency: "₩",
         targets: [
-            { firm: "유진투자증권", date: "2026-02-10", target: 360000, opinion: "매수", note: "정의훈" },
             { firm: "NH투자증권", date: "2026-04-06", target: 350000, opinion: "매수", src: "https://www.newspim.com/news/view/20260406000085", note: "PUBG는 2026년에도 달린다" },
             { firm: "KB증권", date: "2026-03-12", target: 350000, opinion: "매수", note: "목표가 유지" },
-            { firm: "SK증권", date: "2026-01-07", target: 330000, opinion: "매수", note: "남효지" },
-            { firm: "메리츠증권", date: "2026-01-12", target: 300000, opinion: "매수", note: "이효진" },
             { firm: "삼성증권", date: "2026-03", target: 310000, opinion: "매수", note: "기존 38만→31만 하향" },
+            { firm: "유진투자증권", date: "2026-02-10", target: 360000, opinion: "매수", note: "정의훈" },
+            { firm: "메리츠증권", date: "2026-01-12", target: 300000, opinion: "매수", note: "이효진" },
+            { firm: "SK증권", date: "2026-01-07", target: 330000, opinion: "매수", note: "남효지" },
             // ↑ 새 리포트를 여기에 추가
         ]
     },
@@ -1592,10 +1570,10 @@ const TARGET_PRICES = [
         priceDate: "2026-04-09",
         currency: "₩",
         targets: [
-            { firm: "SK증권", date: "2026-02-21", target: 1600000, opinion: "매수", note: "한동희 — 시급한 재평가" },
+            { firm: "미래에셋증권", date: "2026-04-01", target: 1540000, opinion: "매수", src: "https://news.nate.com/view/20260401n18853", note: "포화가 두렵지만 포기는 이르다" },
             { firm: "iM증권", date: "2026-04-01", target: 1500000, opinion: "매수", note: "송명섭 — 현물가격·빅테크 Capex 주목" },
             { firm: "iM증권", date: "2026-03-03", target: 1410000, opinion: "매수", note: "P/B 3.5배 적용" },
-            { firm: "미래에셋증권", date: "2026-04-01", target: 1540000, opinion: "매수", src: "https://news.nate.com/view/20260401n18853", note: "포화가 두렵지만 포기는 이르다" },
+            { firm: "SK증권", date: "2026-02-21", target: 1600000, opinion: "매수", note: "한동희 — 시급한 재평가" },
             { firm: "iM증권", date: "2026-02-02", target: 1160000, opinion: "매수", note: "황지원 — 역대급 분기 가격 상승 예상" },
             // ↑ 새 리포트를 여기에 추가
         ]
@@ -1627,12 +1605,12 @@ const TARGET_PRICES = [
         priceDate: "2026-04-08",
         currency: "₩",
         targets: [
-            { firm: "유진투자증권", date: "2026-02-10", target: 870000, opinion: "매수", note: "양승윤" },
-            { firm: "iM증권", date: "2026-04-01", target: 860000, opinion: "매수", note: "변용진" },
-            { firm: "상상인증권", date: "2026-01-19", target: 850000, opinion: "매수", note: "이서연" },
-            { firm: "대신증권", date: "2026-01-22", target: 780000, opinion: "매수", note: "이지니" },
-            { firm: "LS증권", date: "2026-01-23", target: 760000, opinion: "매수", note: "이재혁" },
             { firm: "메리츠증권", date: "2026-04-06", target: 720000, opinion: "매수", note: "배기연" },
+            { firm: "iM증권", date: "2026-04-01", target: 860000, opinion: "매수", note: "변용진" },
+            { firm: "유진투자증권", date: "2026-02-10", target: 870000, opinion: "매수", note: "양승윤" },
+            { firm: "LS증권", date: "2026-01-23", target: 760000, opinion: "매수", note: "이재혁" },
+            { firm: "대신증권", date: "2026-01-22", target: 780000, opinion: "매수", note: "이지니" },
+            { firm: "상상인증권", date: "2026-01-19", target: 850000, opinion: "매수", note: "이서연" },
             // ↑ 새 리포트를 여기에 추가
         ]
     },
@@ -1660,12 +1638,12 @@ const TARGET_PRICES = [
         priceDate: "2026-04-08",
         currency: "₩",
         targets: [
-            { firm: "SK증권", date: "2026-01-15", target: 180000, opinion: "매수", note: "한승한" },
-            { firm: "대우증권", date: "2026-01-13", target: 175000, opinion: "매수", note: "" },
             { firm: "상상인증권", date: "2026-02-10", target: 170000, opinion: "매수", note: "이서연" },
             { firm: "LS증권", date: "2026-02-05", target: 170000, opinion: "매수", note: "이재혁" },
             { firm: "대신증권", date: "2026-01-27", target: 170000, opinion: "매수", note: "이지니" },
             { firm: "유안타증권", date: "2026-01-16", target: 165000, opinion: "매수", note: "" },
+            { firm: "SK증권", date: "2026-01-15", target: 180000, opinion: "매수", note: "한승한" },
+            { firm: "대우증권", date: "2026-01-13", target: 175000, opinion: "매수", note: "" },
             // ↑ 새 리포트를 여기에 추가
         ]
     },

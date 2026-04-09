@@ -882,6 +882,74 @@ const INDICATORS = [
     },
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 5. DRAM Spot Price (TrendForce)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: TrendForce (https://www.trendforce.com/price/dram/dram_spot)
+    // 업데이트: 매일 (TrendForce 세션 평균가)
+    // 대표 품목: DDR5 16Gb 4800/5600 (차트용)
+    // products: 전체 7개 품목 스냅샷 (상세 테이블용)
+    {
+        id: "dram_spot",
+        name: "DRAM Spot Price",
+        unit: "$",
+        type: "manual",
+        category: "반도체",
+        source: "TrendForce DRAMeXchange",
+        color: "#6366f1",
+        isMultiProduct: true,
+        // 대표 품목 (DDR5 16Gb 4800/5600 Avg) — 차트 & 서머리 카드용
+        data: [
+            { label: "2026-04-09", value: 37.03, note: "DDR5 16Gb 4800/5600 Avg" },
+            // ↑ 새 데이터를 여기에 추가
+        ],
+        // 전체 품목 스냅샷 — 상세 테이블용
+        products: [
+            {
+                name: "DDR5 16Gb (2Gx8) 4800/5600",
+                data: [
+                    { label: "2026-04-09", high: 48.50, low: 26.50, avg: 37.03, change: "+0.07%" },
+                ]
+            },
+            {
+                name: "DDR5 16Gb (2Gx8) eTT",
+                data: [
+                    { label: "2026-04-09", high: 24.00, low: 20.50, avg: 21.25, change: "0.00%" },
+                ]
+            },
+            {
+                name: "DDR4 16Gb (2Gx8) 3200",
+                data: [
+                    { label: "2026-04-09", high: 89.00, low: 27.00, avg: 72.00, change: "-0.75%" },
+                ]
+            },
+            {
+                name: "DDR4 16Gb (2Gx8) eTT",
+                data: [
+                    { label: "2026-04-09", high: 14.80, low: 12.90, avg: 13.50, change: "-0.37%" },
+                ]
+            },
+            {
+                name: "DDR4 8Gb (1Gx8) 3200",
+                data: [
+                    { label: "2026-04-09", high: 49.00, low: 13.00, avg: 33.50, change: "-0.18%" },
+                ]
+            },
+            {
+                name: "DDR4 8Gb (1Gx8) eTT",
+                data: [
+                    { label: "2026-04-09", high: 7.50, low: 5.45, avg: 6.65, change: "-0.45%" },
+                ]
+            },
+            {
+                name: "DDR3 4Gb 512Mx8 1600/1866",
+                data: [
+                    { label: "2026-04-09", high: 9.75, low: 5.50, avg: 7.73, change: "+0.33%" },
+                ]
+            },
+        ],
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 새 지표를 여기에 추가하세요!
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1189,7 +1257,55 @@ function openDetail(id) {
     const thead = document.getElementById("detailThead");
     const tbody = document.getElementById("detailTbody");
 
-    // 일별 데이터 전용 테이블 헤더
+    // ── Multi-product 테이블 (DRAM 등) ──
+    if (ind.isMultiProduct && ind.products) {
+        // 품목별 최신 스냅샷 테이블
+        const latestDate = ind.products[0]?.data?.[ind.products[0].data.length - 1]?.label || '–';
+        thead.innerHTML = `<tr>
+            <th>품목 (Product)</th>
+            <th class="num">High ($)</th>
+            <th class="num">Low ($)</th>
+            <th class="num">Avg ($)</th>
+            <th class="num">변동</th>
+        </tr>`;
+        tbody.innerHTML = ind.products.map(p => {
+            const latest = p.data[p.data.length - 1];
+            if (!latest) return '';
+            const chg = latest.change || '–';
+            const chgVal = parseFloat(chg);
+            const chgColor = chgVal > 0 ? "var(--accent-red)" : chgVal < 0 ? "var(--accent-blue)" : "var(--text-muted)";
+            return `<tr>
+                <td style="font-weight:500">${p.name}</td>
+                <td class="num">$${latest.high.toFixed(2)}</td>
+                <td class="num">$${latest.low.toFixed(2)}</td>
+                <td class="num" style="font-weight:600">$${latest.avg.toFixed(2)}</td>
+                <td class="num" style="color:${chgColor}">${chg}</td>
+            </tr>`;
+        }).join("")
+        + `<tr><td colspan="5" style="text-align:right;color:var(--text-dimmed);padding:8px;font-size:11px">최종 업데이트: ${latestDate} · 출처: <a href="https://www.trendforce.com/price/dram/dram_spot" target="_blank" style="color:var(--accent-blue);text-decoration:none">TrendForce</a></td></tr>`;
+
+        // 품목별 히스토리가 2개 이상인 경우, 대표 품목 시계열도 아래에 추가
+        if (rawData.length >= 2) {
+            tbody.innerHTML += `<tr><td colspan="5" style="padding:16px 0 8px;font-weight:600;color:var(--text-primary);border-top:2px solid var(--border)">📈 대표 품목 (${rawData[0]?.note || ind.name}) 추이</td></tr>`;
+            tbody.innerHTML += `<tr>
+                <th>날짜</th><th class="num">Avg ($)</th><th class="num">전일비</th><th colspan="2">비고</th>
+            </tr>`;
+            const rev = [...rawData].reverse().slice(0, 30);
+            tbody.innerHTML += rev.map((d, ri) => {
+                const origIdx = rawData.length - 1 - ri;
+                const prev = origIdx > 0 ? rawData[origIdx - 1] : null;
+                const dod = prev ? ((d.value - prev.value) / prev.value * 100).toFixed(2) : null;
+                const dodColor = dod > 0 ? "var(--accent-red)" : dod < 0 ? "var(--accent-blue)" : "var(--text-muted)";
+                return `<tr style="background:#f0f7ff">
+                    <td>${d.label}</td>
+                    <td class="num">$${d.value.toFixed(2)}</td>
+                    <td class="num" style="color:${dodColor}">${dod !== null ? fmtPct(dod) : '–'}</td>
+                    <td colspan="2" style="font-size:12px">${d.note || '–'}</td>
+                </tr>`;
+            }).join("");
+        }
+    } else {
+    // ── 기존 단일 지표 테이블 ──
     const dailyHeaders = ["날짜", `${ind.name} (${ind.unit})`, "전일비", "출처"];
     thead.innerHTML = `<tr>${dailyHeaders.map((h, i) =>
         `<th ${i > 0 ? 'class="num"' : ''}>${h}</th>`
@@ -1226,6 +1342,7 @@ function openDetail(id) {
         </tr>`;
     }).join("")
     + (reversed.length > maxRows ? `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:12px;font-size:12px">최근 ${maxRows}일 표시 중 (전체 ${reversed.length}일)</td></tr>` : '');
+    } // end else (단일 지표)
 
     // Scroll to panel
     panel.scrollIntoView({ behavior: "smooth", block: "nearest" });

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <clipPath id="macClip">
+      <rect x="0" y="0" width="1024" height="1024" rx="228" ry="228"/>
+    </clipPath>
+  </defs>
+
+  <!-- White background (visible as border after iOS rounding) -->
+  <rect width="1024" height="1024" rx="228" ry="228" fill="#ffffff"/>
+
+  <!-- Inner dark area with padding for white border -->
+  <rect x="40" y="40" width="944" height="944" rx="195" ry="195" fill="#1e2330"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.08" stroke="#ffffff" stroke-width="1">
+    <line x1="200" y1="140" x2="200" y2="884"/>
+    <line x1="370" y1="140" x2="370" y2="884"/>
+    <line x1="540" y1="140" x2="540" y2="884"/>
+    <line x1="710" y1="140" x2="710" y2="884"/>
+    <line x1="140" y1="300" x2="884" y2="300"/>
+    <line x1="140" y1="470" x2="884" y2="470"/>
+    <line x1="140" y1="640" x2="884" y2="640"/>
+  </g>
+
+  <!-- Top left: Area chart (grey fill) -->
+  <g>
+    <path d="M140,440 L220,400 L300,420 L380,350 L460,370 L500,300 L500,470 L140,470 Z" fill="#6b7280" opacity="0.25"/>
+    <polyline points="140,440 220,400 300,420 380,350 460,370 500,300" fill="none" stroke="#9ca3af" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="140" cy="440" r="6" fill="#d1d5db"/>
+    <circle cx="220" cy="400" r="6" fill="#d1d5db"/>
+    <circle cx="300" cy="420" r="6" fill="#d1d5db"/>
+    <circle cx="380" cy="350" r="6" fill="#d1d5db"/>
+    <circle cx="460" cy="370" r="6" fill="#d1d5db"/>
+    <circle cx="500" cy="300" r="6" fill="#e5e7eb"/>
+  </g>
+
+  <!-- Top right: Bar chart -->
+  <g>
+    <rect x="560" y="380" width="42" height="90" rx="4" fill="#4b5563"/>
+    <rect x="616" y="340" width="42" height="130" rx="4" fill="#6b7280"/>
+    <rect x="672" y="300" width="42" height="170" rx="4" fill="#9ca3af"/>
+    <rect x="728" y="260" width="42" height="210" rx="4" fill="#d1d5db"/>
+    <rect x="784" y="220" width="42" height="250" rx="4" fill="#e5e7eb"/>
+    <rect x="840" y="190" width="42" height="280" rx="4" fill="#f3f4f6"/>
+  </g>
+
+  <!-- Middle: Horizontal separator line -->
+  <line x1="140" y1="510" x2="884" y2="510" stroke="#374151" stroke-width="2" opacity="0.5"/>
+
+  <!-- Bottom left: Candlestick / tick marks -->
+  <g>
+    <line x1="185" y1="570" x2="185" y2="700" stroke="#6b7280" stroke-width="3"/>
+    <rect x="173" y="600" width="24" height="40" rx="3" fill="#9ca3af"/>
+    <line x1="245" y1="560" x2="245" y2="710" stroke="#6b7280" stroke-width="3"/>
+    <rect x="233" y="580" width="24" height="50" rx="3" fill="#4b5563"/>
+    <line x1="305" y1="550" x2="305" y2="690" stroke="#6b7280" stroke-width="3"/>
+    <rect x="293" y="570" width="24" height="60" rx="3" fill="#d1d5db"/>
+    <line x1="365" y1="540" x2="365" y2="680" stroke="#6b7280" stroke-width="3"/>
+    <rect x="353" y="560" width="24" height="45" rx="3" fill="#9ca3af"/>
+    <line x1="425" y1="530" x2="425" y2="670" stroke="#6b7280" stroke-width="3"/>
+    <rect x="413" y="545" width="24" height="55" rx="3" fill="#e5e7eb"/>
+  </g>
+
+  <!-- Bottom right: Donut chart -->
+  <g transform="translate(700, 640)">
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#374151" stroke-width="32"/>
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#e5e7eb" stroke-width="32"
+            stroke-dasharray="180 417" stroke-dashoffset="0" transform="rotate(-90)"/>
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#9ca3af" stroke-width="32"
+            stroke-dasharray="120 477" stroke-dashoffset="-180" transform="rotate(-90)"/>
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#6b7280" stroke-width="32"
+            stroke-dasharray="80 517" stroke-dashoffset="-300" transform="rotate(-90)"/>
+    <text x="0" y="8" text-anchor="middle" font-family="-apple-system, SF Pro Display, Helvetica" font-size="42" font-weight="700" fill="#f3f4f6">IDX</text>
+  </g>
+
+  <!-- Top header bar accents -->
+  <g>
+    <rect x="140" y="140" width="120" height="6" rx="3" fill="#6b7280" opacity="0.5"/>
+    <rect x="280" y="140" width="80" height="6" rx="3" fill="#4b5563" opacity="0.5"/>
+    <circle cx="820" cy="143" r="8" fill="#6b7280"/>
+    <circle cx="850" cy="143" r="8" fill="#9ca3af"/>
+    <circle cx="880" cy="143" r="8" fill="#d1d5db"/>
+  </g>
+
+  <!-- Bottom status numbers -->
+  <g font-family="-apple-system, SF Pro Display, Helvetica" font-size="38" fill="#6b7280" font-weight="600">
+    <text x="160" y="860">5,242</text>
+    <text x="380" y="860" fill="#9ca3af">+2.4%</text>
+  </g>
+  <rect x="600" y="840" width="140" height="24" rx="12" fill="#374151"/>
+  <rect x="760" y="840" width="100" height="24" rx="12" fill="#4b5563"/>
+
+</svg>

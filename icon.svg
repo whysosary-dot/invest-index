@@ -78,12 +78,9 @@
   <!-- Thin separator above text -->
   <line x1="120" y1="680" x2="904" y2="680" stroke="#374151" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- "Dashboard" text — 32px at 180 = ~182px at 1024, condensed to fit safe area -->
-  <text x="512" y="820" text-anchor="middle"
+  <!-- "Index" text — 32px at 180 = ~182px at 1024, white, bottom-center matching US icon -->
+  <text x="512" y="960" text-anchor="middle"
         font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif"
-        font-size="160" font-weight="700" fill="#d1d5db" letter-spacing="-2"
-        textLength="780" lengthAdjust="spacingAndGlyphs">
-    Index
-  </text>
+        font-size="182" font-weight="700" fill="#ffffff" letter-spacing="-2">Index</text>
 
 </svg>

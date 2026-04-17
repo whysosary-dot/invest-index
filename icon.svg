@@ -1,78 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
 
-  <!-- Sky blue background -->
-  <rect width="1024" height="1024" fill="#4A90D9"/>
+  <!-- Sky blue background with rounded corners -->
+  <rect width="1024" height="1024" rx="220" fill="#4A90D9"/>
 
   <!-- Subtle grid lines -->
-  <g opacity="0.1" stroke="#ffffff" stroke-width="1">
-    <line x1="170" y1="80" x2="170" y2="944"/>
-    <line x1="340" y1="80" x2="340" y2="944"/>
-    <line x1="512" y1="80" x2="512" y2="944"/>
-    <line x1="682" y1="80" x2="682" y2="944"/>
-    <line x1="852" y1="80" x2="852" y2="944"/>
-    <line x1="80" y1="256" x2="944" y2="256"/>
-    <line x1="80" y1="512" x2="944" y2="512"/>
-    <line x1="80" y1="768" x2="944" y2="768"/>
+  <g opacity="0.08" stroke="#ffffff" stroke-width="1.5">
+    <line x1="160" y1="180" x2="160" y2="680"/>
+    <line x1="330" y1="180" x2="330" y2="680"/>
+    <line x1="500" y1="180" x2="500" y2="680"/>
+    <line x1="670" y1="180" x2="670" y2="680"/>
+    <line x1="840" y1="180" x2="840" y2="680"/>
+    <line x1="160" y1="280" x2="840" y2="280"/>
+    <line x1="160" y1="430" x2="840" y2="430"/>
+    <line x1="160" y1="580" x2="840" y2="580"/>
   </g>
 
-  <!-- Top left: Area chart with line -->
-  <g>
-    <path d="M80,430 L180,380 L280,400 L370,310 L460,340 L500,250 L500,490 L80,490 Z" fill="#ffffff" opacity="0.15"/>
-    <polyline points="80,430 180,380 280,400 370,310 460,340 500,250" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-    <circle cx="80" cy="430" r="7" fill="#ffffff" opacity="0.7"/>
-    <circle cx="180" cy="380" r="7" fill="#ffffff" opacity="0.7"/>
-    <circle cx="280" cy="400" r="7" fill="#ffffff" opacity="0.7"/>
-    <circle cx="370" cy="310" r="7" fill="#ffffff" opacity="0.8"/>
-    <circle cx="460" cy="340" r="7" fill="#ffffff" opacity="0.8"/>
-    <circle cx="500" cy="250" r="8" fill="#ffffff"/>
-  </g>
+  <!-- Area fill under the line chart -->
+  <path d="M160,560 L280,500 L400,530 L500,390 L620,430 L720,300 L840,220 L840,680 L160,680 Z"
+        fill="url(#areaGrad)" opacity="0.35"/>
 
-  <!-- Top right: Bar chart -->
-  <g>
-    <rect x="548" y="390" width="50" height="100" rx="5" fill="#ffffff" opacity="0.25"/>
-    <rect x="614" y="340" width="50" height="150" rx="5" fill="#ffffff" opacity="0.35"/>
-    <rect x="680" y="280" width="50" height="210" rx="5" fill="#ffffff" opacity="0.45"/>
-    <rect x="746" y="220" width="50" height="270" rx="5" fill="#ffffff" opacity="0.6"/>
-    <rect x="812" y="160" width="50" height="330" rx="5" fill="#ffffff" opacity="0.75"/>
-    <rect x="878" y="110" width="50" height="380" rx="5" fill="#ffffff" opacity="0.9"/>
-  </g>
+  <defs>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Middle: thin separator -->
-  <line x1="80" y1="520" x2="944" y2="520" stroke="#ffffff" stroke-width="1.5" opacity="0.15"/>
+  <!-- Line chart (꺽은선 그래프) -->
+  <polyline
+    points="160,560 280,500 400,530 500,390 620,430 720,300 840,220"
+    fill="none" stroke="#ffffff" stroke-width="10"
+    stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- Bottom left: Candlestick chart -->
-  <g>
-    <line x1="140" y1="580" x2="140" y2="760" stroke="#ffffff" stroke-width="3" opacity="0.3"/>
-    <rect x="125" y="620" width="30" height="55" rx="3" fill="#ffffff" opacity="0.5"/>
+  <!-- Data point dots -->
+  <circle cx="160" cy="560" r="12" fill="#ffffff" opacity="0.5"/>
+  <circle cx="280" cy="500" r="12" fill="#ffffff" opacity="0.55"/>
+  <circle cx="400" cy="530" r="12" fill="#ffffff" opacity="0.6"/>
+  <circle cx="500" cy="390" r="13" fill="#ffffff" opacity="0.7"/>
+  <circle cx="620" cy="430" r="13" fill="#ffffff" opacity="0.75"/>
+  <circle cx="720" cy="300" r="14" fill="#ffffff" opacity="0.85"/>
+  <!-- Last point: highlighted -->
+  <circle cx="840" cy="220" r="18" fill="#ffffff" opacity="0.25"/>
+  <circle cx="840" cy="220" r="11" fill="#ffffff"/>
 
-    <line x1="220" y1="570" x2="220" y2="780" stroke="#ffffff" stroke-width="3" opacity="0.3"/>
-    <rect x="205" y="590" width="30" height="65" rx="3" fill="#ffffff" opacity="0.3"/>
-
-    <line x1="300" y1="555" x2="300" y2="750" stroke="#ffffff" stroke-width="3" opacity="0.3"/>
-    <rect x="285" y="570" width="30" height="75" rx="3" fill="#ffffff" opacity="0.7"/>
-
-    <line x1="380" y1="545" x2="380" y2="740" stroke="#ffffff" stroke-width="3" opacity="0.3"/>
-    <rect x="365" y="560" width="30" height="55" rx="3" fill="#ffffff" opacity="0.5"/>
-
-    <line x1="460" y1="535" x2="460" y2="720" stroke="#ffffff" stroke-width="3" opacity="0.3"/>
-    <rect x="445" y="548" width="30" height="65" rx="3" fill="#ffffff" opacity="0.8"/>
-  </g>
-
-  <!-- Bottom right: Donut chart -->
-  <g transform="translate(712, 670)">
-    <circle cx="0" cy="0" r="110" fill="none" stroke="#ffffff" stroke-width="36" opacity="0.15"/>
-    <circle cx="0" cy="0" r="110" fill="none" stroke="#ffffff" stroke-width="36" opacity="0.9"
-            stroke-dasharray="210 481" stroke-dashoffset="0" transform="rotate(-90)"/>
-    <circle cx="0" cy="0" r="110" fill="none" stroke="#ffffff" stroke-width="36" opacity="0.55"
-            stroke-dasharray="140 551" stroke-dashoffset="-210" transform="rotate(-90)"/>
-    <circle cx="0" cy="0" r="110" fill="none" stroke="#ffffff" stroke-width="36" opacity="0.3"
-            stroke-dasharray="95 596" stroke-dashoffset="-350" transform="rotate(-90)"/>
-    <circle cx="0" cy="0" r="18" fill="#4A90D9"/>
-  </g>
-
-  <!-- Small accent dots top-right corner -->
-  <circle cx="880" cy="80" r="8" fill="#ffffff" opacity="0.3"/>
-  <circle cx="910" cy="80" r="8" fill="#ffffff" opacity="0.5"/>
-  <circle cx="940" cy="80" r="8" fill="#ffffff" opacity="0.7"/>
+  <!-- "Index" text -->
+  <text x="512" y="850"
+        font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif"
+        font-size="160" font-weight="700" letter-spacing="8"
+        fill="#ffffff" text-anchor="middle" opacity="0.95">Index</text>
 
 </svg>

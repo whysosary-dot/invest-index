@@ -393,7 +393,7 @@
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-04-20";
+const DATA_UPDATED = "2026-04-21";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -617,6 +617,7 @@ const INDICATORS = [
             { label: "2026-03-27", value: 2975, src: "https://almonty.com/tungsten-history/", note: "Almonty avg ($2800-$3150)" },
             { label: "2026-04-03", value: 2995, src: "https://almonty.com/tungsten-history/", note: "Almonty avg ($2800-$3190)" },
             { label: "2026-04-10", value: 3040, src: "https://almonty.com/tungsten-history/", note: "Almonty avg ($2800-$3280)" },
+            { label: "2026-04-17", value: 3044.5, src: "https://almonty.com/tungsten-history/", note: "Almonty avg ($2800-$3289)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["기간", "APT 가격 ($/MTU)", "전기비", "전년동월비", "출처"],
@@ -706,6 +707,7 @@ const INDICATORS = [
             { label: "2026-04-15", value: 37.43, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-04-16", value: 37.70, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-04-17", value: 38.50, note: "DDR5 16Gb 4800/5600 Avg" },
+            { label: "2026-04-20", value: 38.67, note: "DDR5 16Gb 4800/5600 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -719,6 +721,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 49.50, low: 27.00, avg: 37.43, change: "+0.63%" },
                     { label: "2026-04-16", high: 49.50, low: 28.00, avg: 37.70, change: "+0.71%" },
                     { label: "2026-04-17", high: 49.50, low: 28.00, avg: 38.50, change: "+2.12%" },
+                    { label: "2026-04-20", high: 50.00, low: 28.50, avg: 38.67, change: "+0.43%" },
                 ]
             },
             {
@@ -730,6 +733,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 24.00, low: 20.60, avg: 21.50, change: "+0.94%" },
                     { label: "2026-04-16", high: 24.00, low: 20.60, avg: 21.50, change: "0.00%" },
                     { label: "2026-04-17", high: 24.00, low: 20.60, avg: 21.70, change: "+0.93%" },
+                    { label: "2026-04-20", high: 24.50, low: 20.80, avg: 21.80, change: "+0.46%" },
                 ]
             },
             {
@@ -741,6 +745,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 87.50, low: 28.50, avg: 70.50, change: "-0.32%" },
                     { label: "2026-04-16", high: 87.50, low: 29.00, avg: 69.46, change: "-1.48%" },
                     { label: "2026-04-17", high: 87.50, low: 29.00, avg: 69.18, change: "-0.39%" },
+                    { label: "2026-04-20", high: 85.00, low: 29.50, avg: 68.55, change: "-0.92%" },
                 ]
             },
             {
@@ -752,6 +757,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 14.70, low: 13.00, avg: 13.48, change: "0.00%" },
                     { label: "2026-04-16", high: 14.70, low: 13.00, avg: 13.48, change: "0.00%" },
                     { label: "2026-04-17", high: 14.70, low: 13.00, avg: 13.48, change: "0.00%" },
+                    { label: "2026-04-20", high: 14.50, low: 12.80, avg: 13.38, change: "-0.74%" },
                 ]
             },
             {
@@ -763,6 +769,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 49.30, low: 14.00, avg: 33.20, change: "-0.60%" },
                     { label: "2026-04-16", high: 49.30, low: 14.50, avg: 33.10, change: "-0.30%" },
                     { label: "2026-04-17", high: 50.00, low: 14.50, avg: 33.00, change: "-0.30%" },
+                    { label: "2026-04-20", high: 51.00, low: 15.00, avg: 33.00, change: "0.00%" },
                 ]
             },
             {
@@ -774,6 +781,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 7.40, low: 5.40, avg: 6.53, change: "-0.61%" },
                     { label: "2026-04-16", high: 7.30, low: 5.30, avg: 6.49, change: "-0.61%" },
                     { label: "2026-04-17", high: 7.30, low: 5.20, avg: 6.43, change: "-0.92%" },
+                    { label: "2026-04-20", high: 7.00, low: 5.10, avg: 6.39, change: "-0.62%" },
                 ]
             },
             {
@@ -785,6 +793,7 @@ const INDICATORS = [
                     { label: "2026-04-15", high: 10.10, low: 5.50, avg: 7.86, change: "+0.81%" },
                     { label: "2026-04-16", high: 10.10, low: 5.30, avg: 7.98, change: "+1.42%" },
                     { label: "2026-04-17", high: 10.10, low: 5.30, avg: 8.03, change: "+0.63%" },
+                    { label: "2026-04-20", high: 10.20, low: 5.20, avg: 8.08, change: "+0.62%" },
                 ]
             },
         ],
@@ -810,6 +819,7 @@ const INDICATORS = [
         data: [
             { label: "2026-03-30", value: 13.13, note: "MLC 64Gb 8GBx8 Avg" },
             { label: "2026-04-06", value: 15.00, note: "MLC 64Gb 8GBx8 Avg" },
+            { label: "2026-04-13", value: 16.50, note: "MLC 64Gb 8GBx8 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -821,6 +831,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 3.70, low: 2.60, avg: 3.089, change: "+3.35%" },
                     { label: "2026-04-06", high: 4.20, low: 3.00, avg: 3.411, change: "+10.42%" },
+                    { label: "2026-04-13", high: 4.20, low: 3.30, avg: 3.678, change: "+7.83%" },
                 ]
             },
             {
@@ -829,6 +840,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 3.20, low: 2.30, avg: 2.573, change: "+4.68%" },
                     { label: "2026-04-06", high: 3.50, low: 2.50, avg: 2.865, change: "+11.35%" },
+                    { label: "2026-04-13", high: 4.00, low: 2.80, avg: 3.125, change: "+9.08%" },
                 ]
             },
             {
@@ -837,6 +849,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 16.00, low: 10.00, avg: 13.125, change: "+3.96%" },
                     { label: "2026-04-06", high: 20.00, low: 12.00, avg: 15.00, change: "+14.29%" },
+                    { label: "2026-04-13", high: 22.00, low: 12.00, avg: 16.50, change: "+10.00%" },
                 ]
             },
             {
@@ -845,6 +858,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 8.30, low: 6.80, avg: 7.70, change: "+2.67%" },
                     { label: "2026-04-06", high: 9.50, low: 8.00, avg: 8.667, change: "+12.56%" },
+                    { label: "2026-04-13", high: 10.00, low: 8.80, avg: 9.367, change: "+8.08%" },
                 ]
             },
             // ── Memory Card Spot ──
@@ -854,6 +868,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 3.80, low: 3.10, avg: 3.345, change: "-0.15%" },
                     { label: "2026-04-06", high: 3.80, low: 3.10, avg: 3.34, change: "-0.15%" },
+                    { label: "2026-04-13", high: 3.80, low: 3.10, avg: 3.34, change: "0.00%" },
                 ]
             },
             {
@@ -862,6 +877,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 6.80, low: 6.00, avg: 6.35, change: "-0.78%" },
                     { label: "2026-04-06", high: 6.80, low: 6.00, avg: 6.325, change: "-0.39%" },
+                    { label: "2026-04-13", high: 6.70, low: 5.70, avg: 6.20, change: "-1.98%" },
                 ]
             },
             {
@@ -870,6 +886,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 10.00, low: 9.00, avg: 9.30, change: "-0.80%" },
                     { label: "2026-04-06", high: 10.00, low: 9.00, avg: 9.275, change: "-0.27%" },
+                    { label: "2026-04-13", high: 9.80, low: 8.70, avg: 9.175, change: "-1.08%" },
                 ]
             },
             {
@@ -878,6 +895,7 @@ const INDICATORS = [
                 data: [
                     { label: "2026-03-30", high: 19.30, low: 17.80, avg: 18.60, change: "-1.85%" },
                     { label: "2026-04-06", high: 19.30, low: 17.80, avg: 18.55, change: "-0.27%" },
+                    { label: "2026-04-13", high: 19.00, low: 17.00, avg: 18.25, change: "-1.62%" },
                 ]
             },
         ],

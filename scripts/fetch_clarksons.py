@@ -34,6 +34,8 @@ CHANNEL = "enc210406"
 
 # 세션 파일 후보 위치 (호스트 macOS / 샌드박스 Linux 양쪽 지원)
 # AWAKE 프로젝트의 awake_session 을 그대로 재활용.
+import glob as _glob
+
 SESSION_SRC_CANDIDATES = [
     "/Users/songsangho/Desktop/투자 캘린더 Tool/awake_session.session",         # 투자 캘린더 Tool 폴더 (Mac 호스트 경로)
     "/Users/songsangho/Desktop/Claude/AWAKE 전자 공시/awake_session.session",  # AWAKE 원본 (Mac 호스트 경로)
@@ -43,7 +45,6 @@ SESSION_SRC_CANDIDATES = [
 for p in _glob.glob("/sessions/*/mnt/투자 캘린더 Tool/awake_session.session"):
     SESSION_SRC_CANDIDATES.insert(0, p)  # 최우선으로 앞에 추가
 # bash glob 으로도 한 번 더 fallback
-import glob as _glob
 for p in _glob.glob("/sessions/*/mnt/AWAKE*/awake_session.session"):
     SESSION_SRC_CANDIDATES.append(p)
 

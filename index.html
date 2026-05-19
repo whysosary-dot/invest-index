@@ -319,6 +319,17 @@
 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
+        .update-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            background: #2ea043;
+            border-radius: 50%;
+            margin-right: 6px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px rgba(46,160,67,0.25);
+            vertical-align: middle;
+        }
+
         /* ── Responsive ── */
         @media (max-width: 768px) {
             header { padding: 14px 16px; }
@@ -1286,10 +1297,16 @@ function renderSummaryCards() {
         const dateStr = hasLive ? `실시간 ${ind._liveTime || ''}` : (lastEntry ? lastEntry.label : '');
         const isSelected = selectedId === ind.id;
 
+        // freshness: green dot if last data label is within 2 days of today
+        const todayMs = Date.now();
+        const lastLabelMs = lastEntry ? parseDate(lastEntry.label).getTime() : 0;
+        const daysSinceUpdate = (todayMs - lastLabelMs) / (1000 * 60 * 60 * 24);
+        const isFresh = !hasLive && lastLabelMs > 0 && daysSinceUpdate <= 2;
+
         return `
             <div class="summary-card ${isSelected ? 'selected' : ''}" onclick="openDetail('${ind.id}')">
                 <div class="sc-header">
-                    <span class="sc-name">${ind.name}</span>
+                    <span class="sc-name">${isFresh ? '<span class="update-dot" title="최근 업데이트됨"></span>' : ''}${ind.name}</span>
                     <span class="badge ${ind.type}">${ind.type === 'live' ? '<span class=live-dot></span>LIVE' : 'MANUAL'}</span>
                 </div>
                 <div class="sc-value">

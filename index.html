@@ -2662,7 +2662,12 @@ function openDetail(id) {
         ? Object.fromEntries(ind.overlay.data.map(d => [d.label, d.value]))
         : {};
     const overlayData = hasOverlay
-        ? chartData.map(d => overlayMap[d.label] ?? null)
+        ? chartData.map(d => {
+            const v = overlayMap[d.label];
+            if (v !== undefined) return v;
+            // 일별 보간 라벨("2020-01-15") → 월별 overlay("2020-01") fallback
+            return overlayMap[d.label.substring(0, 7)] ?? null;
+        })
         : [];
 
     const datasets = [{

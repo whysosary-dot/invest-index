@@ -1075,6 +1075,39 @@ const INDICATORS = [
     },
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 6-A. DDR4 8Gb 고정거래가격 (D램익스체인지)
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 출처: D램익스체인지 / TrendForce (뉴스 기사 기반)
+    // 업데이트: 월 1회 (매월 말 고정거래가격 발표)
+    // 자동 업데이트: TrendForce dram_contract Chrome MCP 스크래핑 예정
+    {
+        id: "ddr4_contract",
+        name: "DDR4 8Gb 고정거래가격",
+        unit: "$",
+        type: "manual",
+        category: "반도체",
+        source: "D램익스체인지 / TrendForce",
+        color: "#f59e0b",
+        data: [
+            { label: "2025-04", value: 1.65, note: "저점; 1년 후 $20(12배) 출발점 (ZDNet)" },
+            { label: "2025-05", value: 2.23, note: "추정 (월 +35% 급등 구간 시작)" },
+            { label: "2025-06", value: 3.01, note: "추정 (월 +35% 급등 구간)" },
+            { label: "2025-07", value: 4.06, note: "추정 (월 +35% 급등 구간)" },
+            { label: "2025-08", value: 5.40, note: "추정 (월 +33% 급등 구간)" },
+            { label: "2025-09", value: 6.30, note: "전월比 +15.7% (ZDNet Korea 확인)" },
+            { label: "2025-10", value: 7.00, note: "전월比 +11.1% (D램익스체인지 확인)" },
+            { label: "2025-11", value: 8.10, note: "전월比 +15.7% (역산)" },
+            { label: "2025-12", value: 9.30, note: "전월比 +14.8%; 최초 9달러 돌파" },
+            { label: "2026-01", value: 11.50, note: "전월比 +23.7%" },
+            { label: "2026-02", value: 13.00, note: "전월比 +13.0%" },
+            { label: "2026-03", value: 13.00, note: "전월比 0% (분기 계약가 동결)" },
+            { label: "2026-04", value: 16.00, note: "전월比 +23.1% (2Q26 가격 급등)" },
+            { label: "2026-05", value: 20.00, note: "전월比 +25.0%; 1년 前 $1.65 대비 12배" },
+            // ↑ 새 데이터를 여기에 추가 (Chrome MCP 자동 스크래핑)
+        ]
+    },
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 6. NAND Flash Spot Price (TrendForce)
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 출처: TrendForce (https://www.trendforce.com/price/flash/flash_spot)

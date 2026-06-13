@@ -721,7 +721,8 @@ const INDICATORS = [
         source: "TrendForce DRAMeXchange",
         color: "#6366f1",
         isMultiProduct: true,
-        chartLines: ["DDR4 16Gb (2Gx8) eTT", "DDR4 8Gb (1Gx8) eTT"],
+        chartLines: ["DDR4 16Gb (2Gx8) 3200", "DDR4 8Gb (1Gx8) 3200"],
+        chartMainLabel: "DDR5 16Gb (2Gx8) 4800/5600",
         // 대표 품목 (DDR5 16Gb 4800/5600 Avg) — 차트 & 서머리 카드용
         data: [
             { label: "2026-04-09", value: 37.03, note: "DDR5 16Gb 4800/5600 Avg" },
@@ -2862,7 +2863,7 @@ function openDetail(id) {
         : [];
 
     const datasets = [{
-        label: `${ind.name} (${ind.unit})`,
+        label: `${ind.chartMainLabel ?? ind.name} (${ind.unit})`,
         data: chartData.map(d => d.value),
         borderColor: ind.color,
         backgroundColor: gradient,

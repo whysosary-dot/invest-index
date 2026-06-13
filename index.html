@@ -721,6 +721,7 @@ const INDICATORS = [
         source: "TrendForce DRAMeXchange",
         color: "#6366f1",
         isMultiProduct: true,
+        chartLines: ["DDR4 16Gb (2Gx8) eTT", "DDR4 8Gb (1Gx8) eTT"],
         // 대표 품목 (DDR5 16Gb 4800/5600 Avg) — 차트 & 서머리 카드용
         data: [
             { label: "2026-04-09", value: 37.03, note: "DDR5 16Gb 4800/5600 Avg" },
@@ -2893,6 +2894,31 @@ function openDetail(id) {
         });
     }
 
+    // ── Chart Lines (멀티라인 추가 품목) ──
+    const hasChartLines = !!(ind.chartLines && ind.chartLines.length > 0 && ind.products);
+    if (hasChartLines) {
+        const lineColors = ["#f59e0b", "#10b981", "#ef4444", "#8b5cf6", "#06b6d4"];
+        ind.chartLines.forEach((productName, ci) => {
+            const prod = ind.products.find(p => p.name === productName);
+            if (!prod) return;
+            const prodMap = Object.fromEntries(prod.data.map(d => [d.label, d.avg ?? d.value]));
+            const prodVals = chartData.map(d => prodMap[d.label] ?? null);
+            datasets.push({
+                label: prod.name,
+                data: prodVals,
+                borderColor: lineColors[ci % lineColors.length],
+                backgroundColor: "transparent",
+                fill: false,
+                tension: 0.2,
+                borderWidth: 1.5,
+                pointRadius: 0,
+                pointHoverRadius: 5,
+                yAxisID: 'y',
+                spanGaps: true,
+            });
+        });
+    }
+
     const scalesConfig = {
         x: {
             grid: { color: "#d8dee488" },
@@ -2938,7 +2964,7 @@ function openDetail(id) {
             interaction: { intersect: false, mode: "index" },
             plugins: {
                 legend: {
-                    display: hasOverlay,
+                    display: hasOverlay || hasChartLines,
                     labels: { color: "#8b949e", font: { size: 11 }, boxWidth: 20, padding: 12 }
                 },
                 tooltip: {
@@ -2949,7 +2975,7 @@ function openDetail(id) {
                     bodyColor: "#f0f6fc",
                     bodyFont: { size: 13, weight: "600" },
                     padding: 12,
-                    displayColors: hasOverlay,
+                    displayColors: hasOverlay || hasChartLines,
                     callbacks: {
                         title: (items) => {
                             const idx = items[0]?.dataIndex;
@@ -2958,9 +2984,12 @@ function openDetail(id) {
                             return pt.label + (pt._original ? ' ●' : ' (보간)');
                         },
                         label: ctx => {
-                            const isOverlay = ctx.datasetIndex === 1;
+                            if (ctx.datasetIndex === 0) {
+                                return `${ind.name}: ${ctx.parsed.y != null ? ctx.parsed.y.toLocaleString() : '–'} ${ind.unit}`;
+                            }
+                            const isOverlay = hasOverlay && ctx.datasetIndex === 1;
                             const unit = isOverlay ? ind.overlay.unit : ind.unit;
-                            const name = isOverlay ? ind.overlay.name : ind.name;
+                            const name = ctx.dataset.label || (isOverlay ? ind.overlay.name : ind.name);
                             return `${name}: ${ctx.parsed.y != null ? ctx.parsed.y.toLocaleString() : '–'} ${unit}`;
                         }
                     }

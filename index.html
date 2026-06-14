@@ -1081,15 +1081,20 @@ const INDICATORS = [
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // 출처: D램익스체인지 / TrendForce (뉴스 기사 기반)
     // 업데이트: 월 1회 (매월 말 고정거래가격 발표)
-    // 자동 업데이트: TrendForce dram_contract Chrome MCP 스크래핑 예정
+    // 자동 업데이트: TrendForce DRAM Contract Price (월별, dram_contract)
     {
         id: "ddr4_contract",
-        name: "DDR4 8Gb 고정거래가격",
+        name: "DRAM Contract Price",
         unit: "$",
         type: "manual",
         category: "반도체",
-        source: "D램익스체인지 / TrendForce",
+        source: "TrendForce / D램익스체인지",
         color: "#f59e0b",
+        isMultiProduct: true,
+        contractPrice: true,
+        chartMainLabel: "DDR4 8Gb (1Gx8)",
+        chartLines: ["DDR4 16Gb (2Gx8)", "DDR5 16Gb (2Gx8)"],
+        // 대표 품목 (DDR4 8Gb 1Gx8) — 차트 & 서머리 카드용
         data: [
             { label: "2025-04", value: 1.65, note: "저점; 1년 후 $20(12배) 출발점 (ZDNet)" },
             { label: "2025-05", value: 2.23, note: "추정 (월 +35% 급등 구간 시작)" },
@@ -1103,9 +1108,63 @@ const INDICATORS = [
             { label: "2026-01", value: 11.50, note: "전월比 +23.7%" },
             { label: "2026-02", value: 13.00, note: "전월比 +13.0%" },
             { label: "2026-03", value: 13.00, note: "전월比 0% (분기 계약가 동결)" },
-            { label: "2026-04", value: 16.00, note: "전월比 +23.1% (2Q26 가격 급등)" },
+            { label: "2026-04", value: 16.00, note: "전월比 +23.1% (2Q26 가격 급등); TF 2H Apr $14.50-23 확인" },
             { label: "2026-05", value: 20.00, note: "전월比 +25.0%; 1년 前 $1.65 대비 12배" },
-            // ↑ 새 데이터를 여기에 추가 (Chrome MCP 자동 스크래핑)
+            // ↑ 새 데이터를 여기에 추가 (매월 말 TrendForce 발표)
+        ],
+        products: [
+            {
+                name: "DDR4 8Gb (1Gx8)",
+                data: [
+                    { label: "2025-04", value: 1.65, note: "저점 (ZDNet)" },
+                    { label: "2025-05", value: 2.23, note: "추정" },
+                    { label: "2025-06", value: 3.01, note: "추정" },
+                    { label: "2025-07", value: 4.06, note: "추정" },
+                    { label: "2025-08", value: 5.40, note: "추정" },
+                    { label: "2025-09", value: 6.30, note: "ZDNet Korea" },
+                    { label: "2025-10", value: 7.00, note: "D램익스체인지" },
+                    { label: "2025-11", value: 8.10, note: "역산" },
+                    { label: "2025-12", value: 9.30, note: "최초 9달러 돌파" },
+                    { label: "2026-01", value: 11.50, note: "TrendForce" },
+                    { label: "2026-02", value: 13.00, note: "TrendForce" },
+                    { label: "2026-03", value: 13.00, note: "동결 (분기 계약)" },
+                    { label: "2026-04", value: 16.00, note: "TF 2H Apr Avg $16 확인" },
+                    { label: "2026-05", value: 20.00, note: "TrendForce" },
+                ]
+            },
+            {
+                name: "DDR4 16Gb (2Gx8)",
+                data: [
+                    { label: "2025-04", value: 3.00, note: "추정" },
+                    { label: "2025-05", value: 4.50, note: "추정" },
+                    { label: "2025-06", value: 6.00, note: "추정" },
+                    { label: "2025-07", value: 8.00, note: "추정" },
+                    { label: "2025-08", value: 10.50, note: "추정" },
+                    { label: "2025-09", value: 12.00, note: "추정" },
+                    { label: "2025-10", value: 13.50, note: "추정" },
+                    { label: "2025-11", value: 15.50, note: "추정" },
+                    { label: "2025-12", value: 18.00, note: "추정" },
+                    { label: "2026-01", value: 22.00, note: "추정" },
+                    { label: "2026-02", value: 25.00, note: "추정" },
+                    { label: "2026-03", value: 25.00, note: "추정 (동결)" },
+                    { label: "2026-04", value: 33.50, note: "TF 2H Apr Avg $33.50 확인 (H $41/L $31)" },
+                    { label: "2026-05", value: 42.00, note: "추정 (Q2 +45%)" },
+                ]
+            },
+            {
+                name: "DDR5 16Gb (2Gx8)",
+                data: [
+                    { label: "2025-09", value: 5.00, note: "추정 (Spot $6.84 대비)" },
+                    { label: "2025-10", value: 8.00, note: "추정" },
+                    { label: "2025-11", value: 14.00, note: "추정 (TF: Sep比 +307% 상승 구간)" },
+                    { label: "2025-12", value: 20.00, note: "추정 (Spot $27.20 대비)" },
+                    { label: "2026-01", value: 27.00, note: "추정 (Q1 +55~60% QoQ)" },
+                    { label: "2026-02", value: 32.00, note: "추정" },
+                    { label: "2026-03", value: 37.00, note: "추정" },
+                    { label: "2026-04", value: 43.00, note: "추정 (Q2 +43~48% QoQ 반영)" },
+                    { label: "2026-05", value: 50.00, note: "추정 (TrendForce Q2 전망)" },
+                ]
+            },
         ]
     },
 
@@ -3043,6 +3102,35 @@ function openDetail(id) {
     if (ind.isMultiProduct && ind.products) {
         // 품목별 최신 스냅샷 테이블
         const latestDate = ind.products[0]?.data?.[ind.products[0].data.length - 1]?.label || '–';
+        const tableColspan = ind.contractPrice ? 4 : 5;
+
+        if (ind.contractPrice) {
+            // ── 계약가 전용 테이블 (월별 고정가, High/Low 없음) ──
+            thead.innerHTML = `<tr>
+                <th>품목 (Product)</th>
+                <th class="num">계약가 ($)</th>
+                <th class="num">전월비</th>
+                <th>비고</th>
+            </tr>`;
+            tbody.innerHTML = ind.products.map(p => {
+                const latest = p.data[p.data.length - 1];
+                const prev = p.data.length >= 2 ? p.data[p.data.length - 2] : null;
+                if (!latest) return '';
+                const val = latest.value ?? latest.avg;
+                const prevVal = prev ? (prev.value ?? prev.avg) : null;
+                const dodNum = prevVal != null ? ((val - prevVal) / prevVal * 100) : null;
+                const dod = dodNum !== null ? (dodNum >= 0 ? '+' : '') + dodNum.toFixed(1) + '%' : '–';
+                const chgColor = dodNum > 0 ? "var(--accent-red)" : dodNum < 0 ? "var(--accent-blue)" : "var(--text-muted)";
+                const noteStyle = (latest.note || '').includes('추정') ? 'color:var(--text-muted);font-style:italic' : '';
+                return `<tr>
+                    <td style="font-weight:500">${p.name}</td>
+                    <td class="num" style="font-weight:600">$${val.toFixed(2)}</td>
+                    <td class="num" style="color:${chgColor}">${dod}</td>
+                    <td style="font-size:12px;${noteStyle}">${latest.note || '–'}</td>
+                </tr>`;
+            }).join("")
+            + `<tr><td colspan="4" style="text-align:right;color:var(--text-dimmed);padding:8px;font-size:11px">최종 업데이트: ${latestDate} · 출처: <a href="https://www.trendforce.com/price/dram/dram_contract" target="_blank" style="color:var(--accent-blue);text-decoration:none">TrendForce</a></td></tr>`;
+        } else {
         const sourceUrl = ind.id === "nand_spot"
             ? "https://www.trendforce.com/price/flash/flash_spot"
             : "https://www.trendforce.com/price/dram/dram_spot";
@@ -3076,12 +3164,13 @@ function openDetail(id) {
             </tr>`;
         }).join("")
         + `<tr><td colspan="5" style="text-align:right;color:var(--text-dimmed);padding:8px;font-size:11px">최종 업데이트: ${latestDate} · 출처: <a href="${sourceUrl}" target="_blank" style="color:var(--accent-blue);text-decoration:none">TrendForce</a></td></tr>`;
+        } // end if/else contractPrice
 
         // 품목별 히스토리가 2개 이상인 경우, 대표 품목 시계열도 아래에 추가
         if (rawData.length >= 2) {
-            tbody.innerHTML += `<tr><td colspan="5" style="padding:16px 0 8px;font-weight:600;color:var(--text-primary);border-top:2px solid var(--border)">📈 대표 품목 (${rawData[0]?.note || ind.name}) 추이</td></tr>`;
+            tbody.innerHTML += `<tr><td colspan="${tableColspan}" style="padding:16px 0 8px;font-weight:600;color:var(--text-primary);border-top:2px solid var(--border)">📈 대표 품목 (${rawData[0]?.note || ind.chartMainLabel || ind.name}) 추이</td></tr>`;
             tbody.innerHTML += `<tr>
-                <th>날짜</th><th class="num">Avg ($)</th><th class="num">전일비</th><th colspan="2">비고</th>
+                <th>날짜</th><th class="num">${ind.contractPrice ? '계약가' : 'Avg'} ($)</th><th class="num">전월比</th><th colspan="${tableColspan - 3}">비고</th>
             </tr>`;
             const rev = [...rawData].reverse().slice(0, 30);
             tbody.innerHTML += rev.map((d, ri) => {
@@ -3093,7 +3182,7 @@ function openDetail(id) {
                     <td>${d.label}</td>
                     <td class="num">$${d.value.toFixed(2)}</td>
                     <td class="num" style="color:${dodColor}">${dod !== null ? fmtPct(dod) : '–'}</td>
-                    <td colspan="2" style="font-size:12px">${d.note || '–'}</td>
+                    <td colspan="${tableColspan - 3}" style="font-size:12px">${d.note || '–'}</td>
                 </tr>`;
             }).join("");
         }

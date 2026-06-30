@@ -1229,14 +1229,15 @@ const INDICATORS = [
 
     {
         id: "pubg",
-        name: "PUBG 스팀 피크 동접",
+        name: "PUBG 스팀 동접 (일별)",
         unit: "명",
         type: "manual",
         category: "게임",
-        source: "Steam (store.steampowered.com/charts/mostplayed)",
+        source: "Steam API (ISteamUserStats/GetNumberOfCurrentPlayers)",
         color: "#f59e0b",
         data: [
-            { label: "2026-06", value: 743815, note: "Peak today (2026-06-30), Steam Most Played #3" },
+            { label: "2026-06-30", value: 743815, note: "스팀 동접 스냅샷" },
+            { label: "2026-07-01", value: 91734, note: "스팀 동접 스냅샷 (05:00 KST)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "피크 동접", "전월비", "출처"],

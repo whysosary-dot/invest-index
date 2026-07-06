@@ -404,7 +404,7 @@
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-07-06";
+const DATA_UPDATED = "2026-07-07";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -585,6 +585,7 @@ const INDICATORS = [
             { label: "2026-07-01", value: 46.833, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-07-02", value: 46.633, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-07-03", value: 46.667, note: "DDR5 16Gb 4800/5600 Avg" },
+            { label: "2026-07-06", value: 47.00, note: "DDR5 16Gb 4800/5600 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -640,6 +641,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 61.00, low: 31.30, avg: 46.833, change: "+0.00%" },
             { label: "2026-07-02", value: 46.633 },
             { label: "2026-07-03", value: 46.667 },
+            { label: "2026-07-06", value: 47.00 },
         ]
             },
             {
@@ -693,6 +695,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 25.30, low: 22.30, avg: 23.30, change: "-0.85%" },
             { label: "2026-07-02", value: 23.30 },
             { label: "2026-07-03", value: 23.25 },
+            { label: "2026-07-06", value: 23.30 },
         ]
             },
             {
@@ -745,6 +748,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 93.00, low: 39.20, avg: 74.625, change: "+1.20%" },
             { label: "2026-07-02", value: 75.50 },
             { label: "2026-07-03", value: 76.375 },
+            { label: "2026-07-06", value: 76.625 },
         ]
             },
             {
@@ -797,6 +801,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 12.00, low: 10.50, avg: 11.625, change: "-0.22%" },
             { label: "2026-07-02", value: 11.60 },
             { label: "2026-07-03", value: 11.525 },
+            { label: "2026-07-06", value: 11.45 },
         ]
             },
             {
@@ -849,6 +854,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 57.00, low: 19.60, avg: 36.10, change: "+0.28%" },
             { label: "2026-07-02", value: 36.34 },
             { label: "2026-07-03", value: 36.54 },
+            { label: "2026-07-06", value: 36.74 },
         ]
             },
             {
@@ -901,6 +907,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 4.60, low: 3.80, avg: 4.236, change: "-0.49%" },
             { label: "2026-07-02", value: 4.204 },
             { label: "2026-07-03", value: 4.171 },
+            { label: "2026-07-06", value: 4.114 },
         ]
             },
             {
@@ -950,6 +957,7 @@ const INDICATORS = [
                     { label: "2026-07-01", high: 16.50, low: 8.00, avg: 12.171, change: "+1.11%" },
             { label: "2026-07-02", value: 12.341 },
             { label: "2026-07-03", value: 12.476 },
+            { label: "2026-07-06", value: 12.675 },
         ]
             },
         ],
@@ -979,6 +987,7 @@ const INDICATORS = [
             { label: "2026-06-08", value: 26.545, note: "MLC 64Gb 8GBx8 Avg" },
 { label: "2026-06-15", value: 28.182, note: "MLC 64Gb 8GBx8 Avg" },
             { label: "2026-06-22", value: 29.068, note: "MLC 64Gb 8GBx8 Avg" },
+            { label: "2026-06-29", value: 29.682, note: "MLC 64Gb 8GBx8 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -999,7 +1008,9 @@ const INDICATORS = [
                 ,{ label: "2026-05-25", high: 4.4, low: 3.3, avg: 3.795, change: "+0.53%" },{ label: "2026-06-01", high: 4.50, low: 3.45, avg: 3.825, change: "+0.79%" },
                     { label: "2026-06-08", high: 4.50, low: 3.60, avg: 3.90, change: "+1.96%" },
                 { label: "2026-06-15", high: 4.50, low: 3.55, avg: 3.913, change: "+0.33%" },
-                    { label: "2026-06-22", high: 4.50, low: 3.52, avg: 3.92, change: "+0.18%" }]
+                    { label: "2026-06-22", high: 4.50, low: 3.52, avg: 3.92, change: "+0.18%" },
+            { label: "2026-06-29", value: 3.935 },
+        ]
             },
             {
                 name: "SLC 1Gb 128MBx8",
@@ -1016,7 +1027,9 @@ const INDICATORS = [
                 ,{ label: "2026-05-25", high: 3.8, low: 3.3, avg: 3.5, change: "0.00%" },{ label: "2026-06-01", high: 3.80, low: 3.30, avg: 3.513, change: "+0.37%" },
                     { label: "2026-06-08", high: 3.85, low: 3.35, avg: 3.563, change: "+1.42%" },
                 { label: "2026-06-15", high: 3.85, low: 3.30, avg: 3.578, change: "+0.42%" },
-                    { label: "2026-06-22", high: 3.85, low: 3.32, avg: 3.598, change: "+0.56%" }]
+                    { label: "2026-06-22", high: 3.85, low: 3.32, avg: 3.598, change: "+0.56%" },
+            { label: "2026-06-29", value: 3.60 },
+        ]
             },
             {
                 name: "MLC 64Gb 8GBx8",
@@ -1032,7 +1045,9 @@ const INDICATORS = [
                     ,{ label: "2026-05-11", high: 32.00, low: 16.00, avg: 20.295, change: "+3.41%" },
                 ,{ label: "2026-05-25", high: 35.0, low: 18.0, avg: 22.182, change: "+2.31%" },{ label: "2026-06-01", high: 40.00, low: 20.00, avg: 24.318, change: "+9.63%" },
                     { label: "2026-06-08", high: 40.00, low: 22.00, avg: 26.545, change: "+9.16%" },
-                { label: "2026-06-15", high: 40.00, low: 23.00, avg: 28.182, change: "+6.17%" }]
+                { label: "2026-06-15", high: 40.00, low: 23.00, avg: 28.182, change: "+6.17%" },
+            { label: "2026-06-29", value: 29.682 },
+        ]
             },
             {
                 name: "MLC 32Gb 4GBx8",
@@ -1050,8 +1065,9 @@ const INDICATORS = [
                     { label: "2026-06-01", high: 14.00, low: 11.00, avg: 12.233, change: "+33.51%" },
                     { label: "2026-06-08", high: 15.00, low: 12.00, avg: 13.267, change: "+8.45%" },
                 { label: "2026-06-15", high: 15.50, low: 13.00, avg: 14.00, change: "+5.53%" },
-                    { label: "2026-06-22", high: 16.00, low: 13.50, avg: 14.50, change: "+3.57%" }
-                ]
+                    { label: "2026-06-22", high: 16.00, low: 13.50, avg: 14.50, change: "+3.57%" },
+            { label: "2026-06-29", value: 14.733 },
+        ]
             },
             // ── Memory Card Spot ──
             {
@@ -1069,7 +1085,9 @@ const INDICATORS = [
                     { label: "2026-05-18", high: 34.00, low: 18.00, avg: 21.682, change: "+6.83%" },
                 ,{ label: "2026-05-25", high: 3.25, low: 2.7, avg: 3.0, change: "-1.64%" },{ label: "2026-06-01", high: 3.25, low: 2.70, avg: 2.975, change: "-0.83%" },
                 { label: "2026-06-15", high: 3.20, low: 2.70, avg: 2.925, change: "-0.85%" },
-                { label: "2026-06-22", high: 3.20, low: 2.70, avg: 2.90, change: "-0.86%" }]
+                { label: "2026-06-22", high: 3.20, low: 2.70, avg: 2.90, change: "-0.86%" },
+            { label: "2026-06-29", value: 2.875 },
+        ]
             },
             {
                 name: "MicroSD 32GB",
@@ -1086,7 +1104,9 @@ const INDICATORS = [
                     { label: "2026-05-18", high: 4.60, low: 3.10, avg: 3.775, change: "+1.34%" },
                 ,{ label: "2026-05-25", high: 5.5, low: 4.2, avg: 4.975, change: "-3.87%" },{ label: "2026-06-01", high: 5.50, low: 4.20, avg: 4.925, change: "-1.01%" },
                 { label: "2026-06-15", high: 5.10, low: 3.90, avg: 4.575, change: "-3.68%" },
-                { label: "2026-06-22", high: 5.10, low: 3.90, avg: 4.525, change: "-1.09%" }]
+                { label: "2026-06-22", high: 5.10, low: 3.90, avg: 4.525, change: "-1.09%" },
+            { label: "2026-06-29", value: 4.35 },
+        ]
             },
             {
                 name: "MicroSD 64GB",
@@ -1103,7 +1123,9 @@ const INDICATORS = [
                     { label: "2026-05-18", high: 3.80, low: 3.20, avg: 3.50, change: "+2.19%" },
                 ,{ label: "2026-05-25", high: 8.2, low: 6.5, avg: 7.425, change: "-2.94%" },{ label: "2026-06-01", high: 8.00, low: 6.50, avg: 7.375, change: "-0.67%" },
                 { label: "2026-06-15", high: 7.40, low: 6.20, avg: 6.80, change: "-4.90%" },
-                { label: "2026-06-22", high: 7.30, low: 6.20, avg: 6.75, change: "-0.74%" }]
+                { label: "2026-06-22", high: 7.30, low: 6.20, avg: 6.75, change: "-0.74%" },
+            { label: "2026-06-29", value: 6.65 },
+        ]
             },
             {
                 name: "MicroSD 128GB",
@@ -1119,7 +1141,9 @@ const INDICATORS = [
                     ,{ label: "2026-05-11", high: 16.80, low: 14.50, avg: 15.85, change: "-2.16%" },
                     { label: "2026-05-18", high: 12.50, low: 10.70, avg: 11.267, change: "+5.30%" }
                 ,{ label: "2026-05-25", high: 15.4, low: 13.5, avg: 14.75, change: "-3.91%" },{ label: "2026-06-01", high: 15.20, low: 13.50, avg: 14.50, change: "-1.69%" },
-                { label: "2026-06-22", high: 14.20, low: 12.20, avg: 13.40, change: "-1.11%" }]
+                { label: "2026-06-22", high: 14.20, low: 12.20, avg: 13.40, change: "-1.11%" },
+            { label: "2026-06-29", value: 12.60 },
+        ]
             },
         ],
     },
@@ -1268,6 +1292,7 @@ const INDICATORS = [
             { label: "2026-07-04", value: 219438, note: "스팀 동접 스냅샷 (05:00 KST)" },
             { label: "2026-07-05", value: 234423, note: "스팀 동접 스냅샷 (05:00 KST)" },
             { label: "2026-07-06", value: 204622, note: "스팀 동접 스냅샷 (05:00 KST)" },
+            { label: "2026-07-07", value: 178506, note: "스팀 동접 스냅샷 (05:00 KST)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "피크 동접", "전월비", "출처"],

@@ -72,7 +72,8 @@ body{margin:0;background:#EAD9C5;color:var(--ink);font-family:"Noto Sans KR",sys
 .missions div{display:flex;gap:5px;align-items:center;color:#5a5048}.missions div.done{color:var(--good);text-decoration:line-through}
 .missions .rt{margin-top:4px;color:#8a7a3a;font-family:"Jua"}
 @media (max-width:520px){.missions{width:auto;max-width:170px;top:100px;font-size:12px;pointer-events:auto;cursor:pointer}.missions:not(.open) div,.missions:not(.open) .rt{display:none}.missions h3{font-size:14px;gap:8px}.missions h3::after{content:'▾';opacity:.6}.missions.open h3::after{content:'▴'}}
-.album{display:grid;gap:6px;text-align:left;max-height:40vh;overflow:auto;margin:8px 0}.album div{background:#F7F2EA;border-radius:10px;padding:6px 10px;font-size:12px}.album small{color:#8a7f73;display:block}
+.album{display:grid;gap:6px;text-align:left;max-height:40vh;overflow:auto;margin:8px 0}.album{grid-template-columns:1fr 1fr}.album div{background:#F7F2EA;border-radius:10px;padding:6px 8px;font-size:11px;text-align:left}.album small{color:#8a7f73;display:block}.album img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;margin-bottom:4px;background:#e8e2d8}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:40}#flash.on{animation:flash .5s ease-out}@keyframes flash{0%{opacity:.95}100%{opacity:0}}
 .cam button{font:inherit;background:var(--paper);border:0;border-radius:10px;padding:6px 9px;font-size:12px;cursor:pointer;box-shadow:0 4px 14px rgba(70,50,30,.15)}
 @media (max-width:520px){.stam{width:120px}.bc{width:158px;padding:6px 9px}.bc h2{font-size:16px}.bc .n{font-size:12px;grid-template-columns:40px 1fr;gap:4px}.bc .n .bar{height:6px}.bc .w{font-size:12px}.score{font-size:20px}.hint{top:auto;bottom:215px;font-size:14px;max-width:70vw}.babies{top:82px}.hud.top{flex-wrap:nowrap;padding:8px 8px;gap:6px}.pill.clock small{display:none}.pill.clock{padding:6px 10px}.pill.score{padding:6px 10px}.pill.score small{display:none}#photoBtn{top:auto;bottom:270px;max-width:80vw}.log{font-size:12px;left:12px;bottom:180px;max-width:50vw}.acts button{font-size:16px;padding:11px 16px}.acts button small{font-size:11px}.acts{max-width:60vw}.help{font-size:14px;line-height:1.7}.sheet{padding:18px 16px}.sheet h2{font-size:26px}.mode{font-size:17px}.mode small{font-size:11px}.cam button{font-size:14px;padding:8px 11px}.pill{font-size:14px}}
 </style>
@@ -96,7 +97,7 @@ body{margin:0;background:#EAD9C5;color:var(--ink);font-family:"Noto Sans KR",sys
 <div class="prog" id="prog"><span id="progT"></span><div class="bar"><i id="progB" style="width:0"></i></div></div>
 <div class="joy" id="joy"><i id="joyK"></i></div>
 <div class="log" id="log"></div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div><div id="flash"></div>
 <button id="photoBtn" hidden><span class="pi">📸</span><span><b>사진 찍기 <small>(+20)</small></b><em id="photoCap"></em><i><u id="photoBar"></u></i></span></button>
 <div class="out" id="out"><div><h2>하남 스타필드 🛍️</h2><p id="outP">쌍둥이 유모차로 한 바퀴… 아쿠아필드 앞에서 둘 다 방긋</p></div></div>
 <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
@@ -738,7 +739,7 @@ function spawnRattles(){rattles.forEach(r=>scene.remove(r.g));rattles=[];
   spots.forEach(([x,z])=>{const g=new T.Group();g.position.set(x,0.35,z);const h=sphere(0.11,0xF2C14E,0,0.1,0,g,14);const st=cyl(0.025,0.03,0.2,0xE0A93A,0,-0.1,0,g);sphere(0.04,0xD9645A,0,0.1,0.1,g,8);
     g.traverse(o=>{if(o.isMesh)o.castShadow=true;});scene.add(g);rattles.push({g,x,z,t:Math.random()*6});});}
 function updateRattles(dt){rattles.forEach((r,i)=>{r.t+=dt;r.g.position.y=0.35+Math.sin(r.t*2.5)*0.06;r.g.rotation.y+=dt*2;
-  if(!S.busy&&!S.out&&P.pos.distanceTo(new T.Vector3(r.x,0,r.z))<0.55){scene.remove(r.g);rattles.splice(i,1);S.rattlesGot++;S.score+=15;toast(`황금 딸랑이 ${S.rattlesGot}/6 (+15)`);log('황금 딸랑이 발견 ✨','good');}});}
+  if(!S.busy&&!S.out&&P.pos.distanceTo(new T.Vector3(r.x,0,r.z))<0.55){scene.remove(r.g);rattles.splice(i,1);S.rattlesGot++;S.score+=15;toast(`황금 딸랑이 ${S.rattlesGot}/6 (+15)`);log('황금 딸랑이 발견 ✨','good');renderMissions();checkMissions();renderHUD();}});}
 const MISSION_POOL=[
   {id:'feed',t:'준우·준서 이유식 각 1번',check:()=>B.ju.fedSolid>=1&&B.se.fedSolid>=1},
   {id:'nap',t:'둘 다 동시에 낮잠 재우기',check:()=>Object.values(B).every(b=>b.asleep>0)},
@@ -752,10 +753,22 @@ function setupMissions(day){const n=MISSION_POOL.length;S.missions=[0,1,2].map(i
 function renderMissions(){$('missions').innerHTML=`<h3>오늘의 미션 <span>${S.missions.filter(m=>m.done).length}/3</span></h3>`+S.missions.map(m=>`<div class="${m.done?'done':''}">${m.done?'✅':'⬜'} ${m.t}</div>`).join('')+`<div class="rt">✨ 황금 딸랑이 ${S.rattlesGot}/6 · 📸 오늘 ${S.photosToday}장</div>`;}
 function checkMissions(){let ch=false;S.missions.forEach(m=>{if(!m.done&&m.check()){m.done=true;S.score+=50;ch=true;toast(`미션 완료! ${m.t} (+50)`);log(`미션 완료: ${m.t}`,'good');}});if(ch)renderMissions();}
 function photoOp(b,caption){S.photoOp={b,caption,left:100,total:100};SFX.play('pop');toast(`📸 ${b.name} ${caption} — 지금 사진 찍을 기회!`);renderActs();updatePhotoBtn();}
-function updatePhotoBtn(){const e=$('photoBtn');const p=S.photoOp;e.hidden=!p;if(p){$('photoCap').textContent=`${p.b.name} ${p.caption}`;$('photoBar').style.width=Math.max(0,100*p.left/p.total)+'%';}}
-function takePhoto(){const p=S.photoOp;if(!p)return;SFX.play('shutter');const entry={day:S.day,t:fmt(S.t),who:p.b.name,cap:p.caption,mode:MODE};ALBUM.unshift(entry);ALBUM.length=Math.min(ALBUM.length,60);
-  try{localStorage.setItem('twins3d-album',JSON.stringify(ALBUM));}catch(e){}S.photosToday++;S.score+=20;S.photoOp=null;$('albumN').textContent=ALBUM.length;updatePhotoBtn();toast(`📸 추억 저장: ${p.who||p.b.name} — ${p.caption} (+20)`);log(`📸 ${p.b.name} ${p.caption}`,'good');renderMissions();renderActs();}
-function showAlbum(){const list=ALBUM.length?ALBUM.map(e=>`<div>📸 DAY ${e.day} ${e.t} · <b>${e.who}</b> — ${e.cap}<small>${e.mode==='mom'?'엄마':'아빠'}가 찍음</small></div>`).join(''):'<div>아직 사진이 없어요. 아기가 웃을 때 📸 버튼이 떠요.</div>';
+function updatePhotoBtn(){const e=$('photoBtn');const p=S.photoOp;e.hidden=!p||!!p.shooting;if(p){$('photoCap').textContent=`${p.b.name} ${p.caption}`;$('photoBar').style.width=Math.max(0,100*p.left/p.total)+'%';}}
+function takePhoto(){const p=S.photoOp;if(!p||S.busy)return;p.left=999;p.shooting=true;
+  S.busy={a:{t:'사진 찍기 📸',min:5,st:0,run:capturePhoto},total:5,left:5};beginAnim(S.busy.a);$('prog').style.display='block';$('progT').textContent='사진 찍는 중…';renderActs();updatePhotoBtn();}
+const photoCam=new T.PerspectiveCamera(42,4/3,0.1,200);
+function snapshot(b){ // 아기를 클로즈업으로 실제 렌더링해서 저장
+  const wp=new T.Vector3();b.g.getWorldPosition(wp);const pp=P.pos.clone();let dir=new T.Vector3(wp.x-pp.x,0,wp.z-pp.z);if(dir.length()<0.05)dir.set(Math.sin(P.yaw),0,Math.cos(P.yaw));dir.normalize();
+  if(b.state==='carried'){photoCam.position.set(pp.x+dir.x*1.15,1.45,pp.z+dir.z*1.15);photoCam.lookAt(wp.x,wp.y+0.3,wp.z);} // 품에 안긴 아기: 앞에서 내려다보며
+  else{const bk=Math.max(0,1.3-Math.hypot(wp.x-pp.x,wp.z-pp.z));photoCam.position.set(pp.x-dir.x*bk,0.62,pp.z-dir.z*bk);photoCam.lookAt(wp.x,wp.y+0.4,wp.z);P.g.visible=false;} // 엄마·아빠 눈높이(본인은 안 찍힘) // 엄마·아빠 폰 위치에서
+  photoCam.updateProjectionMatrix();
+  const W=480,H=360;const pr=renderer.getPixelRatio();const ow=canvas.width/pr,oh=canvas.height/pr;renderer.setSize(W,H,false);renderer.render(scene,photoCam);let url='';try{url=canvas.toDataURL('image/jpeg',0.72);}catch(e){}P.g.visible=true;
+  renderer.setSize(ow,oh,false);camera.aspect=ow/oh;camera.updateProjectionMatrix();return url;}
+function capturePhoto(){const p=S.photoOp;if(!p)return;SFX.play('shutter');const fl=$('flash');fl.classList.remove('on');void fl.offsetWidth;fl.classList.add('on');
+  const img=snapshot(p.b);const entry={day:S.day,t:fmt(S.t),who:p.b.name,cap:p.caption,mode:MODE,img};ALBUM.unshift(entry);ALBUM.length=Math.min(ALBUM.length,40);
+  try{localStorage.setItem('twins3d-album',JSON.stringify(ALBUM));}catch(e){try{ALBUM.forEach((e2,i)=>{if(i>=12)delete e2.img;});localStorage.setItem('twins3d-album',JSON.stringify(ALBUM));}catch(e3){}}
+  S.photosToday++;S.score+=20;S.photoOp=null;$('albumN').textContent=ALBUM.length;updatePhotoBtn();toast(`📸 추억 저장: ${p.b.name} — ${p.caption} (+20)`);log(`📸 ${p.b.name} ${p.caption}`,'good');renderMissions();checkMissions();}
+function showAlbum(){const list=ALBUM.length?ALBUM.map(e=>`<div class="ph">${e.img?`<img src="${e.img}" alt="">`:''}<span>📸 DAY ${e.day} ${e.t} · <b>${e.who}</b> — ${e.cap}<small>${e.mode==='mom'?'엄마':'아빠'}가 찍음</small></span></div>`).join(''):'<div>아직 사진이 없어요. 아기가 웃을 때 📸 버튼이 떠요.</div>';
   $('sheet').innerHTML=`<h2>추억 앨범</h2><p>준우·준서와의 순간들 (${ALBUM.length}장)</p><div class="album">${list}</div><button class="cta" id="closeAlbum">닫기</button>`;$('overlay').style.display='grid';$('closeAlbum').addEventListener('click',()=>{$('overlay').style.display='none';});}
 $('minimap').addEventListener('click',()=>{$('minimap').classList.toggle('big');});
 $('albumBtn').addEventListener('click',()=>{if(S.started&&!S.ended)showAlbum();});
@@ -825,7 +838,7 @@ function whereBaby(b){if(b.state==='carried')return'품 안';if(b.state==='crib'
 
 /* ================= actions ================= */
 /* ================= action animations ================= */
-function animKey(a){const t=a.t;if(t.includes('이유식 먹이기'))return'feed';if(t.includes('분유 먹이기'))return'bottle';if(t.includes('재우기'))return'nap';if(t.includes('기저귀'))return'diaper';if(t.includes('목욕'))return'bath';if(t.includes('입히기'))return'dress';if(t.includes('유모차'))return'stroller';if(t.includes('토닥'))return'hug';if(t.includes('이유식 만들기'))return'cook';if(t.includes('분유 타기'))return'mix';if(t.includes('커피'))return'coffee';if(t.includes('누워 쉬기'))return'rest';return'';}
+function animKey(a){const t=a.t;if(t.includes('이유식 먹이기'))return'feed';if(t.includes('분유 먹이기'))return'bottle';if(t.includes('재우기'))return'nap';if(t.includes('기저귀'))return'diaper';if(t.includes('목욕'))return'bath';if(t.includes('입히기'))return'dress';if(t.includes('유모차'))return'stroller';if(t.includes('토닥'))return'hug';if(t.includes('이유식 만들기'))return'cook';if(t.includes('분유 타기'))return'mix';if(t.includes('커피'))return'coffee';if(t.includes('누워 쉬기'))return'rest';if(t.includes('사진 찍기'))return'photo';return'';}
 let PROPS=null;
 function ensureProps(){if(PROPS)return;PROPS={};
   const hand=()=>{const g=new T.Group();g.position.set(0,-0.5,0);P.armR.add(g);g.visible=false;return g;};
@@ -836,19 +849,21 @@ function ensureProps(){if(PROPS)return;PROPS={};
   const bw=new T.Group();bw.position.set(0,-0.5,0);P.armL.add(bw);bw.visible=false;const bowl=lathe([[0.02,0],[0.09,0.02],[0.11,0.08],[0.1,0.09]],0xF7F3EC);bw.add(bowl);const food=cyl(0.08,0.08,0.02,0xB6863F,0,0.07,0,bw);PROPS.bowl=bw;
   // 커피잔
   const cp=hand();cyl(0.045,0.04,0.09,0xFFFFFF,0,0,0.04,cp);cyl(0.04,0.04,0.005,0x5A3A22,0,0.045,0.04,cp);PROPS.cup=cp;
+  // 스마트폰
+  const ph=hand();const pb=box(0.075,0.15,0.012,0x2A2A2E,0,0.02,0.05,ph);pb.castShadow=false;box(0.065,0.13,0.002,0xBFE0F0,0,0.02,0.057,ph).castShadow=false;PROPS.phone=ph;
   // 기저귀
   const dp=hand();const d=box(0.16,0.03,0.12,0xFFFFFF,0,0,0.05,dp);PROPS.diaper=dp;
   // 물튀김 · 김
   PROPS.splash=[];for(let i=0;i<10;i++){const m=sphere(0.03,0x9FD0F0,0,0,0,scene,6);m.visible=false;m.castShadow=false;PROPS.splash.push({m,t:Math.random()*2});}
   PROPS.steam=[];for(let i=0;i<6;i++){const m=sphere(0.04,0xFFFFFF,0,0,0,scene,6);m.visible=false;m.castShadow=false;m.material.transparent=true;m.material.opacity=0.7;PROPS.steam.push({m,t:Math.random()*2});}
 }
-function hideProps(){if(!PROPS)return;['bottle','spoon','bowl','cup','diaper'].forEach(k=>PROPS[k].visible=false);PROPS.splash.forEach(p=>p.m.visible=false);PROPS.steam.forEach(p=>p.m.visible=false);}
+function hideProps(){if(!PROPS)return;['bottle','spoon','bowl','cup','diaper','phone'].forEach(k=>PROPS[k].visible=false);PROPS.splash.forEach(p=>p.m.visible=false);PROPS.steam.forEach(p=>p.m.visible=false);}
 function beginAnim(a){ensureProps();hideProps();const k=animKey(a);S.busy.key=k;S.busy.time=0;const b=S.carrying;
   P.g.position.y=0;
   if(k==='bath'&&b){scene.add(b.g);b.g.position.set(bathPos.x,0.5,bathPos.z);b.g.rotation.set(0,Math.PI,0);b.g.scale.setScalar(0.85);b.parked=true;}
   if(k==='diaper'&&b){scene.add(b.g);if(near('change')){b.g.position.set(changePos.x+0.1,1.02,changePos.z);b.g.rotation.set(-Math.PI/2+0.3,0,0);S.busy.floorD=false;}else{const f=new T.Vector3(Math.sin(P.yaw),0,Math.cos(P.yaw));const p=P.pos.clone().add(f.multiplyScalar(0.55));b.g.position.set(p.x,0.06,p.z);b.g.rotation.set(-Math.PI/2+0.3,P.yaw+Math.PI,0);S.busy.floorD=true;}b.g.scale.setScalar(0.85);b.parked=true;}
   if(k==='rest'){const sf=a.rest;S.busy.savePos=P.pos.clone();S.busy.saveYaw=P.yaw;P.pos.set(sf.x,0,sf.z);P.yaw=sf.yaw;S.busy.restY=sf.y;}
-  if(k==='bottle')PROPS.bottle.visible=true;if(k==='feed'){PROPS.spoon.visible=true;PROPS.bowl.visible=true;}if(k==='coffee')PROPS.cup.visible=true;if(k==='diaper')PROPS.diaper.visible=true;
+  if(k==='bottle')PROPS.bottle.visible=true;if(k==='feed'){PROPS.spoon.visible=true;PROPS.bowl.visible=true;}if(k==='coffee')PROPS.cup.visible=true;if(k==='diaper')PROPS.diaper.visible=true;if(k==='photo')PROPS.phone.visible=true;
   if(k==='cook'||k==='mix'){PROPS.steam.forEach(p=>p.m.visible=true);}
   if(k==='bath'){PROPS.splash.forEach(p=>p.m.visible=true);}
 }
@@ -861,6 +876,7 @@ function animBusy(dt){const bz=S.busy;if(!bz||!bz.key)return;bz.time+=dt;const t
     P.armL.rotation.x=-1.2+s*0.25;P.armR.rotation.x=-1.2-s*0.25;P.armL.rotation.z=0.3;P.armR.rotation.z=-0.3;
     if(b){b.g.position.y=0.5+Math.abs(s)*0.03;b.g.rotation.z=s*0.08;}
     PROPS.splash.forEach(p=>{p.t+=dt*1.6;if(p.t>1){p.t=0;p.ox=(Math.random()-0.5)*0.9;p.oz=(Math.random()-0.5)*0.5;}const u=p.t;p.m.position.set(bathPos.x+(p.ox||0),0.5+u*0.6-u*u*0.6,bathPos.z+(p.oz||0));p.m.scale.setScalar(1-u*0.6);});}
+  else if(k==='photo'){const pb=S.photoOp&&S.photoOp.b;if(pb&&pb.state!=='carried'){const wp=new T.Vector3();pb.g.getWorldPosition(wp);face(wp);}const up=Math.min(1,t*2.5);P.armR.rotation.x=-0.2-up*1.9;P.armR.rotation.z=-0.15;if(S.carrying){P.armL.rotation.x=-1.3;P.armL.rotation.z=0.6;}else{P.armL.rotation.x=-0.2-up*1.9;P.armL.rotation.z=0.15;}P.g.rotation.z=Math.sin(t*3)*0.02;}
   else if(k==='rest'){P.g.position.y=bz.restY;P.g.rotation.x=-Math.PI/2+0.08;P.g.rotation.z=0;P.legL.rotation.x=P.legR.rotation.x=0.05;P.armL.rotation.x=P.armR.rotation.x=0.2+Math.sin(t*1.2)*0.04;P.armL.rotation.z=0.25;P.armR.rotation.z=-0.25;P.g.position.y=bz.restY+Math.sin(t*1.2)*0.01;}
   else if(k==='diaper'){if(bz.floorD){P.g.position.y=-0.25;P.legL.rotation.x=P.legR.rotation.x=1.3;P.g.rotation.x=0.3;}else face(changePos);P.armL.rotation.x=-1.4+s*0.3;P.armR.rotation.x=-1.4-s*0.3;P.armL.rotation.z=0.4-c*0.2;P.armR.rotation.z=-0.4+c*0.2;
     if(b){b.parts.legL.rotation.x=-1.4+Math.sin(t*9)*0.5;b.parts.legR.rotation.x=-1.4+Math.cos(t*9)*0.5;}}
@@ -1113,6 +1129,11 @@ function frame(now){
     
     // babies idle wiggle
     Object.values(B).forEach(b=>{b.wiggle+=dt;const m=moodOf(b);if(m.cls==='bad'&&b.lastCls!=='bad'&&(performance.now()-(b.cryAt||0))>15000){b.cryAt=performance.now();SFX.play('cry');}b.lastCls=m.cls;
+      const posing=S.photoOp&&S.photoOp.b===b&&!b.parked;
+      if(posing){setFace(b,'laugh');const w=b.wiggle;if(b.state==='floor'){const ty=Math.atan2(P.pos.x-b.g.position.x,P.pos.z-b.g.position.z);let d=ty-b.g.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));b.g.rotation.y+=d*Math.min(1,dt*5);}
+        if(S.photoOp.caption.includes('뒤집기')&&b.state==='floor'&&!b.onSurface){b.g.rotation.x=Math.min(0.4,(b.g.rotation.x||0)+dt*4);b.g.position.y=0.06;b.parts.armL.rotation.x=-1.5;b.parts.armR.rotation.x=-1.5;b.parts.armL.rotation.z=0.3;b.parts.armR.rotation.z=-0.3;b.parts.legL.rotation.x=0.2+Math.sin(w*4)*0.15;b.parts.legR.rotation.x=0.2-Math.sin(w*4)*0.15;b.g.rotation.z=Math.sin(w*3)*0.04;} // 배 대고 고개 들기
+        else{if(b.state==='floor'){b.g.rotation.x=Math.max(0,(b.g.rotation.x||0)-dt*4);b.g.position.y=b.onSurface?b.onSurface.y:0;}b.parts.armL.rotation.x=-0.3;b.parts.armR.rotation.x=-0.3;b.parts.armL.rotation.z=1.5+Math.sin(w*5)*0.2;b.parts.armR.rotation.z=-1.5-Math.sin(w*5)*0.2;b.g.rotation.z=Math.sin(w*5)*0.06;} // 만세 방긋
+        b.sp.sprite.position.y=1.15+Math.sin(b.wiggle*4)*0.05;return;}
       if(b.state==='floor'&&!b.onSurface&&b.asleep<=0&&!S.out&&!b.parked){ // 기어다니기
         b.cr=b.cr||{t:1+Math.random()*3,dir:b.g.rotation.y,mv:false};const cr=b.cr;cr.t-=dt;
         if(cr.t<=0){cr.mv=!cr.mv&&Math.random()<0.65;cr.t=cr.mv?1.5+Math.random()*3:2+Math.random()*5;if(cr.mv)cr.dir=Math.random()*Math.PI*2;}
@@ -1122,7 +1143,7 @@ function frame(now){
           b.g.rotation.x=Math.min(0.9,(b.g.rotation.x||0)+dt*3);b.g.position.y=0.12;const w=b.wiggle*9;b.parts.armL.rotation.x=-1.2+Math.sin(w)*0.5;b.parts.armR.rotation.x=-1.2-Math.sin(w)*0.5;b.parts.legL.rotation.x=0.8-Math.sin(w)*0.4;b.parts.legR.rotation.x=0.8+Math.sin(w)*0.4;b.g.rotation.z=Math.sin(w)*0.05;}
         else{b.g.rotation.x=Math.max(0,(b.g.rotation.x||0)-dt*3);b.g.position.y=0.12*(b.g.rotation.x/0.9);b.parts.legL.rotation.x*=0.9;b.parts.legR.rotation.x*=0.9;b.parts.armL.rotation.x*=0.9;b.parts.armR.rotation.x*=0.9;b.g.rotation.z=Math.sin(b.wiggle*2)*0.06;if(m.cls==='bad'){b.g.rotation.z=Math.sin(b.wiggle*18)*0.12;}b.parts.armL.rotation.z=0.5+Math.sin(b.wiggle*3)*0.25;b.parts.armR.rotation.z=-0.5-Math.cos(b.wiggle*3)*0.25;}}
       else if(b.state==='floor'){b.g.rotation.x=0;b.g.position.y=b.onSurface?b.onSurface.y:0;b.g.rotation.z=Math.sin(b.wiggle*2)*0.06;if(m.cls==='bad'){b.g.rotation.z=Math.sin(b.wiggle*18)*0.12;}b.parts.armL.rotation.z=0.5+Math.sin(b.wiggle*3)*0.25;b.parts.armR.rotation.z=-0.5-Math.cos(b.wiggle*3)*0.25;}
-      else if(b.state==='carried'&&!b.parked&&!S.busy){b.g.rotation.z=Math.sin(b.wiggle*3)*0.05;}
+      else if(b.state==='carried'&&!b.parked&&!S.busy){b.g.rotation.z=Math.sin(b.wiggle*3)*0.05;b.parts.armL.rotation.z+=(0.5-b.parts.armL.rotation.z)*0.2;b.parts.armR.rotation.z+=(-0.5-b.parts.armR.rotation.z)*0.2;b.parts.armL.rotation.x*=0.8;b.parts.armR.rotation.x*=0.8;}
       b.sp.sprite.position.y=1.15+Math.sin(b.wiggle*4)*0.05;});
     // contextual actions refresh (cheap key)
     const k=[S.photoOp?1:0,S.carrying&&S.carrying.id,nearBaby()&&nearBaby().id,Object.keys(ST).filter(near).join(),S.busy?1:0,S.out?1:0,S.solid,S.formula,S.inStroller.length].join('|');

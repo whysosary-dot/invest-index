@@ -680,7 +680,7 @@ function setStatus(b,emoji){if(b.sp.cur===emoji)return;b.sp.cur=emoji;const g=b.
 /* --- 엄마 / 아빠 --- */
 function stripeTex(){const c=document.createElement('canvas');c.width=64;c.height=64;const g=c.getContext('2d');g.fillStyle='#2F6B4F';g.fillRect(0,0,64,64);g.fillStyle='#F4F4F0';for(let y=0;y<64;y+=16)g.fillRect(0,y+9,64,6);const t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(1,3);return t;}
 function makeParent(mode){
-  const g=new T.Group();const mom=mode==='mom';
+  const g=new T.Group();g.rotation.order='YXZ';const mom=mode==='mom';
   // 다리 (엄마 연청 / 아빠 베이지) + 흰 운동화
   const legC=mom?0x9DB4CC:0xCDBEA4;
   const legL=capsule(0.068,0.44,legC,g),legR=capsule(0.068,0.44,legC,g);legL.position.set(-0.09,0.58,0);legR.position.set(0.09,0.58,0);
@@ -724,7 +724,7 @@ function resetState(day){
   S={day,t:START,score:0,stamina:100,busy:null,carrying:null,coffee:0,solid:0,formula:0,inStroller:[],out:null,started:false,ended:false,log:[],camYaw:0.4,camDist:7.5,camMode:0,rattlesGot:0,wentOut:false,photosToday:0,photoOp:null,missions:[],cryCount:0,outside:false,mall:false};
 }
 const SURFACES=[{n:'소파',x:2.5,z:3.0,w:2.4,d:0.9,y:0.42},{n:'침대',x:2.9,z:-2.6,w:2.0,d:1.6,y:0.58},{n:'식탁',x:0.1,z:1.4,w:1.0,d:0.7,y:0.75}];
-const REST_SURF=[{n:'소파',x:3.4,z:3.0,y:0.6,yaw:Math.PI/2},{n:'침대',x:3.7,z:-2.5,y:0.62,yaw:Math.PI/2}];
+const REST_SURF=[{n:'소파',x:3.4,z:3.0,y:0.6,yaw:Math.PI/2,bx:1.3,bz:2.55,bw:2.4,bd:0.9},{n:'침대',x:2.9,z:-1.85,y:0.62,yaw:0,bx:1.9,bz:-3.4,bw:2.0,bd:1.6}];
 function placeBaby(b,x,z){b.state='floor';b.onSurface=null;b.g.position.set(x,0,z);b.g.rotation.set(0,0.4+(Math.random()-0.5)*0.8,0);if(b.g.parent!==scene){scene.add(b.g);}}
 
 let trafficBuilt=false;
@@ -969,7 +969,7 @@ function currentActs(){
   } else {
     const nb=nearBaby();
     if(nb)acts.push({t:`${nb.name} 안기`,sub:nb.state==='crib'?'침대에서 안아 올리기':nb.state==='stroller'?'유모차에서 내리기':'안아 올리기',inst:true,run:()=>pickUp(nb)});
-    REST_SURF.forEach(sf=>{if(P.pos.distanceTo(new T.Vector3(sf.x,0,sf.z))<1.6)acts.push({t:`${sf.n}에 누워 쉬기 😴`,sub:'20분 · 체력 +30',min:20,st:-30,dis:S.stamina>=100,alt:true,rest:sf,run:()=>{log(`${sf.n}에서 20분 눈 붙이기`,'good');}});});
+    REST_SURF.forEach(sf=>{const cx=clamp(P.pos.x,sf.bx,sf.bx+sf.bw),cz=clamp(P.pos.z,sf.bz,sf.bz+sf.bd);if(Math.hypot(P.pos.x-cx,P.pos.z-cz)<0.9)acts.push({t:`${sf.n}에 누워 쉬기 😴`,sub:'20분 · 체력 +30',min:20,st:-30,dis:S.stamina>=100,alt:true,rest:sf,run:()=>{log(`${sf.n}에서 20분 눈 붙이기`,'good');}});});
     if(near('kitchen')){
       acts.push({t:'커피 한 잔 ☕',sub:`체력 +18 · 오늘 ${S.coffee}/3잔`,min:5,st:-18,dis:S.coffee>=3,alt:true,run:()=>{S.coffee++;log('커피로 숨 돌리기','good')}});
     }

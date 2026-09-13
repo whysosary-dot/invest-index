@@ -188,7 +188,8 @@ const kitPos=new T.Vector3(-2.2,0,1.6);
  solid(-2.3,1.9,0.55,3.2);solid(-1.8,3.2,1.6,0.55);
  // 식탁: 조리대 쪽은 직각, 소파(동쪽) 쪽은 반원
  box(0.5,0.05,0.9,0xFAFAF8,-1.45,0.72,1.7);const half=new T.Mesh(new T.CylinderGeometry(0.45,0.45,0.05,24,1,false,0,Math.PI),mat(0xFAFAF8));half.position.set(-1.2,0.72,1.7);half.castShadow=true;half.receiveShadow=true;scene.add(half);
- [[-1.62,1.33],[-1.62,2.07],[-1.05,1.33],[-1.05,2.07]].forEach(([x,z])=>cyl(0.018,0.018,0.7,0xE8E8E4,x,0.36,z));[[-1.35,1.05],[-1.35,2.35]].forEach(([x,z])=>{box(0.36,0.05,0.36,0xF6F6F3,x,0.45,z);cyl(0.02,0.02,0.45,0xDDD,x,0.22,z);});solid(-1.35,1.7,1.2,1.0);}
+ [[-1.62,1.33],[-1.62,2.07],[-1.05,1.33],[-1.05,2.07]].forEach(([x,z])=>cyl(0.018,0.018,0.7,0xE8E8E4,x,0.36,z));[[-1.35,1.0,1],[-1.35,2.4,-1]].forEach(([x,z,f])=>{box(0.36,0.04,0.36,0xF6F6F3,x,0.45,z);[[-0.15,-0.15],[0.15,-0.15],[-0.15,0.15],[0.15,0.15]].forEach(([dx,dz])=>cyl(0.012,0.012,0.45,0xE8E8E4,x+dx,0.225,z+dz));box(0.36,0.36,0.03,0xF6F6F3,x,0.66,z-f*0.17);}); // 흰 의자 2개 (등받이는 식탁 반대쪽)
+ solid(-1.35,1.7,1.2,1.0);}
 // 아기체육관 · 물놀이매트 (거실 놀이매트 위, TV 앞)
 const gymPos=new T.Vector3(1.6,0,1.1);
 {const g=new T.Group();g.position.copy(gymPos);scene.add(g);

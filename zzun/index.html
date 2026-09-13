@@ -687,7 +687,7 @@ function makeParent(mode){
   [legL,legR].forEach(l=>{const sh=sphere(0.085,0xFFFFFF,0,-0.48,0.05,l,12);sh.scale.set(1,0.55,1.5);});
   // 몸통 (티셔츠) — 엄마 오버핏 흰 티 / 아빠 줄무늬
   let torso;
-  if(mom){torso=lathe([[0.13,0],[0.25,0.05],[0.265,0.3],[0.24,0.52],[0.17,0.6],[0.08,0.63]],0xF8F8F6);const pr=box(0.22,0.16,0.01,0xBFD0E4,0,0.35,0.32,g);pr.castShadow=false;}
+  if(mom){torso=lathe([[0.13,0],[0.25,0.05],[0.265,0.3],[0.24,0.52],[0.17,0.6],[0.08,0.63]],0xF8F8F6);}
   else{torso=lathe([[0.13,0],[0.23,0.05],[0.245,0.3],[0.225,0.52],[0.16,0.6],[0.08,0.63]],0xffffff,{map:stripeTex()});}
   torso.position.y=0.55;g.add(torso);
   // 팔 (소매 + 팔 + 손)

@@ -409,7 +409,7 @@ body{background:var(--bg) !important;color:var(--text) !important;font-family:va
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-10-01";
+const DATA_UPDATED = "2026-10-05";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -524,6 +524,9 @@ const INDICATORS = [
             { label: "2026-08-28", value: 186.34, note: "강경태 텔레그램" },
             { label: "2026-09-04", value: 186.29, note: "강경태 텔레그램" },
             { label: "2026-09-11", value: 186.25, note: "강경태 텔레그램" },
+            { label: "2026-09-18", value: 186.25, note: "강경태 텔레그램" },
+            { label: "2026-09-25", value: 186.59, note: "강경태 텔레그램" },
+            { label: "2026-10-02", value: 186.75, note: "강경태 텔레그램" },
             // ↑ 새 데이터를 여기에 추가 (매주 일요일)
         ],
         tableHeaders: ["주간", "신조선가 (pt)", "전주비", "출처"],
@@ -651,6 +654,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 54.333, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-09-16", value: 54.833, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-10-01", value: 57.933, note: "DDR5 16Gb 4800/5600 Avg" },
+            { label: "2026-10-05", value: 58.067, note: "DDR5 16Gb 4800/5600 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -741,6 +745,7 @@ const INDICATORS = [
             { label: "2026-09-11", value: 54.333 },
             { label: "2026-09-16", value: 54.833 },
             { label: "2026-10-01", value: 57.933, note: "DDR5 16Gb (2Gx8) 4800/5600" },
+            { label: "2026-10-05", value: 58.067 },
         ]
             },
             {
@@ -842,6 +847,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 24.20, note: "DDR5 16Gb eTT Avg" },
             { label: "2026-09-16", value: 24.30 },
             { label: "2026-10-01", value: 26.00, note: "DDR5 16Gb (2Gx8) eTT" },
+            { label: "2026-10-05", value: 26.30 },
         ]
             },
             {
@@ -941,6 +947,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 89.25, note: "DDR4 16Gb 3200 Avg" },
             { label: "2026-09-16", value: 87.625 },
             { label: "2026-10-01", value: 83.686, note: "DDR4 16Gb (2Gx8) 3200" },
+            { label: "2026-10-05", value: 83.588 },
         ]
             },
             {
@@ -1040,6 +1047,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 12.55, note: "DDR4 16Gb eTT Avg" },
             { label: "2026-09-16", value: 12.90 },
             { label: "2026-10-01", value: 13.95, note: "DDR4 16Gb (2Gx8) eTT" },
+            { label: "2026-10-05", value: 14.125 },
         ]
             },
             {
@@ -1139,6 +1147,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 45.571, note: "DDR4 8Gb 3200 Avg" },
             { label: "2026-09-16", value: 45.786 },
             { label: "2026-10-01", value: 46.321, note: "DDR4 8Gb (1Gx8) 3200" },
+            { label: "2026-10-05", value: 46.321 },
         ]
             },
             {
@@ -1238,6 +1247,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 5.40, note: "DDR4 8Gb eTT Avg" },
             { label: "2026-09-16", value: 5.59 },
             { label: "2026-10-01", value: 5.92, note: "DDR4 8Gb (1Gx8) eTT" },
+            { label: "2026-10-05", value: 5.95 },
         ]
             },
             {
@@ -1334,6 +1344,7 @@ const INDICATORS = [
             { label: "2026-09-14", value: 13.81, note: "DDR3 4Gb 1600/1866 Avg" },
             { label: "2026-09-16", value: 13.81 },
             { label: "2026-10-01", value: 13.72, note: "DDR3 4Gb 512Mx8 1600/1866" },
+            { label: "2026-10-05", value: 13.72 },
         ]
             },
         ],
@@ -1374,6 +1385,7 @@ const INDICATORS = [
             { label: "2026-08-24", value: 37.587, note: "MLC 64Gb 8GBx8 Avg" },
             { label: "2026-08-31", value: 38.587, note: "MLC 64Gb 8GBx8 Avg" },
             { label: "2026-09-21", value: 40.75, note: "MLC 64Gb 8GBx8 Avg" },
+            { label: "2026-09-28", value: 41.587, note: "MLC 64Gb 8GBx8 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -1407,6 +1419,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 4.275 },
             { label: "2026-09-07", value: 4.313, note: "SLC 2Gb 256MBx8 Avg" },
             { label: "2026-09-21", value: 4.345, note: "SLC 2Gb 256MBx8" },
+            { label: "2026-09-28", value: 4.348 },
         ]
             },
             {
@@ -1437,6 +1450,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 3.40 },
             { label: "2026-09-07", value: 3.40, note: "SLC 1Gb 128MBx8 Avg" },
             { label: "2026-09-21", value: 3.358, note: "SLC 1Gb 128MBx8" },
+            { label: "2026-09-28", value: 3.355 },
         ]
             },
             {
@@ -1466,6 +1480,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 38.587 },
             { label: "2026-09-07", value: 39.25, note: "MLC 64Gb 8GBx8 Avg" },
             { label: "2026-09-21", value: 40.75, note: "MLC 64Gb 8GBx8" },
+            { label: "2026-09-28", value: 41.587 },
         ]
             },
             {
@@ -1497,6 +1512,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 18.638 },
             { label: "2026-09-07", value: 18.938, note: "MLC 32Gb 4GBx8 Avg" },
             { label: "2026-09-21", value: 19.30, note: "MLC 32Gb 4GBx8" },
+            { label: "2026-09-28", value: 19.533 },
         ]
             },
             // ── Memory Card Spot ──
@@ -1528,6 +1544,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 2.965 },
             { label: "2026-09-07", value: 2.965, note: "MicroSD 16GB Avg" },
             { label: "2026-09-21", value: 2.965, note: "MicroSD 16GB" },
+            { label: "2026-09-28", value: 2.965 },
         ]
             },
             {
@@ -1558,6 +1575,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 4.225 },
             { label: "2026-09-07", value: 4.23, note: "MicroSD 32GB Avg" },
             { label: "2026-09-21", value: 4.16, note: "MicroSD 32GB" },
+            { label: "2026-09-28", value: 4.155 },
         ]
             },
             {
@@ -1588,6 +1606,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 6.45 },
             { label: "2026-09-07", value: 6.45, note: "MicroSD 64GB Avg" },
             { label: "2026-09-21", value: 6.415, note: "MicroSD 64GB" },
+            { label: "2026-09-28", value: 6.41 },
         ]
             },
             {
@@ -1617,6 +1636,7 @@ const INDICATORS = [
             { label: "2026-08-31", value: 12.275 },
             { label: "2026-09-07", value: 12.29, note: "MicroSD 128GB Avg" },
             { label: "2026-09-21", value: 12.29, note: "MicroSD 128GB" },
+            { label: "2026-09-28", value: 12.29 },
         ]
             },
         ],
@@ -1664,6 +1684,7 @@ const INDICATORS = [
             { label: "2026-06", value: 487.2, note: "드롭 2246억 | 홀드율 21.69%" },
             { label: "2026-07", value: 515.9, note: "드롭 2168억 | 홀드율 23.8%" },
             { label: "2026-08", value: 462.2, note: "드롭 2938억 | 홀드율 15.73%" },
+            { label: "2026-09", value: 290.9, note: "드롭 2378억 | 홀드율 12.23%" },
         ]
     },
 
@@ -1709,6 +1730,7 @@ const INDICATORS = [
             { label: "2026-06", value: 372.0, note: "드롭 3277억 | 홀드율 11.35%" },
             { label: "2026-07", value: 416.8, note: "드롭 3252억 | 홀드율 12.82%" },
             { label: "2026-08", value: 311.1, note: "드롭 3414억 | 홀드율 9.11%" },
+            { label: "2026-09", value: 372.8, note: "드롭 3237억 | 홀드율 11.51%" },
         ]
     },
 
@@ -1754,6 +1776,7 @@ const INDICATORS = [
             { label: "2026-06", value: 631.7, note: "드롭 6411억 | 홀드율 9.85%" },
             { label: "2026-07", value: 778.9, note: "드롭 6716억 | 홀드율 11.6%" },
             { label: "2026-08", value: 1049.1, note: "드롭 6805억 | 홀드율 15.42%" },
+            { label: "2026-09", value: 867.3, note: "드롭 6051억 | 홀드율 14.33%" },
         ]
     }
 ,
@@ -1844,6 +1867,7 @@ const INDICATORS = [
             { label: "2026-09-15", value: 198472, note: "스팀 동접 스냅샷 (05:00 KST)" },
             { label: "2026-09-17", value: 184842, note: "스팀 동접 스냅샷 (05:00 KST)" },
             { label: "2026-10-01", value: 306251, note: "스팀 동접 스냅샷 (15:00 KST)" },
+            { label: "2026-10-05", value: 189827, note: "스팀 동접 스냅샷 (20:00 KST)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "피크 동접", "전월비", "출처"],

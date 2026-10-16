@@ -409,7 +409,7 @@ body{background:var(--bg) !important;color:var(--text) !important;font-family:va
 // ║                                                                ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
-const DATA_UPDATED = "2026-10-12";
+const DATA_UPDATED = "2026-10-15";
 
 // ─── 지표 등록 시스템 ───
 // 새 지표를 추가하려면 INDICATORS 배열에 객체를 추가하세요.
@@ -545,6 +545,215 @@ const INDICATORS = [
     },
 
     {
+        id: "newbuild_orders_m",
+        mainName: "전 세계 (최초 발표)",
+        name: "글로벌 신조선 발주량 (월간)",
+        unit: "만CGT",
+        type: "manual",
+        category: "조선·해운",
+        source: "클락슨리서치 월간 발표 — 국내 언론 보도 인용(2차 자료)",
+        color: "#0f766e",
+        noInterp: true,
+        warn: "전 선종 합계입니다(탱커만이 아님 — 탱커 월간·국가별 시계열은 클락슨 유료 DB라 공개 자료로 만들 수 없음). 클락슨은 월간 발주량을 다음 달과 1년 뒤에 크게 올려 수정합니다(예: 2025.9 최초 350 → 437 → 710만CGT). 최초치끼리의 전년비는 아래로 치우치므로 추세 판단은 '최신 수정치' 선으로 보세요.",
+        desc: "메인 선 = 매월 첫 보도치, 보조 선 = 이후 보도된 최신 수정치(없으면 최초치) · 중국·한국은 최초 발표 기준. 각 월 값과 수정 이력·출처는 데이터 표 비고에 있습니다.",
+        chartLines: ["최신 수정치", "중국 (최초)", "한국 (최초)"],
+        data: [
+            {"label": "2024-09", "value": 289, "note": "최초 289만CGT·90척 (2024-10-08 보도, newsis·뉴스핌) · 최신 629만CGT [12개월 뒤 수정치]"},
+            {"label": "2024-10", "value": 241, "note": "최초 241만CGT·77척 (2024-11-06 보도, 쉬핑뉴스넷·이코노미스트) · 최신 471만CGT [12개월 뒤 수정치]"},
+            {"label": "2024-11", "value": 387, "note": "최초 387만CGT·124척 (2024-12-06 보도, 쉬핑뉴스넷·SNM) · 최신 517만CGT [12개월 뒤 수정치]"},
+            {"label": "2024-12", "value": 194, "note": "최초 194만CGT·86척 (2025-01-08 보도, 쉬핑뉴스넷·글로벌이코노믹) · 최신 479만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-01", "value": 146, "note": "최초 146만CGT·51척 (2025-02-07 보도, 쉬핑뉴스넷·이지경제) · 최신 443만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-02", "value": 207, "note": "최초 207만CGT·50척 (2025-03-07 보도, 쉬핑뉴스넷·국민일보) · 최신 425만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-03", "value": 150, "note": "최초 150만CGT·58척 (2025-04-04 보도, 아시아경제·다음) · 최신 310만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-04", "value": 364, "note": "최초 364만CGT·75척 (2025-05-09 보도, 천지일보·글로벌이코노믹) · 최신 536만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-05", "value": 166, "note": "최초 166만CGT·71척 (2025-06-05 보도, 이데일리·이지경제) · 최신 237만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-06", "value": 256, "note": "최초 256만CGT·84척 (2025-07-04 보도, 쉬핑뉴스넷·뉴스핌) · 최신 509만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-07", "value": 203, "note": "최초 203만CGT·58척 (2025-08-12 보도, 쉬핑뉴스넷·아주경제) · 최신 455만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-08", "value": 244, "note": "최초 244만CGT·82척 (2025-09-05 보도, 다음·인베스팅) · 최신 551만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-09", "value": 350, "note": "최초 350만CGT·123척 (2025-10-09 보도, 전자신문·뉴스핌·헤럴드) · 최신 710만CGT [12개월 뒤 수정치]"},
+            {"label": "2025-10", "value": 291, "note": "최초 291만CGT·118척 (2025-11-07 보도, 파이낸셜뉴스·헤럴드) · 최신 299만CGT [1개월 뒤 수정치]"},
+            {"label": "2025-11", "value": 513, "note": "최초 513만CGT·152척 (2025-12-05 보도, EBN·쉬핑뉴스넷) · 최신 659만CGT [1개월 뒤 수정치]"},
+            {"label": "2025-12", "value": 809, "note": "최초 809만CGT·264척 (2026-01-07 보도, EBN·해양한국) · 최신 891만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-01", "value": 561, "note": "최초 561만CGT·158척 (2026-02-06 보도, EBN·서울파이낸스) · 최신 561만CGT [최초 발표(수정 전)]"},
+            {"label": "2026-02", "value": 521, "note": "최초 521만CGT·163척 (2026-03-06 보도, 전자신문·서울경제TV·국민일보) · 최신 638만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-03", "value": 406, "note": "최초 406만CGT·135척 (2026-04-06 보도, 전자신문·뉴스핌) · 최신 504만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-04", "value": 649, "note": "최초 649만CGT·204척 (2026-05-08 보도, 뉴시스·서울파이낸스) · 최신 818만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-05", "value": 452, "note": "최초 452만CGT·147척 (2026-06-09 보도, 파이낸셜뉴스·지디넷) · 최신 576만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-06", "value": 525, "note": "최초 525만CGT·200척 (2026-07-06 보도, 이데일리·한국경제·아시아경제) · 최신 803만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-07", "value": 357, "note": "최초 357만CGT·137척 (2026-08-12 보도, 파이낸셜뉴스·아시아경제) · 최신 595만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-08", "value": 420, "note": "최초 420만CGT·125척 (2026-09-04 보도, 뉴스핌·시사저널·EBN) · 최신 628만CGT [1개월 뒤 수정치]"},
+            {"label": "2026-09", "value": 620, "note": "최초 620만CGT·202척 (2026-10-07 보도, 뉴스웍스·이코노빌) · 최신 620만CGT [최초 발표(수정 전)]"},
+        ],
+        products: [
+            { name: "최신 수정치", data: [
+                {"label": "2024-09", "value": 629},
+                {"label": "2024-10", "value": 471},
+                {"label": "2024-11", "value": 517},
+                {"label": "2024-12", "value": 479},
+                {"label": "2025-01", "value": 443},
+                {"label": "2025-02", "value": 425},
+                {"label": "2025-03", "value": 310},
+                {"label": "2025-04", "value": 536},
+                {"label": "2025-05", "value": 237},
+                {"label": "2025-06", "value": 509},
+                {"label": "2025-07", "value": 455},
+                {"label": "2025-08", "value": 551},
+                {"label": "2025-09", "value": 710},
+                {"label": "2025-10", "value": 299},
+                {"label": "2025-11", "value": 659},
+                {"label": "2025-12", "value": 891},
+                {"label": "2026-01", "value": 561},
+                {"label": "2026-02", "value": 638},
+                {"label": "2026-03", "value": 504},
+                {"label": "2026-04", "value": 818},
+                {"label": "2026-05", "value": 576},
+                {"label": "2026-06", "value": 803},
+                {"label": "2026-07", "value": 595},
+                {"label": "2026-08", "value": 628},
+                {"label": "2026-09", "value": 620},
+            ] },
+            { name: "중국 (최초)", data: [
+                {"label": "2024-09", "value": 248},
+                {"label": "2024-10", "value": 158},
+                {"label": "2024-11", "value": 236},
+                {"label": "2024-12", "value": 166},
+                {"label": "2025-01", "value": 27},
+                {"label": "2025-02", "value": 135},
+                {"label": "2025-03", "value": 52},
+                {"label": "2025-04", "value": 251},
+                {"label": "2025-05", "value": 64},
+                {"label": "2025-06", "value": 137},
+                {"label": "2025-07", "value": 152},
+                {"label": "2025-08", "value": 138},
+                {"label": "2025-09", "value": 142},
+                {"label": "2025-10", "value": 213},
+                {"label": "2025-11", "value": 258},
+                {"label": "2025-12", "value": 571},
+                {"label": "2026-01", "value": 374},
+                {"label": "2026-02", "value": 415},
+                {"label": "2026-03", "value": 215},
+                {"label": "2026-04", "value": 437},
+                {"label": "2026-05", "value": 211},
+                {"label": "2026-06", "value": 445},
+                {"label": "2026-07", "value": 290},
+                {"label": "2026-08", "value": 359},
+                {"label": "2026-09", "value": 474},
+            ] },
+            { name: "한국 (최초)", data: [
+                {"label": "2024-09", "value": 34},
+                {"label": "2024-10", "value": 62},
+                {"label": "2024-11", "value": 114},
+                {"label": "2024-12", "value": 7},
+                {"label": "2025-01", "value": 90},
+                {"label": "2025-02", "value": 29},
+                {"label": "2025-03", "value": 82},
+                {"label": "2025-04", "value": 62},
+                {"label": "2025-05", "value": 25},
+                {"label": "2025-06", "value": 105},
+                {"label": "2025-07", "value": 33},
+                {"label": "2025-08", "value": 56},
+                {"label": "2025-09", "value": 135},
+                {"label": "2025-10", "value": 52},
+                {"label": "2025-11", "value": 197},
+                {"label": "2025-12", "value": 147},
+                {"label": "2026-01", "value": 125},
+                {"label": "2026-02", "value": 57},
+                {"label": "2026-03", "value": 159},
+                {"label": "2026-04", "value": 105},
+                {"label": "2026-05", "value": 199},
+                {"label": "2026-06", "value": 50},
+                {"label": "2026-07", "value": 57},
+                {"label": "2026-08", "value": 31},
+                {"label": "2026-09", "value": 127},
+            ] },
+        ],
+        tableHeaders: ["월", "값", "전월比", "비고"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const ch = prev && prev.value ? ((d.value - prev.value) / Math.abs(prev.value) * 100).toFixed(1) : null;
+            return [d.label, { v: (d.value ?? 0).toLocaleString(), align: "right" },
+                    { v: ch !== null ? fmtPct(ch) : "–", align: "right", color: pctColor(ch) }, { v: d.note || "", isHtml: false }];
+        }
+    },
+    {
+        id: "newbuild_china_share_m",
+        mainName: "중국 점유율",
+        name: "글로벌 신조선 발주 — 중국 점유율 (월간)",
+        unit: "%",
+        type: "manual",
+        category: "조선·해운",
+        source: "클락슨리서치 월간 발표 — 국내 언론 보도 인용(2차 자료)",
+        color: "#dc2626",
+        noInterp: true,
+        warn: "점유율은 최초 발표치 기준입니다(수정치의 국가별 분해는 2026.8월만 공개 — 중국 83%). 전 선종 CGT 기준이며 탱커 단독 점유율이 아닙니다.",
+        desc: "탱커 참고(공개 2차 자료, 기간 단위): VLCC 2025년 연간 약 67척 중 중국 34척(51%)·한국 27척(40%) [헤럴드·클락슨] / 2026년 3/5까지 VLCC 47척 중 중국 44척(약 94%) [헤럴드·클락슨] / 2026년 3/15까지 원유운반선 91척, 중국 70% 이상 [머니투데이·클락슨] / 2026년 7월 초까지 원유운반선 6,000만DWT·234척, 중국 조선소가 용량의 82% [BIMCO] / 원유운반선 수주잔량 2025.11 중국 60%·한국 31% [BIMCO].",
+        chartLines: ["한국 점유율"],
+        data: [
+            {"label": "2024-09", "value": 86, "note": "최초 발표 기준 · 중국 248만/289만CGT, 한국 34만CGT(12%) · 2024-10-08 보도 (newsis·뉴스핌)"},
+            {"label": "2024-10", "value": 65, "note": "최초 발표 기준 · 중국 158만/241만CGT, 한국 62만CGT(26%) · 2024-11-06 보도 (쉬핑뉴스넷·이코노미스트)"},
+            {"label": "2024-11", "value": 61, "note": "최초 발표 기준 · 중국 236만/387만CGT, 한국 114만CGT(29%) · 2024-12-06 보도 (쉬핑뉴스넷·SNM)"},
+            {"label": "2024-12", "value": 86, "note": "최초 발표 기준 · 중국 166만/194만CGT, 한국 7만CGT(4%) · 2025-01-08 보도 (쉬핑뉴스넷·글로벌이코노믹)"},
+            {"label": "2025-01", "value": 19, "note": "최초 발표 기준 · 중국 27만/146만CGT, 한국 90만CGT(62%) · 2025-02-07 보도 (쉬핑뉴스넷·이지경제)"},
+            {"label": "2025-02", "value": 65, "note": "최초 발표 기준 · 중국 135만/207만CGT, 한국 29만CGT(14%) · 2025-03-07 보도 (쉬핑뉴스넷·국민일보)"},
+            {"label": "2025-03", "value": 35, "note": "최초 발표 기준 · 중국 52만/150만CGT, 한국 82만CGT(55%) · 2025-04-04 보도 (아시아경제·다음)"},
+            {"label": "2025-04", "value": 69, "note": "최초 발표 기준 · 중국 251만/364만CGT, 한국 62만CGT(17%) · 2025-05-09 보도 (천지일보·글로벌이코노믹)"},
+            {"label": "2025-05", "value": 39, "note": "최초 발표 기준 · 중국 64만/166만CGT, 한국 25만CGT(15%) · 2025-06-05 보도 (이데일리·이지경제)"},
+            {"label": "2025-06", "value": 53, "note": "최초 발표 기준 · 중국 137만/256만CGT, 한국 105만CGT(41%) · 2025-07-04 보도 (쉬핑뉴스넷·뉴스핌)"},
+            {"label": "2025-07", "value": 75, "note": "최초 발표 기준 · 중국 152만/203만CGT, 한국 33만CGT(16%) · 2025-08-12 보도 (쉬핑뉴스넷·아주경제)"},
+            {"label": "2025-08", "value": 57, "note": "최초 발표 기준 · 중국 138만/244만CGT, 한국 56만CGT(23%) · 2025-09-05 보도 (다음·인베스팅)"},
+            {"label": "2025-09", "value": 40, "note": "최초 발표 기준 · 중국 142만/350만CGT, 한국 135만CGT(39%) · 2025-10-09 보도 (전자신문·뉴스핌·헤럴드)"},
+            {"label": "2025-10", "value": 73, "note": "최초 발표 기준 · 중국 213만/291만CGT, 한국 52만CGT(18%) · 2025-11-07 보도 (파이낸셜뉴스·헤럴드)"},
+            {"label": "2025-11", "value": 50, "note": "최초 발표 기준 · 중국 258만/513만CGT, 한국 197만CGT(38%) · 2025-12-05 보도 (EBN·쉬핑뉴스넷)"},
+            {"label": "2025-12", "value": 71, "note": "최초 발표 기준 · 중국 571만/809만CGT, 한국 147만CGT(18%) · 2026-01-07 보도 (EBN·해양한국)"},
+            {"label": "2026-01", "value": 67, "note": "최초 발표 기준 · 중국 374만/561만CGT, 한국 125만CGT(22%) · 2026-02-06 보도 (EBN·서울파이낸스)"},
+            {"label": "2026-02", "value": 80, "note": "최초 발표 기준 · 중국 415만/521만CGT, 한국 57만CGT(11%) · 2026-03-06 보도 (전자신문·서울경제TV·국민일보)"},
+            {"label": "2026-03", "value": 53, "note": "최초 발표 기준 · 중국 215만/406만CGT, 한국 159만CGT(39%) · 2026-04-06 보도 (전자신문·뉴스핌)"},
+            {"label": "2026-04", "value": 67, "note": "최초 발표 기준 · 중국 437만/649만CGT, 한국 105만CGT(16%) · 2026-05-08 보도 (뉴시스·서울파이낸스)"},
+            {"label": "2026-05", "value": 47, "note": "최초 발표 기준 · 중국 211만/452만CGT, 한국 199만CGT(44%) · 2026-06-09 보도 (파이낸셜뉴스·지디넷)"},
+            {"label": "2026-06", "value": 85, "note": "최초 발표 기준 · 중국 445만/525만CGT, 한국 50만CGT(9%) · 2026-07-06 보도 (이데일리·한국경제·아시아경제)"},
+            {"label": "2026-07", "value": 81, "note": "최초 발표 기준 · 중국 290만/357만CGT, 한국 57만CGT(16%) · 2026-08-12 보도 (파이낸셜뉴스·아시아경제)"},
+            {"label": "2026-08", "value": 85, "note": "최초 발표 기준 · 중국 359만/420만CGT, 한국 31만CGT(7%) · 2026-09-04 보도 (뉴스핌·시사저널·EBN) · 🔴 수정치 기준 중국 521/628만 = 83%(역산), 한국 56만(9%)"},
+            {"label": "2026-09", "value": 76, "note": "최초 발표 기준 · 중국 474만/620만CGT, 한국 127만CGT(21%) · 2026-10-07 보도 (뉴스웍스·이코노빌)"},
+        ],
+        products: [
+            { name: "한국 점유율", data: [
+                {"label": "2024-09", "value": 12},
+                {"label": "2024-10", "value": 26},
+                {"label": "2024-11", "value": 29},
+                {"label": "2024-12", "value": 4},
+                {"label": "2025-01", "value": 62},
+                {"label": "2025-02", "value": 14},
+                {"label": "2025-03", "value": 55},
+                {"label": "2025-04", "value": 17},
+                {"label": "2025-05", "value": 15},
+                {"label": "2025-06", "value": 41},
+                {"label": "2025-07", "value": 16},
+                {"label": "2025-08", "value": 23},
+                {"label": "2025-09", "value": 39},
+                {"label": "2025-10", "value": 18},
+                {"label": "2025-11", "value": 38},
+                {"label": "2025-12", "value": 18},
+                {"label": "2026-01", "value": 22},
+                {"label": "2026-02", "value": 11},
+                {"label": "2026-03", "value": 39},
+                {"label": "2026-04", "value": 16},
+                {"label": "2026-05", "value": 44},
+                {"label": "2026-06", "value": 9},
+                {"label": "2026-07", "value": 16},
+                {"label": "2026-08", "value": 7},
+                {"label": "2026-09", "value": 21},
+            ] },
+        ],
+        tableHeaders: ["월", "값", "전월比", "비고"],
+        tableRow(d, i, arr) {
+            const prev = i > 0 ? arr[i - 1] : null;
+            const ch = prev && prev.value ? ((d.value - prev.value) / Math.abs(prev.value) * 100).toFixed(1) : null;
+            return [d.label, { v: (d.value ?? 0).toLocaleString(), align: "right" },
+                    { v: ch !== null ? fmtPct(ch) : "–", align: "right", color: pctColor(ch) }, { v: d.note || "", isHtml: false }];
+        }
+    },
+
+    {
         id: "dram_spot",
         name: "DRAM Spot Price",
         unit: "$",
@@ -660,6 +869,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 58.167, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-10-09", value: 58.90, note: "DDR5 16Gb 4800/5600 Avg" },
             { label: "2026-10-12", value: 59.433, note: "DDR5 16Gb 4800/5600 Avg" },
+            { label: "2026-10-15", value: 60.433, note: "DDR5 16Gb 4800/5600 Avg" },
             // ↑ 새 데이터를 여기에 추가
         ],
         // 전체 품목 스냅샷 — 상세 테이블용
@@ -754,6 +964,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 58.167 },
             { label: "2026-10-09", value: 58.90, note: "Session Avg" },
             { label: "2026-10-12", value: 59.433 },
+            { label: "2026-10-15", value: 60.433, note: "Session Avg" },
         ]
             },
             {
@@ -859,6 +1070,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 26.30 },
             { label: "2026-10-09", value: 26.80, note: "Session Avg" },
             { label: "2026-10-12", value: 27.00 },
+            { label: "2026-10-15", value: 27.80, note: "Session Avg" },
         ]
             },
             {
@@ -962,6 +1174,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 83.588 },
             { label: "2026-10-09", value: 83.64, note: "Session Avg" },
             { label: "2026-10-12", value: 83.886 },
+            { label: "2026-10-15", value: 83.66, note: "Session Avg" },
         ]
             },
             {
@@ -1065,6 +1278,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 14.125 },
             { label: "2026-10-09", value: 14.125, note: "Session Avg" },
             { label: "2026-10-12", value: 14.125 },
+            { label: "2026-10-15", value: 14.113, note: "Session Avg" },
         ]
             },
             {
@@ -1168,6 +1382,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 46.321 },
             { label: "2026-10-09", value: 46.186, note: "Session Avg" },
             { label: "2026-10-12", value: 46.079 },
+            { label: "2026-10-15", value: 45.971, note: "Session Avg" },
         ]
             },
             {
@@ -1271,6 +1486,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 5.95 },
             { label: "2026-10-09", value: 5.96, note: "Session Avg" },
             { label: "2026-10-12", value: 5.96 },
+            { label: "2026-10-15", value: 5.97, note: "Session Avg" },
         ]
             },
             {
@@ -1371,6 +1587,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 13.72 },
             { label: "2026-10-09", value: 13.709, note: "Session Avg" },
             { label: "2026-10-12", value: 13.709 },
+            { label: "2026-10-15", value: 13.68, note: "Session Avg" },
         ]
             },
         ],
@@ -1906,6 +2123,7 @@ const INDICATORS = [
             { label: "2026-10-06", value: 85881, note: "스팀 동접 스냅샷 (09:00 KST)" },
             { label: "2026-10-10", value: 210917, note: "스팀 동접 스냅샷 (20:00 KST)" },
             { label: "2026-10-12", value: 274081, note: "스팀 동접 스냅샷 (08:00 KST)" },
+            { label: "2026-10-15", value: 187151, note: "스팀 동접 스냅샷 (20:00 KST)" },
             // ↑ 새 데이터를 여기에 추가
         ],
         tableHeaders: ["월", "피크 동접", "전월비", "출처"],
@@ -3689,6 +3907,7 @@ const _dailyCache = {};
 function getDailyData(ind) {
     const raw = getEffectiveData(ind);
     if (!raw || raw.length < 2) return raw;
+    if (ind.noInterp) return raw;   // 월간 합계(발주량 등)는 일별 보간하면 왜곡되므로 원자료 그대로
     if (!_dailyCache[ind.id]) {
         _dailyCache[ind.id] = interpolateDaily(raw);
     }
@@ -3809,6 +4028,9 @@ function openDetail(id) {
 
     document.getElementById("detailTitle").textContent = `${ind.name}`;
     document.getElementById("detailSubtitle").textContent = `단위: ${ind.unit} · 출처: ${ind.source}`;
+    { const sub = document.getElementById("detailSubtitle");
+      if (ind.warn) { const w = document.createElement("div"); w.style.cssText = "color:#dc2626;font-weight:600;margin-top:6px;font-size:12px;line-height:1.5"; w.textContent = "⚠ " + ind.warn; sub.appendChild(w); }
+      if (ind.desc) { const d = document.createElement("div"); d.style.cssText = "margin-top:4px;font-size:12px;line-height:1.5;opacity:.85"; d.textContent = ind.desc; sub.appendChild(d); } }
 
     // Chart — 일별 보간 데이터 사용
     const rawData = getEffectiveData(ind);

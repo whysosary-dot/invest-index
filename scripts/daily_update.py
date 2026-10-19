@@ -8,7 +8,7 @@ invest-index 일일 업데이트 스크립트 (SKILL.md 로직의 스크립트�
       → 모든 지표의 마지막 label 출력 (Claude가 index.html을 읽을 필요 없음)
 
   python3 scripts/daily_update.py auto
-      → 완전 자동 지표 일괄 수집·반영: pubg, jmtba, palm_pals, 카지노 3사
+      → 완전 자동 지표 일괄 수집·반영: pubg, jmtba, palm_pals, 카지노 3사, 클락슨 신조선가(t.me 웹)
         + DATA_UPDATED 갱신 + JS 3단계 검증. (DRAM/NAND, clarksons는 별도)
 
   python3 scripts/daily_update.py append <indicator_id> <label> <value> [--note "..."] [--src "..."] [--product N]
@@ -173,6 +173,65 @@ def fetch_pubg(content, changes):
             changes.append(f'pubg {label} = {val:,}')
     except Exception as e:
         print(f'  pubg skip: {e}')
+    return content
+
+def fetch_clarksons_web(content, changes, days_back=60):
+    """클락슨 신조선가 — 강경태 텔레그램(@enc210406) '공개 웹 미리보기'(t.me/s/…) 를 HTTPS 로 읽는다.
+    MTProto 가 막힌 클라우드에서도 동작 (2026-10-19). Mac 의 fetch_clarksons.py 와 같은 정규식·검증.
+    메시지 하나에 '최근 4주 간 지수' 가 함께 실리므로 그 값도 같이 채운다."""
+    import requests, html as _html
+    from datetime import timezone, timedelta
+    KST = timezone(timedelta(hours=9))
+    DV = re.compile(r"(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일.*?신조선가\s*지수.*?(\d{2,4}\.\d{1,3})\s*p?t?", re.DOTALL)
+    RECENT = re.compile(r"(\d{2,3}\.\d{1,3})\s*pt\s*\((\d{2})년\s*(\d{1,2})월\s*(\d{1,2})일\)")
+    last = last_label(content, 'clarksons_newbuild') or '0000-00-00'
+    cutoff = datetime.now(KST) - timedelta(days=days_back)
+    found = {}
+    before = None
+    try:
+        for _ in range(6):   # 20개 메시지/페이지 × 6 ≈ 2~3개월
+            url = 'https://t.me/s/enc210406' + (f'?before={before}' if before else '')
+            r = requests.get(url, headers={'User-Agent': UA['User-Agent']}, timeout=20)
+            r.raise_for_status()
+            page = r.text
+            posts = re.findall(r'data-post="enc210406/(\d+)"', page)
+            if not posts:
+                break
+            blocks = re.findall(r'<div class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>', page, re.S)
+            oldest = None
+            for t in re.findall(r'<time datetime="([^"]+)"', page):
+                try:
+                    dt = datetime.fromisoformat(t.replace('Z', '+00:00'))
+                    oldest = dt if oldest is None or dt < oldest else oldest
+                except Exception:
+                    pass
+            for b in blocks:
+                txt = _html.unescape(re.sub(r'<[^>]+>', '', re.sub(r'<br\s*/?>', '\n', b)))
+                if '신조선가' not in txt:
+                    continue
+                m = DV.search(txt)
+                if m:
+                    y, mo, d, v = m.groups(); v = float(v)
+                    if 50 <= v <= 500:
+                        found.setdefault(f'{int(y):04d}-{int(mo):02d}-{int(d):02d}', v)
+                for v, yy, mo, d in RECENT.findall(txt):
+                    v = float(v)
+                    if 50 <= v <= 500:
+                        found.setdefault(f'20{yy}-{int(mo):02d}-{int(d):02d}', v)
+            before = min(int(x) for x in posts)
+            if oldest and oldest < cutoff:
+                break
+    except Exception as e:
+        print(f'  clarksons(web) skip: {e}')
+        return content
+    added = 0
+    for label in sorted(found):
+        if label <= last:
+            continue
+        content, ok = append_point(content, 'clarksons_newbuild', label, found[label], note='강경태 텔레그램')
+        if ok:
+            changes.append(f'clarksons_newbuild {label} = {found[label]}'); added += 1
+    print(f'  clarksons(web): 메시지에서 {len(found)}개 날짜 확인, 마지막 label {last} 이후 {added}개 추가')
     return content
 
 def fetch_jmtba(content, changes):
@@ -384,6 +443,7 @@ def main():
         print('· JMTBA (Trading Economics)...'); content = fetch_jmtba(content, changes)
         print('· Palm Pals (Google Trends)...'); content = fetch_palm_pals(content, changes)
         print('· 카지노 3사 (DART)...'); content = fetch_casinos(content, changes)
+        print('· 클락슨 신조선가 (텔레그램 웹 미리보기)...'); content = fetch_clarksons_web(content, changes)
         if not changes:
             print('\n변경 없음 — 저장/커밋 불필요'); return
         content = bump_data_updated(content)

@@ -1046,7 +1046,7 @@ function gameMinute(){
       else for(const k in RATE){let r=RATE[k]/5*DP().rate*(0.8+Math.random()*0.5);if(S.out&&k==='bored')r=0;if(S.out&&k==='sleepy')r*=1.4;if(k==='bored'&&(onToy||b.state==='carried'||(b.state==='stroller'&&S.outside)))r=-0.25;if(b.state==='stroller'&&S.outside&&k==='sleepy')r*=1.3;if(k==='bored'&&b.state==='crib')r*=2;b[k]=clamp(b[k]+r);}
       if(b.face==='laugh'&&Math.random()<.06)b.face='ok';
     }
-    const m=moodOf(b);if(m.cls==='bad'){S.score-=DP().pen;S.cryCount++;}else if(m.cls==='warn')S.score+=0.1;else S.score+=0.4;
+    const m=moodOf(b);{const d=m.cls==='bad'?-DP().pen:m.cls==='warn'?0.1:0.4;S.score+=d;S.fxBase+=d;if(m.cls==='bad')S.cryCount++;} // 기본 점수 증감은 팝업 없이 조용히
     if(!S.out&&b.state!=='helper'&&Math.random()<DP().ev){randomEvent(b);}
   });
   if(Object.values(B).every(b=>b.asleep>0)&&!S.busy)S.stamina=clamp(S.stamina+0.3);

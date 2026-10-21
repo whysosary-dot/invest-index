@@ -1068,7 +1068,11 @@ function fx(txt,big,neg){const e=document.createElement('div');e.className='fx'+
 
 /* ================= 할머니 도우미 ================= */
 let GM=null;
-function makeGrandma(){const h=makeParent('mom');h.g.traverse(o=>{if(o.isMesh&&o.material&&o.material.color&&!o.material.map){const c=o.material.color.getHex();if(c===HAIR)o.material.color.setHex(0xCFC8BE);else if(c===0xF8F8F6)o.material.color.setHex(0xC9A7B5);else if(c===0x9DB4CC)o.material.color.setHex(0x8E8A86);}});scene.remove(h.g);return h;}
+function makeGrandma(){const h=makeParent('mom');const HC=0x1E1612; // 검정 곱슬 단발 · 회색 상의 · 검정 바지 (실제 할머니 사진 기준)
+  h.g.traverse(o=>{if(o.isMesh&&o.material&&o.material.color&&!o.material.map){const c=o.material.color.getHex();if(c===HAIR)o.material.color.setHex(HC);else if(c===0xF8F8F6)o.material.color.setHex(0xA9B4AC);else if(c===0x9DB4CC)o.material.color.setHex(0x26262A);}});
+  // 곱슬 볼륨: 머리 둘레에 작은 구를 둘러 파마 느낌
+  for(let i=0;i<22;i++){const a=i/22*Math.PI*2;const r=0.27+0.03*Math.sin(i*2.3);const y=1.45+(i%3-1)*0.09+0.02*Math.cos(i*1.7);const sp=sphere(0.075+0.015*((i*7)%3),HC,Math.sin(a)*r,y,Math.cos(a)*r*0.95,h.g,8);if(Math.cos(a)>0.55&&y>1.5)sp.position.z-=0.03;}
+  scene.remove(h.g);return h;}
 function callHelper(){if(S.helper||S.helperUsed||S.outside)return;const cands=Object.values(B).filter(b=>b.state!=='carried'&&b.state!=='helper');if(!cands.length){toast('아기를 한 명 내려놓아야 해요');return;}
   const w=b=>b.asleep>0?-1:Math.max(b.hunger,b.sleepy,b.diaper,b.bored);const b=cands.sort((a,c)=>w(c)-w(a))[0];if(!GM)GM=makeGrandma();scene.add(GM.g);GM.pos.set(-4.4,0,-0.3);GM.yaw=Math.PI/2;
   S.helper={b,phase:'walk',left:60,walkT:0,stuck:0};S.helperUsed=true;SFX.play('door');log(`할머니 오셨어요 👵 "아이고 우리 ${b.name}"`,'good');toast(`👵 할머니가 ${b.name}를 60분 봐주세요`);renderActs();}

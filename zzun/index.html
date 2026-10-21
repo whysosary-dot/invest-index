@@ -1071,7 +1071,9 @@ let GM=null;
 function makeGrandma(){const h=makeParent('mom');const HC=0x1E1612; // 검정 곱슬 단발 · 회색 상의 · 검정 바지 (실제 할머니 사진 기준)
   h.g.traverse(o=>{if(o.isMesh&&o.material&&o.material.color&&!o.material.map){const c=o.material.color.getHex();if(c===HAIR)o.material.color.setHex(HC);else if(c===0xF8F8F6)o.material.color.setHex(0xA9B4AC);else if(c===0x9DB4CC)o.material.color.setHex(0x26262A);}});
   // 곱슬 볼륨: 머리 둘레에 작은 구를 둘러 파마 느낌
-  for(let i=0;i<22;i++){const a=i/22*Math.PI*2;const r=0.27+0.03*Math.sin(i*2.3);const y=1.45+(i%3-1)*0.09+0.02*Math.cos(i*1.7);const sp=sphere(0.075+0.015*((i*7)%3),HC,Math.sin(a)*r,y,Math.cos(a)*r*0.95,h.g,8);if(Math.cos(a)>0.55&&y>1.5)sp.position.z-=0.03;}
+  for(let i=0;i<22;i++){const a=i/22*Math.PI*2;const front=Math.cos(a)>0.2;const r=0.27+0.03*Math.sin(i*2.3);let y=1.45+(i%3-1)*0.09+0.02*Math.cos(i*1.7);if(front){if(y<1.6)continue;y=1.64;} // 앞면은 이마 위 앞머리만 — 얼굴은 가리지 않음
+    sphere(front?0.055:0.075+0.015*((i*7)%3),HC,Math.sin(a)*r,y,Math.cos(a)*r*0.95,h.g,8);}
+  for(let i=0;i<5;i++){const a=(i-2)*0.28;sphere(0.06,HC,Math.sin(a)*0.25,1.66,Math.cos(a)*0.24,h.g,8);} // 앞머리 라인
   scene.remove(h.g);return h;}
 function callHelper(){if(S.helper||S.helperUsed||S.outside)return;const cands=Object.values(B).filter(b=>b.state!=='carried'&&b.state!=='helper');if(!cands.length){toast('아기를 한 명 내려놓아야 해요');return;}
   const w=b=>b.asleep>0?-1:Math.max(b.hunger,b.sleepy,b.diaper,b.bored);const b=cands.sort((a,c)=>w(c)-w(a))[0];if(!GM)GM=makeGrandma();scene.add(GM.g);GM.pos.set(-4.4,0,-0.3);GM.yaw=Math.PI/2;
@@ -1135,13 +1137,12 @@ function renderDiffs(id){const el=$(id);if(!el)return;el.innerHTML=Object.entrie
 function intro(){
   $('sheet').innerHTML=`<h2>아기 쌍둥이 쭌쭌 돌보기</h2><p>길동 한빛아파트 84㎡, 8개월 쌍둥이의 하루 (07:00 → 21:00)</p>
     <p style="margin-top:8px"><b>난이도</b></p><div class="diffs" id="diffsIntro"></div>
-    <div class="tips"><b>🍼 쉬운 공략</b> — ① 바닥 위에 뜬 <b>초록 화살표 마커</b>를 따라가면 돼요 ② 한 아이를 주방에 내려놓고 다른 아이를 안고 오면 <b>「둘 다 먹이기 👶👶」</b> 콤보 ③ 게이지가 노랗게(칭얼) 될 때 돌보면 <b>「딱 맞춰 돌봄」 +10</b> ④ 힘들면 <b>할머니 호출 📞</b> (하루 1번) ⑤ ⏸로 언제든 일시정지</div>
-    <div class="help"><b>이동</b> — 방향키 / WASD, 모바일은 화면 왼쪽 드래그(조이스틱). 오른쪽 드래그로 시점 회전, 휠·핀치로 거리.<br>
-    <b>돌보기</b> — 아기 옆에서 「안기」→ 안은 채로 주방(이유식·분유 바로 먹이기), 방2 아기용품방(기저귀 서랍장), 화장실1(아기 욕조), 방1 드레스룸(옷장), 방3 안방(침대 옆 아기 매트리스 재우기)으로 걸어가면 버튼이 떠요.<br>
-    <b>놀이</b> — 아기체육관·물놀이매트 위에 내려놓으면 심심함이 저절로 줄어요. 안고 있어도 줄어요.<br>
-    <b>외출</b> — 둘 다 배부르고·기저귀 깨끗하고·외출복 입혀서 현관 유모차에 태우면 하남스타필드로 출발! 현관에서 「동네 산책」을 누르면 밖으로 나가요 — 단지 앞 가게들부터 천호역·현대백화점·이마트·천호공원·강동구청·강동성심병원·길동생태공원·광나루한강공원·올림픽공원까지(약 3km를 1/10로 줄인 동네). 유모차에 아기를 태우고 나가면 공원 산책·유아휴게실·영유아 검진도 할 수 있어요.<br>
-    <b>게임 요소</b> — 집 안에 숨은 황금 딸랑이 6개 ✨, 오늘의 미션 3개, 아기가 웃는 순간 📸 버튼을 누르면 추억 앨범에 저장(다음 날에도 남아요).<br>
-    <b>목표</b> — 네 게이지를 낮게. 빨갛게 되면 울고 점수가 깎여요. 둘 다 재우면 엄마아빠 체력 회복. 같은 행동을 반복하면 ⚡숙련으로 점점 빨라져요.</div>
+    <div class="tips"><b>🍼 하는 법</b> — 아기 옆에서 「안기」 → <b>초록 화살표</b>가 가리키는 방으로 가면 버튼이 떠요. 게이지가 노래지면 돌보고, 빨개지면 울어요.<br><b>꿀팁</b> — 한 아이를 주방에 내려놓고 다른 아이를 안고 오면 「둘 다 먹이기 👶👶」 · 힘들면 「할머니 호출 📞」 · ⏸ 일시정지</div>
+    <details class="help" style="margin:4px 0"><summary style="cursor:pointer;color:#2F6B4F;font-family:Jua;font-size:14px">자세한 설명 보기 ▾</summary>
+    <b>이동</b> — 방향키 / WASD, 모바일은 왼쪽 조이스틱. 오른쪽 드래그 시점 회전, 휠·핀치 거리.<br>
+    <b>돌보기</b> — 주방(이유식·분유), 방2(기저귀 서랍장), 화장실1(아기 욕조), 방1(옷장), 안방(아기 매트리스 재우기). 아기체육관·물놀이매트에 내려놓으면 심심함이 줄어요.<br>
+    <b>외출</b> — 배부르고·기저귀 깨끗하고·외출복 입혀 현관 유모차에 태우면 하남스타필드로. 「동네 산책」으로 천호역·공원·백화점·병원까지 갈 수 있어요.<br>
+    <b>게임 요소</b> — 황금 딸랑이 6개 ✨, 오늘의 미션 3개, 아기가 웃을 때 📸 추억 앨범, 「딱 맞춰 돌봄」 보너스, 반복하면 ⚡숙련.</details>
     <p style="margin-top:12px"><b>누가 돌보나요? (누르면 바로 시작)</b></p><div class="modes"><button class="mode" data-m="mom">👩 엄마 모드<small>흰 티셔츠 · 단발 · 품에 안기</small></button><button class="mode" data-m="dad">👨 아빠 모드<small>초록 줄무늬 · 아기띠</small></button></div>
     <button class="cta" id="startBtn">아침 7시, 시작</button>`;
   $('overlay').style.display='grid';renderDiffs('diffsIntro');

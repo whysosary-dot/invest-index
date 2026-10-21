@@ -774,7 +774,6 @@ const MISSION_POOL=[
   {id:'bath',t:'둘 다 목욕시키기',check:()=>B.ju.bathed&&B.se.bathed},
   {id:'photo',t:'추억 사진 2장 찍기',check:()=>S.photosToday>=2},
   {id:'formula',t:'분유 4번 먹이기',check:()=>B.ju.fedFormula+B.se.fedFormula>=4},
-  {id:'combo',t:'「둘 다」 동시 돌보기 2번',check:()=>S.combo>=2},
   {id:'timing',t:'딱 맞춰 돌보기 3번',check:()=>S.timing>=3},
 ];
 function setupMissions(day){const n=MISSION_POOL.length;S.missions=[0,1,2].map(i=>Object.assign({done:false},MISSION_POOL[(day*3+i*2)%n]));}
@@ -939,7 +938,6 @@ function putDown(where){const b=S.carrying;if(!b)return;if(where==='floor'&&S.ou
   else{scene.add(b.g);const f=new T.Vector3(Math.sin(P.yaw),0,Math.cos(P.yaw));const p=P.pos.clone().add(f.multiplyScalar(0.7));const surf=S.outside?null:SURFACES.find(sf=>p.x>sf.x-sf.w/2&&p.x<sf.x+sf.w/2&&p.z>sf.z-sf.d/2&&p.z<sf.z+sf.d/2);
     if(surf){placeBaby(b,p.x,p.z);b.g.position.y=surf.y;b.onSurface=surf;log(`${b.name}를 ${surf.n} 위에 앉혔어요`,'');}else{const q=p.clone();collideBaby(q);placeBaby(b,q.x,q.z);}b.g.rotation.y=P.yaw+Math.PI;}
 }
-function otherNear(){const c=S.carrying;if(!c)return false;const o=c===B.ju?B.se:B.ju;if(o.state==='carried'||o.state==='helper'||o.asleep>0)return false;const ow=new T.Vector3();o.g.getWorldPosition(ow);return P.pos.distanceTo(ow)<1.7;}
 function currentActs(){
   const acts=[];const c=S.carrying;
   if(S.busy||S.out)return acts;
@@ -974,12 +972,6 @@ function currentActs(){
   }
   if(S.photoOp)acts.push({t:`📸 ${S.photoOp.b.name} ${S.photoOp.caption}`,sub:'지금 찍으면 앨범에 저장 (+20)',inst:true,alt:true,run:takePhoto});
   if(c){
-    const o=c===B.ju?B.se:B.ju;const ow=new T.Vector3();o.g.getWorldPosition(ow);const oNear=o.state!=='carried'&&o.state!=='helper'&&o.asleep<=0&&P.pos.distanceTo(ow)<1.7;
-    const both=(t,sub,min,st,run,icon)=>acts.push({t:`${t} 👶👶`,sub:`${sub} · 쌍둥이 콤보 +15`,min,st,run:()=>{run(c);run(o);S.combo++;S.score+=15;log(`${t} — 둘 다 한 번에!`,'good');fx('+15 쌍둥이 콤보',true);}});
-    if(oNear&&near('kitchen')){both('둘 다 분유 먹이기','한 손에 한 명 · 22분 · 배고픔 −40',22,7,b=>{b.hunger=clamp(b.hunger-40);b.sleepy=clamp(b.sleepy+10);b.fedFormula++;b.face='ok';});both('둘 다 이유식 먹이기','한 숟갈씩 번갈아 · 30분 · 배고픔 −55',30,8,b=>{b.hunger=clamp(b.hunger-55);b.fedSolid++;b.face='ok';});}
-    if(oNear&&(near('change')||near('crib')||near('gym')||near('mat')||near('kitchen')))both('둘 다 기저귀 갈기','나란히 눕혀 · 9분 · 기저귀 0',9,5,b=>{b.diaper=0;b.face='ok';});
-    if(oNear&&near('crib')&&o.state==='crib')acts.push({t:'둘 다 재우기 👶👶',sub:(c.sleepy>=DP().nap&&o.sleepy>=DP().nap)?'둘 다 졸려해요 · 14분':'둘 중 안 졸린 아이는 안 잘 수도',min:14,st:6,run:()=>{const cc=c;putDown('crib');[cc,o].forEach(b=>{if(b.sleepy>=DP().nap||Math.random()<b.sleepy/100){b.asleep=Math.round(50+b.sleepy*0.9);setFace(b,'sleep');log(`${b.name} 잠들었어요`,'good');}else{b.face='fuss';log(`${b.name} 눈이 말똥말똥…`,'');}});if(cc.asleep>0&&o.asleep>0){S.combo++;S.score+=25;fx('+25 동시 낮잠 🎉',true);}}});
-    if(oNear)both('둘 다 토닥토닥','무릎에 하나씩 · 10분 · 심심함 −30',10,6,b=>{b.bored=clamp(b.bored-30);b.sleepy=clamp(b.sleepy-5);b.face='laugh';});
     if(near('kitchen')){
       acts.push({t:'이유식 먹이기',sub:'소고기·애호박·브로콜리 · 20분 · 배고픔 −55',min:20,st:5,run:()=>{c.hunger=clamp(c.hunger-55);c.fedSolid++;c.face='ok';log(`${c.name} 이유식 냠냠`,'good');}});
       acts.push({t:'분유 먹이기',sub:'220ml · 15분 · 배고픔 −40 · 졸림 +10',min:15,st:4,run:()=>{c.hunger=clamp(c.hunger-40);c.sleepy=clamp(c.sleepy+10);c.fedFormula++;c.face='ok';log(`${c.name} 분유 220ml 완료`,'good');}});
@@ -1125,7 +1117,7 @@ function endDay(){
   const notes=Object.values(B).map(b=>`${b.name}: 이유식 ${b.fedSolid}번 · 분유 ${b.fedFormula}번 · ${moodOf(b).txt}`);
   notes.push(`${MODE==='mom'?'엄마':'아빠'} 체력 ${Math.round(S.stamina)} · 커피 ${S.coffee}잔`);notes.push(`미션 ${S.missions.filter(m=>m.done).length}/3 · 황금 딸랑이 ${S.rattlesGot}/6 · 추억 사진 ${S.photosToday}장 (앨범 ${ALBUM.length}장)`);
   $('sheet').innerHTML=`<h2>밤 9시, 오늘 하루 끝</h2><div class="stars">${'★'.repeat(stars)}<span style="opacity:.25">${'★'.repeat(5-stars)}</span></div>
-    <p>행복점수 <b>${sc}</b> · 최고 ${best}<br><small>${DP().name}${DP().mult>1?` 보너스 ×${DP().mult} 적용`:''} · 쌍둥이 콤보 ${S.combo}번 · 딱 맞춰 돌봄 ${S.timing}번</small></p><ul>${notes.map(n=>`<li>${n}</li>`).join('')}</ul>
+    <p>행복점수 <b>${sc}</b> · 최고 ${best}<br><small>${DP().name}${DP().mult>1?` 보너스 ×${DP().mult} 적용`:''} · 딱 맞춰 돌봄 ${S.timing}번</small></p><ul>${notes.map(n=>`<li>${n}</li>`).join('')}</ul>
     <p>${stars>=4?'둘 다 방긋방긋한 하루. 이 정도면 하남 한 번 더 가도 되겠는데요?':stars>=3?'무난한 하루. 낮잠 타이밍만 맞추면 별 하나 더!':'쌍둥이는 원래 이래요. 커피부터 한 잔 하고 내일 다시.'}</p>
     <button class="cta" id="againBtn">DAY ${S.day+1} 시작</button><p style="font-size:11px;margin-top:10px">난이도 바꾸기 — <span class="diffs" id="diffsEnd" style="margin:4px 0 0"></span></p>`;
   $('overlay').style.display='grid';
@@ -1137,7 +1129,7 @@ function renderDiffs(id){const el=$(id);if(!el)return;el.innerHTML=Object.entrie
 function intro(){
   $('sheet').innerHTML=`<h2>아기 쌍둥이 쭌쭌 돌보기</h2><p>길동 한빛아파트 84㎡, 8개월 쌍둥이의 하루 (07:00 → 21:00)</p>
     <p style="margin-top:8px"><b>난이도</b></p><div class="diffs" id="diffsIntro"></div>
-    <div class="tips"><b>🍼 하는 법</b> — 아기 옆에서 「안기」 → <b>초록 화살표</b>가 가리키는 방으로 가면 버튼이 떠요. 게이지가 노래지면 돌보고, 빨개지면 울어요.<br><b>꿀팁</b> — 한 아이를 주방에 내려놓고 다른 아이를 안고 오면 「둘 다 먹이기 👶👶」 · 힘들면 「할머니 호출 📞」 · ⏸ 일시정지</div>
+    <div class="tips"><b>🍼 하는 법</b> — 아기 옆에서 「안기」 → <b>초록 화살표</b>가 가리키는 방으로 가면 버튼이 떠요. 게이지가 노래지면 돌보고, 빨개지면 울어요.<br><b>꿀팁</b> — 노란 단계에서 돌보면 「딱 맞춰 돌봄」 +10 · 힘들면 「할머니 호출 📞」 · ⏸ 일시정지</div>
     <details class="help" style="margin:4px 0"><summary style="cursor:pointer;color:#2F6B4F;font-family:Jua;font-size:14px">자세한 설명 보기 ▾</summary>
     <b>이동</b> — 방향키 / WASD, 모바일은 왼쪽 조이스틱. 오른쪽 드래그 시점 회전, 휠·핀치 거리.<br>
     <b>돌보기</b> — 주방(이유식·분유), 방2(기저귀 서랍장), 화장실1(아기 욕조), 방1(옷장), 안방(아기 매트리스 재우기). 아기체육관·물놀이매트에 내려놓으면 심심함이 줄어요.<br>
@@ -1237,7 +1229,7 @@ function frame(now){
       else if(b.state==='carried'&&!b.parked&&!S.busy){b.g.rotation.z=Math.sin(b.wiggle*3)*0.05;b.parts.armL.rotation.z+=(0.5-b.parts.armL.rotation.z)*0.2;b.parts.armR.rotation.z+=(-0.5-b.parts.armR.rotation.z)*0.2;b.parts.armL.rotation.x*=0.8;b.parts.armR.rotation.x*=0.8;}
       b.sp.sprite.position.y=1.15+Math.sin(b.wiggle*4)*0.05;});
     // contextual actions refresh (cheap key)
-    const k=[S.photoOp?1:0,S.carrying&&S.carrying.id,nearBaby()&&nearBaby().id,Object.keys(ST).filter(near).join(),S.busy?1:0,S.out?1:0,S.solid,S.formula,S.inStroller.length,otherNear()?1:0,S.helper?S.helper.phase:'',S.helperUsed?1:0].join('|');
+    const k=[S.photoOp?1:0,S.carrying&&S.carrying.id,nearBaby()&&nearBaby().id,Object.keys(ST).filter(near).join(),S.busy?1:0,S.out?1:0,S.solid,S.formula,S.inStroller.length,S.helper?S.helper.phase:'',S.helperUsed?1:0].join('|');
     if(k!==lastActKey){lastActKey=k;renderActs();}
     sun.position.set(P.pos.x+6,12,P.pos.z+4);sun.target.position.copy(P.pos);
     // lighting by hour

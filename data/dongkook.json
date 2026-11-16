@@ -2,6 +2,7 @@
  "amazon": {
   "asins": {
    "centellian24": [
+    "B0DFY92NDB",
     "B0GDQWJ658",
     "B0DJ8FQDYL",
     "B0FVY91T1Q",
@@ -10823,9 +10824,30 @@
    },
    {
     "date": "2026-11-16",
-    "time": "05:05",
+    "time": "09:31",
     "products": {
      "centellian24": [
+      {
+       "asin": "B0DFY92NDB",
+       "title": "CENTELLIAN 24 Madeca Cream Time Reverse, TECA Anti-Aging Moisturizer",
+       "beauty": 188,
+       "sub": [
+        [
+         10,
+         "Face Moisturizers"
+        ]
+       ],
+       "bought": 20000,
+       "disc": 39,
+       "deal": false,
+       "badge": null,
+       "price": 19.6,
+       "list": 32.0,
+       "coupon": null,
+       "promo": "10% off US$35 purchase from this seller / 15% off US$60 purchase from this seller",
+       "loc": "New York 10001",
+       "blocked": false
+      },
       {
        "asin": "B0GDQWJ658",
        "title": "CENTELLIAN 24 Madeca Cream Time Reverse Set, 2x1.69 fl oz + 2 Lifting Masks",
@@ -10836,15 +10858,21 @@
          "Face Moisturizers"
         ]
        ],
-       "bought": null,
+       "bought": 1000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 52.0,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0DJ8FQDYL",
        "title": "CENTELLIAN 24 Madeca Cream Time Reverse, TECA Moisturizer (2-Pack)",
-       "beauty": 3990,
+       "beauty": 3989,
        "sub": [
         [
          114,
@@ -10852,14 +10880,20 @@
         ]
        ],
        "bought": 3000,
-       "disc": 0,
-       "deal": true,
+       "disc": 5,
+       "deal": false,
+       "badge": null,
+       "price": 40.0,
+       "list": 41.95,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0FVY91T1Q",
        "title": "CENTELLIAN 24 Madeca Cream Time Reverse Zero, TECA Moisturiser, 2.70 fl oz",
-       "beauty": 5716,
+       "beauty": 5715,
        "sub": [
         [
          158,
@@ -10867,14 +10901,20 @@
         ]
        ],
        "bought": 2000,
-       "disc": 14,
-       "deal": true,
+       "disc": 33,
+       "deal": false,
+       "badge": null,
+       "price": 23.28,
+       "list": 35.0,
+       "coupon": null,
+       "promo": "10% off US$35 purchase from this seller / 15% off US$60 purchase from this seller",
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0GQ753N3D",
        "title": "CENTELLIAN 24 Madeca Cream Time Reverse + Active Renew PDRN Duo - Pack of 2",
-       "beauty": 45756,
+       "beauty": 45757,
        "sub": [
         [
          1121,
@@ -10883,13 +10923,19 @@
        ],
        "bought": 300,
        "disc": 22,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 51.99,
+       "list": 66.5,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0D2XPMCJK",
        "title": "CENTELLIAN 24 Madeca Cream Time Reverse, TECA Anti-Aging Moisturizer",
-       "beauty": 31015,
+       "beauty": 31012,
        "sub": [
         [
          772,
@@ -10898,13 +10944,19 @@
        ],
        "bought": 500,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 32.0,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0BS2T3QYF",
        "title": "CENTELLIAN 24 Madeca Cream (Season 6, 1.7fl oz) - Centella Moisturizer for Face, Korean Skin Care. Dry, Sensitive Skin. ",
-       "beauty": 50077,
+       "beauty": 50079,
        "sub": [
         [
          1205,
@@ -10913,13 +10965,19 @@
        ],
        "bought": 100,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 18.98,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0GL8DSLBF",
        "title": "CENTELLIAN 24 Madeca Cream Hydra Calming - Oily Skin Moisturizer",
-       "beauty": 82236,
+       "beauty": 82233,
        "sub": [
         [
          1897,
@@ -10928,43 +10986,61 @@
        ],
        "bought": 200,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 32.0,
+       "list": null,
+       "coupon": null,
+       "promo": "10% off US$35 purchase from this seller / 10% off US$35 purchase from this seller",
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0DSNLM3T1",
        "title": "CENTELLIAN 24 360 Shot PDRN Active Serum, TECA, Firming & Hydration",
-       "beauty": 24016,
+       "beauty": 24013,
        "sub": [
         [
          728,
          "Facial Serums"
         ]
        ],
-       "bought": null,
-       "disc": 0,
-       "deal": true,
+       "bought": 700,
+       "disc": 22,
+       "deal": false,
+       "badge": null,
+       "price": 29.47,
+       "list": 38.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0DFYFG49H",
        "title": "Centellian 24 Madeca Acnience Pore Pack Cleanser (4.05fl oz) - Dual Action Clay Cleanser & Mask for Pore Minimizing, Seb",
-       "beauty": 215055,
+       "beauty": 215227,
        "sub": [
         [
-         2159,
+         2158,
          "Facial Cleansing Washes"
         ]
        ],
        "bought": null,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 24.9,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B07GZL1KT6",
        "title": "DONGKOOK CENTELLIAN 24 Micro Serum 50ml/1.69fl oz with TECA Tech. K-beauty#",
-       "beauty": 154461,
+       "beauty": 154459,
        "sub": [
         [
          3095,
@@ -10973,7 +11049,13 @@
        ],
        "bought": null,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 31.0,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       }
      ],
@@ -10981,7 +11063,7 @@
       {
        "asin": "B0GPPRTD32",
        "title": "Dr.Althea 147 Barrier Cream, 1.69 Fl Oz (Ver.2 - Pack of 1)",
-       "beauty": 668,
+       "beauty": 669,
        "sub": [
         [
          23,
@@ -10990,13 +11072,19 @@
        ],
        "bought": 20000,
        "disc": 7,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 25.0,
+       "list": 27.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0H1KRBSTV",
        "title": "Dr.Althea 147 Barrier Cream, 0.50 Fl Oz (Ver.2 - Pack of 1)",
-       "beauty": 668,
+       "beauty": 669,
        "sub": [
         [
          23,
@@ -11005,7 +11093,13 @@
        ],
        "bought": 6000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 9.9,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
@@ -11020,13 +11114,19 @@
        ],
        "bought": 10000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 19.9,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0G4W2FT6S",
        "title": "Dr.Althea 345 Relief Cream & Mist Duo, Korean Vegan Skin Care Set",
-       "beauty": 9452,
+       "beauty": 9448,
        "sub": [
         [
          25,
@@ -11035,13 +11135,19 @@
        ],
        "bought": 6000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 46.9,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0DGLCRZZ3",
        "title": "Dr.Althea Vitamin C Boosting Serum, Korean Skin Care with TXA, 1.01 Fl Oz",
-       "beauty": 2848,
+       "beauty": 2847,
        "sub": [
         [
          82,
@@ -11050,13 +11156,19 @@
        ],
        "bought": 10000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 23.9,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0CTK1TYNG",
        "title": "Dr.Althea Pure Grinding Cleansing Balm, Korean Vegan Skin Care, 1.69 Fl Oz",
-       "beauty": 5463,
+       "beauty": 5462,
        "sub": [
         [
          180,
@@ -11065,13 +11177,19 @@
        ],
        "bought": 3000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 22.9,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0GVYHRV8X",
        "title": "Dr.Althea 345 Relief Serum, Korean Vegan Skin Care, 1.01 Fl Oz",
-       "beauty": 12883,
+       "beauty": 12878,
        "sub": [
         [
          305,
@@ -11080,13 +11198,19 @@
        ],
        "bought": 3000,
        "disc": 9,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 20.1,
+       "list": 22.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0GP648128",
        "title": "Dr.Althea Melaclear Cream, Korean Vegan Skin Care, 0.70 Fl Oz",
-       "beauty": 6530,
+       "beauty": 6528,
        "sub": [
         [
          178,
@@ -11095,13 +11219,19 @@
        ],
        "bought": 6000,
        "disc": 20,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 23.2,
+       "list": 29.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0H5C6MGS6",
        "title": "Dr.Althea 345 Travel Kit (Set of 3), Korean Vegan Skin Care Set",
-       "beauty": 8380,
+       "beauty": 8378,
        "sub": [
         [
          18,
@@ -11110,7 +11240,13 @@
        ],
        "bought": 2000,
        "disc": 10,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 25.2,
+       "list": 28.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       }
      ],
@@ -11125,9 +11261,15 @@
          "Facial Serums"
         ]
        ],
-       "bought": 90000,
-       "disc": 26,
-       "deal": true,
+       "bought": 100000,
+       "disc": 30,
+       "deal": false,
+       "badge": null,
+       "price": 16.9,
+       "list": 24.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
@@ -11142,7 +11284,13 @@
        ],
        "bought": 4000,
        "disc": 20,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 36.8,
+       "list": 46.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
@@ -11157,13 +11305,19 @@
        ],
        "bought": 4000,
        "disc": 0,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 50.0,
+       "list": null,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0DHKSF81K",
        "title": "celimax Pore+Dark Spot Brightening Cream, 1.18 fl.oz, TXA cream",
-       "beauty": 556,
+       "beauty": 557,
        "sub": [
         [
          19,
@@ -11172,13 +11326,19 @@
        ],
        "bought": 30000,
        "disc": 32,
-       "deal": true,
+       "deal": false,
+       "badge": null,
+       "price": 16.36,
+       "list": 24.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       },
       {
        "asin": "B0GS97T2MV",
        "title": "celimax The Vita-A Retinal Shot Tightening Dual Cream, 1.69 fl.oz",
-       "beauty": 3122,
+       "beauty": 3120,
        "sub": [
         [
          12,
@@ -11186,8 +11346,14 @@
         ]
        ],
        "bought": 10000,
-       "disc": 8,
-       "deal": true,
+       "disc": 23,
+       "deal": false,
+       "badge": null,
+       "price": 23.0,
+       "list": 30.0,
+       "coupon": null,
+       "promo": null,
+       "loc": "New York 10001",
        "blocked": false
       }
      ]
